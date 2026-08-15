@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBY7Y12PFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-CBY7Y12PFP");
+</script>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="Qoz2p0hBPW6-5pb667zIdsvJHEJ5-oCT6pHQahZYnwQ" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>American Mahjong Scoring App | The Mahj Report</title>
+<meta name="description" content="An American mahjong scoring app for casual groups. Set your own house rules, crown a winner every game night, and play a whole season. Free to start.">
+<link rel="canonical" href="https://themahjreport.com/">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#8A9A6B">
+
+<!-- Open Graph (Facebook, LinkedIn, iMessage previews) -->
+<meta property="og:site_name" content="The Mahj Report">
+<meta property="og:title" content="American Mahjong Scoring App | The Mahj Report">
+<meta property="og:description" content="Set your own house rules, crown a winner every game night, and play for a season title. A scoring app for casual American mahjong.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://themahjreport.com/">
+<meta property="og:image" content="https://themahjreport.com/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Mahj Report, an American mah jongg scoring app for casual house-rules play">
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="American Mahjong Scoring App | The Mahj Report">
+<meta name="twitter:description" content="Set your own house rules, crown a winner every game night, and play for a season title.">
+<meta name="twitter:image" content="https://themahjreport.com/social-card.png">
+
+<!-- Structured data: tells Google this is an app, not a blog -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"SoftwareApplication",
+  "name":"The Mahj Report",
+  "applicationCategory":"GameApplication",
+  "operatingSystem":"iOS, Android",
+  "description":"A scoring app for casual American mahjong. Set your own house rules, crown a winner every game night, and track a full season.",
+  "url":"https://themahjreport.com/",
+  "alternateName":["American Mah Jongg scoring app","Mahjong score keeper"],
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Is this affiliated with the National Mah Jongg League?",
+     "acceptedAnswer":{"@type":"Answer","text":"No, it is not affiliated with the League in any way. It does support official NMJL scoring though, as one of two modes. Pick official and the values come off this year's card, with points moving from the payers to the winner. Pick casual, which is the default, and your table sets what a mahjong is worth and which bonuses count. You can switch whenever you like."}},
+    {"@type":"Question","name":"Does it use the NMJL card values?",
+     "acceptedAnswer":{"@type":"Answer","text":"It can. In official NMJL mode you enter the value printed on your own card for the hand that won, and the app handles the payments, including who pays double. It does not reproduce the card, its hand names or its values, so you still play from the card you bought."}},
+    {"@type":"Question","name":"Can our group make up its own table rules?",
+     "acceptedAnswer":{"@type":"Answer","text":"Yes, that is the whole idea. You set what a mahjong is worth and which bonuses count, and every game night is scored that way. Change them whenever your table decides to. If you are still working out what yours should be, there is a guide to American mahjong house rules on this site."}},
+    {"@type":"Question","name":"Do I need everyone to download the app?",
+     "acceptedAnswer":{"@type":"Answer","text":"No. One person keeps score for the table. Everyone else can be added as a player without an account, and anyone who wants to follow the standings on their own phone can use a free view-only code."}},
+    {"@type":"Question","name":"Do you have to play American mahjong for money?",
+     "acceptedAnswer":{"@type":"Answer","text":"No. Plenty of casual groups play for points and bragging rights only. The Mahj Report keeps a running score and a season title, so a night still means something without any money on the table."}},
+    {"@type":"Question","name":"What is a wall game in American mahjong?",
+     "acceptedAnswer":{"@type":"Answer","text":"A wall game is a hand where the tiles run out before anyone declares mahjong, so nobody wins it. The Mahj Report logs a wall game as a hand played with no winner, so it counts toward the night without giving anyone points."}},
+    {"@type":"Question","name":"How is American mahjong different from mahjong solitaire?",
+     "acceptedAnswer":{"@type":"Answer","text":"They are different games that share a name. Mahjong solitaire is the single-player tile-matching puzzle found in app stores and on free game sites. American mahjong is a four-player tile game played around a table, usually with the National Mah Jongg League card. This app is for the four-player game."}},
+    {"@type":"Question","name":"Where can I get a printable score sheet in the meantime?",
+     "acceptedAnswer":{"@type":"Answer","text":"There is a free printable American mahjong score sheet at themahjreport.com/scoresheet.html. One page, six hands, a row for your own house rules, and no email required."}},
+    {"@type":"Question","name":"Why are there different spellings for mah jongg?",
+     "acceptedAnswer":{"@type":"Answer","text":"All of them are in use. The National Mah Jongg League and most American clubs write it as two words with two Gs, mah jongg. Newer brands and most players under fifty write mahjong as one word. Mah-jongg, majong and mahjongg all turn up too. They refer to the same family of games."}}
+  ]
+}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --sage:#8A9A6B; --sage-deep:#5E7046; --sage-pale:#EEF7EC;
+  --cream:#F6EFE1; --panel:#FEFDF9;
+  --teal:#1E6F7A; --clay:#C25A2B; --bark:#37372B;
+  --muted:#7E8468; --line:rgba(55,55,43,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+#notify{scroll-margin-top:180px;}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--bark);
+     background:var(--panel);-webkit-font-smoothing:antialiased;line-height:1.6;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+a{color:inherit;}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:50;background:rgba(254,253,249,.92);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px;}
+.brandmark{display:flex;align-items:center;gap:11px;text-decoration:none;}
+.brandmark .name{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:19px;color:var(--sage-deep);letter-spacing:-.01em;}
+.navcta{background:var(--teal);color:#fff;text-decoration:none;padding:9px 18px;border-radius:9px;
+        font-weight:600;font-size:14px;box-shadow:0 4px 14px -6px rgba(30,111,122,.6);transition:.15s;}
+.navcta:hover{background:#175d66;}
+.navlinks{display:flex;align-items:center;gap:26px;font-size:14.5px;font-weight:600;}
+.navlinks a{color:var(--bark);text-decoration:none;}
+.navlinks a:hover{color:var(--teal);}
+
+/* ---------- hero ---------- */
+.hero{background:linear-gradient(180deg,var(--sage-pale) 0%,var(--panel) 100%);
+      padding:70px 0 80px;position:relative;overflow:hidden;}
+.hero:after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(70% 45% at 50% 0%, rgba(30,111,122,.08), transparent 70%);}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 340px;gap:56px;align-items:center;}
+.eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:14px;}
+h1{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:clamp(38px,5.2vw,58px);line-height:1.05;
+   color:var(--sage-deep);letter-spacing:-.02em;margin-bottom:18px;}
+h1 em{font-style:italic;color:var(--teal);}
+.lede{font-size:18px;color:#55554a;max-width:30em;margin-bottom:28px;}
+
+/* email capture */
+.capture{display:flex;gap:9px;flex-wrap:wrap;max-width:460px;}
+.capture input{flex:1;min-width:210px;padding:14px 16px;border:1.5px solid var(--line);
+  border-radius:11px;font-family:'Inter';font-size:15px;background:#fff;color:var(--bark);}
+.capture input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(30,111,122,.12);}
+.capture button{background:var(--clay);color:#fff;border:none;border-radius:11px;padding:14px 24px;
+  font-family:'Inter';font-weight:700;font-size:15px;cursor:pointer;white-space:nowrap;
+  box-shadow:0 6px 18px -8px rgba(194,90,43,.7);transition:.15s;}
+.capture button:hover{filter:brightness(1.07);}
+.microcopy{font-size:13px;color:var(--muted);margin-top:11px;}
+
+/* hero phone */
+.phoneframe{position:relative;background:linear-gradient(158deg,#3d3d36 0%,#26261f 55%,#1b1b16 100%);
+  border-radius:42px;padding:30px 10px 24px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.07) inset,
+             0 30px 64px -26px rgba(55,55,43,.55),
+             0 3px 8px rgba(0,0,0,.22);}
+/* dynamic island */
+.phoneframe:before{content:'';position:absolute;top:11px;left:50%;transform:translateX(-50%);
+  width:64px;height:15px;background:#0e0e0a;border-radius:10px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.05);}
+/* home indicator */
+.phoneframe:after{content:'';position:absolute;bottom:9px;left:50%;transform:translateX(-50%);
+  width:88px;height:4px;background:rgba(255,255,255,.34);border-radius:4px;}
+.phonescreen{border-radius:26px;overflow:hidden;background:var(--sage-pale);
+  box-shadow:0 0 0 1px rgba(0,0,0,.35);}
+
+/* ---------- sections ---------- */
+section{padding:78px 0;}
+.sect-eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);
+  font-weight:700;text-align:center;margin-bottom:12px;}
+h2{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:clamp(28px,3.6vw,38px);line-height:1.15;
+   color:var(--sage-deep);text-align:center;margin-bottom:16px;letter-spacing:-.01em;}
+.sect-lede{text-align:center;font-size:17px;color:#55554a;max-width:34em;margin:0 auto 46px;}
+
+/* problem band */
+.band{background:var(--cream);}
+.quote{font-family:'Playfair Display',Georgia,serif;font-size:clamp(21px,2.7vw,27px);line-height:1.45;
+  text-align:center;color:var(--sage-deep);max-width:20em;margin:0 auto 20px;font-style:italic;}
+.quote-attr{text-align:center;font-size:14px;color:var(--muted);}
+
+/* features */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px 24px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 6px 20px -14px rgba(55,55,43,.35);}
+.card .ic{width:38px;height:38px;border-radius:10px;background:rgba(30,111,122,.1);
+  display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.card h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:19px;color:var(--sage-deep);margin-bottom:7px;}
+.card p{font-size:14.5px;color:#55554a;}
+
+/* two-up */
+.twoup{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;}
+.twoup h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:26px;color:var(--sage-deep);margin-bottom:12px;}
+.twoup p{color:#55554a;margin-bottom:14px;}
+.ticks{list-style:none;}
+.ticks li{position:relative;padding-left:26px;margin-bottom:9px;font-size:15px;color:#55554a;}
+.ticks li:before{content:'';position:absolute;left:0;top:8px;width:8px;height:8px;
+  border-radius:2px;background:var(--clay);}
+
+/* boards */
+.boards{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:760px;margin:0 auto;}
+.board{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  box-shadow:0 6px 20px -14px rgba(55,55,43,.4);}
+.board .top{height:4px;}
+.board .body{padding:22px 24px;}
+.board h4{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:20px;margin-bottom:6px;}
+.board p{font-size:14.5px;color:#55554a;}
+
+/* CTA */
+.cta{background:linear-gradient(165deg,#0F3E45,#0B3038);color:var(--cream);text-align:center;}
+.cta h2{color:var(--cream);}
+.cta .sect-lede{color:rgba(246,239,225,.8);}
+.cta .capture{margin:0 auto;justify-content:center;}
+.cta .capture input{border-color:rgba(246,239,225,.25);background:rgba(255,255,255,.96);}
+.cta .microcopy{color:rgba(246,239,225,.6);text-align:center;}
+
+/* footer */
+footer{background:var(--panel);border-top:1px solid var(--line);padding:38px 0;}
+footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;}
+footer .links{display:flex;gap:22px;font-size:14px;}
+footer a{color:var(--muted);text-decoration:none;}
+footer a:hover{color:var(--teal);}
+.copyright{font-size:13.5px;color:var(--muted);}
+
+.thanks{background:rgba(30,111,122,.1);border:1.5px solid rgba(30,111,122,.35);
+  border-radius:11px;padding:15px 18px;max-width:460px;}
+.thanks strong{display:block;font-family:'Playfair Display',Georgia,serif;font-size:18px;color:var(--teal);margin-bottom:3px;}
+.thanks span{font-size:14px;color:#55554a;}
+.cta .thanks{margin:0 auto;background:rgba(246,239,225,.14);border-color:rgba(246,239,225,.35);}
+.cta .thanks strong{color:#CBA85B;}
+.cta .thanks span{color:rgba(246,239,225,.85);}
+
+.formerror{background:rgba(194,90,43,.1);border:1.5px solid rgba(194,90,43,.4);
+  border-radius:11px;padding:15px 18px;max-width:460px;margin-top:11px;}
+.formerror strong{display:block;font-family:'Playfair Display',Georgia,serif;font-size:17px;color:var(--clay);margin-bottom:3px;}
+.formerror span{font-size:14px;color:#55554a;}
+.formerror a{color:var(--clay);font-weight:600;}
+.cta .formerror{margin:11px auto 0;background:rgba(246,239,225,.12);border-color:rgba(203,168,91,.5);}
+.cta .formerror strong{color:#E8A87C;}
+.cta .formerror span{color:rgba(246,239,225,.85);}
+.cta .formerror a{color:#E8A87C;}
+
+/* scoresheet page */
+.sheetwrap{display:grid;grid-template-columns:1fr 380px;gap:56px;align-items:center;}
+.sheetprev{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;
+  box-shadow:0 18px 44px -22px rgba(55,55,43,.5);}
+.sheetprev img{display:block;width:100%;height:auto;}
+.dl{display:inline-flex;align-items:center;gap:9px;background:var(--clay);color:#fff;
+  text-decoration:none;padding:14px 24px;border-radius:11px;font-weight:700;font-size:15px;
+  box-shadow:0 6px 18px -8px rgba(194,90,43,.7);}
+.dl:hover{filter:brightness(1.07);}
+.faq{max-width:44em;margin:0 auto;}
+.faq h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:19px;color:var(--sage-deep);
+  margin:26px 0 7px;}
+.faq p{color:#55554a;font-size:15.5px;}
+@media (max-width:860px){
+  .sheetwrap{grid-template-columns:1fr;gap:34px;}
+  /* text first on mobile, sheet preview below the form */
+  .sheetprev{order:1;max-width:330px;margin:0 auto;}
+}
+
+@media (max-width:860px){
+  .hero .wrap{grid-template-columns:1fr;gap:44px;}
+  .heroart{order:-1;max-width:290px;margin:0 auto;}
+  .twoup{grid-template-columns:1fr;gap:34px;}
+  .boards{grid-template-columns:1fr;}
+  h1{text-align:center;} .lede{text-align:center;margin-left:auto;margin-right:auto;}
+  .eyebrow{text-align:center;} .capture{margin:0 auto;} .microcopy{text-align:center;}
+}
+
+/* nav on small phones: keep the brand on one line and the CTA compact */
+@media (max-width:520px){
+  nav .wrap{padding-top:10px;padding-bottom:10px;gap:10px;}
+  .brandmark{gap:8px;}
+  .brandmark .name{font-size:15px;white-space:nowrap;}
+  .navcta{padding:8px 13px;font-size:13px;white-space:nowrap;}
+  .navlinks{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brandmark" href="#top">
+      <svg width="30" height="38" viewBox="0 0 120 150" aria-label="The Mahj Report">
+        <rect x="20.8" y="17.6" width="84" height="106" rx="15" fill="#6E8355"/>
+        <rect x="18" y="14" width="84" height="106" rx="15" fill="#F6EFE1"/>
+        <text x="60" y="101.82" text-anchor="middle" font-family="Playfair Display, serif" font-weight="600" font-size="52" fill="#1E6F7A">M</text>
+        <g transform="translate(60,44.475) rotate(-9)">
+          <path d="M -18.137 10.375 L -18.137 -5.317 L -8.082 3.527 L 0.502 -13.263 L 9.196 3.740 L 19.033 -4.911 L 19.033 10.375 L 16.189 10.375 L 16.189 -1.008 L 7.488 6.645 L -0.502 -8.982 L -8.602 6.858 L -17.084 -0.602 L -17.084 10.375 Z" fill="#1E6F7A"/>
+          <rect x="-18.137" y="10.006" width="37.170" height="1.896" fill="#1E6F7A"/>
+        </g>
+      </svg>
+      <span class="name">The Mahj Report</span>
+    </a>
+    <div class="navlinks">
+      <a href="/house-rules.html">House rules</a>
+      <a href="/scoresheet.html">Free scoresheet</a>
+    </div>
+    <a class="navcta" href="#notify">Get early access</a>
+  </div>
+</nav>
+
+<div class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <!-- EDIT: small label above the headline -->
+      <div class="eyebrow">Casual Mahjong Nights</div>
+      <!-- EDIT: main headline. Text inside <em> is the teal italic part. -->
+      <h1>Keep score <em>your way.</em></h1>
+      <!-- EDIT: intro paragraph under the headline -->
+      <p class="lede">A scoring app for casual American mahjong, the kind played at kitchen tables, not tournaments. Set your own house rules, crown a winner every game night, and play for a season title worth bragging about.</p>
+      <!-- EDIT: hero signup form. Submissions appear in your Netlify dashboard under Forms. -->
+      <form class="capture" id="notify" name="waitlist-top" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="waitlist-top">
+        <p style="display:none"><label>Leave blank: <input name="bot-field"></label></p>
+        <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+        <button type="submit">Notify me at launch</button>
+      </form>
+      <div class="thanks" id="thanks-top" hidden>
+        <strong>You're on the list.</strong>
+        <span>We'll email you the moment it's ready, and not one before.</span>
+      </div>
+      <div class="formerror" id="err-top" hidden>
+        <strong>That didn't go through.</strong>
+        <span>Give it another try, or email <a href="mailto:hello@themahjreport.com">hello@themahjreport.com</a> and we'll add you by hand.</span>
+      </div>
+      <p class="microcopy">No spam, ever. A note when the app is ready, plus the occasional house rule worth stealing.</p>
+    </div>
+
+    <div class="heroart">
+      <div class="phoneframe">
+        <div class="phonescreen">
+          <div style="background:#FEFDF9;padding:11px 13px 9px;border-bottom:1px solid rgba(94,112,70,.14)">
+            <div style="font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:#1E6F7A">Active session</div>
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:600;color:#37372B;margin-top:1px">Thursday</div>
+          </div>
+          <div style="padding:12px">
+            <div style="border-radius:12px;overflow:hidden;box-shadow:0 5px 16px -9px rgba(30,111,122,.5);margin-bottom:11px">
+              <div style="height:3px;background:#1E6F7A"></div>
+              <div style="background:#FDFCF6;padding:11px">
+                <div style="font-size:9px;font-weight:700;color:#5E7046;letter-spacing:.07em;margin-bottom:7px">WINNER</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
+                  <div style="background:#F2F5EC;border:1.5px solid rgba(94,112,70,.28);border-radius:8px;padding:6px 8px">
+                    <div style="font-size:11.5px;font-weight:600">Caroline</div><div style="font-size:9.5px;opacity:.6">4 today</div></div>
+                  <div style="background:rgba(30,111,122,.16);border:1.5px solid #1E6F7A;border-radius:8px;padding:6px 8px">
+                    <div style="font-size:11.5px;font-weight:600">Kate</div><div style="font-size:9.5px;opacity:.6">7 today</div></div>
+                  <div style="background:#F2F5EC;border:1.5px solid rgba(94,112,70,.28);border-radius:8px;padding:6px 8px">
+                    <div style="font-size:11.5px;font-weight:600">Meredith</div><div style="font-size:9.5px;opacity:.6">4 today</div></div>
+                  <div style="background:#F2F5EC;border:1.5px solid rgba(94,112,70,.28);border-radius:8px;padding:6px 8px">
+                    <div style="font-size:11.5px;font-weight:600">Laura</div><div style="font-size:9.5px;opacity:.6">2 today</div></div>
+                </div>
+                <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px">
+                  <span style="font-size:9px;font-weight:600;padding:4px 8px;border-radius:14px;background:rgba(107,74,56,.13);color:#6B4A38;border:1px solid rgba(107,74,56,.22)">Jokerless +1</span>
+                  <span style="font-size:9px;font-weight:600;padding:4px 8px;border-radius:14px;background:rgba(107,74,56,.13);color:#6B4A38;border:1px solid rgba(107,74,56,.22)">Concealed +1</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;background:#F2F5EC;border-radius:9px;padding:9px 10px">
+                  <div><div style="font-size:8.5px;opacity:.6">Hand score</div>
+                    <div style="font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:600;color:#1E6F7A">4 pts</div></div>
+                  <div style="background:#1E6F7A;color:#fff;border-radius:8px;padding:8px 13px;font-size:11px;font-weight:700">+ Log hand</div>
+                </div>
+              </div>
+            </div>
+            <div style="border-radius:12px;overflow:hidden;box-shadow:0 5px 16px -9px rgba(30,111,122,.5)">
+              <div style="height:3px;background:#1E6F7A"></div>
+              <div style="background:#FDFCF6;padding:4px 11px 7px">
+                <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(94,112,70,.12)">
+                  <span style="font-size:10px;opacity:.45;width:11px">1</span>
+                  <span style="flex:1;font-size:11.5px;font-weight:700;color:#1E6F7A">Kate <span style="color:#6B4A38">♛</span></span>
+                  <span style="font-family:'Playfair Display',Georgia,serif;font-size:13px;font-weight:700;color:#1E6F7A">7</span></div>
+                <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(94,112,70,.12)">
+                  <span style="font-size:10px;opacity:.45;width:11px">2</span>
+                  <span style="flex:1;font-size:11.5px;color:#1E6F7A">Caroline</span>
+                  <span style="font-family:'Playfair Display',Georgia,serif;font-size:13px;font-weight:600;color:#1E6F7A">4</span></div>
+                <div style="display:flex;align-items:center;gap:8px;padding:7px 0">
+                  <span style="font-size:10px;opacity:.45;width:11px">3</span>
+                  <span style="flex:1;font-size:11.5px;color:#1E6F7A">Meredith</span>
+                  <span style="font-family:'Playfair Display',Georgia,serif;font-size:13px;font-weight:600;color:#1E6F7A">4</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <!-- EDIT: the big italic quote -->
+    <!-- EDIT: the big italic quote -->
+    <p class="quote">"Nothing changed about how we play. Everything changed about how much we care who wins."</p>
+    <p class="quote-attr">what happens when the season is on the line</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sect-eyebrow">How it works</div>
+    <!-- EDIT: section heading -->
+    <h2>Scoring as easy as 1, 2, 3.</h2>
+    <p class="sect-lede">Two points for a mahjong. One for a jokerless hand. One more if it was concealed. Reward whatever your table actually brags about, and leave out the rest.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#1E6F7A" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div>
+        <h3>Set your rules once</h3>
+        <p>Two points for a mahjong, plus whatever your table rewards. Jokerless hands, concealed hands, back to back wins. Turn on only what you want.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#1E6F7A" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <h3>Then just play</h3>
+        <p>Tap who won and tap which bonuses applied. Points are added and the standings update themselves.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#1E6F7A" stroke-width="2" stroke-linejoin="round"><path d="M5 18l-1-9 4 3 4-6 4 6 4-3-1 9z"/></svg></div>
+        <h3>Crown a winner</h3>
+        <p>Whoever tops the game night takes the title, and drinks from the good glass next time.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#1E6F7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"/></svg></div>
+        <h3>Play the long game</h3>
+        <p>Every game night rolls into a season, so there is always something bigger on the line than tonight.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sect-eyebrow">The season</div>
+    <!-- EDIT: section heading -->
+    <h2>Two ways to win</h2>
+    <p class="sect-lede">One board rewards turning up. The other rewards playing well when you do. Nobody is out of it just because life got busy.</p>
+    <div class="boards">
+      <div class="board">
+        <div class="top" style="background:#1E6F7A"></div>
+        <div class="body">
+          <h4 style="color:#1E6F7A">Grand Champion</h4>
+          <p>Most total points across the season. Every game night you play adds to your total, so showing up counts for something.</p>
+        </div>
+      </div>
+      <div class="board">
+        <div class="top" style="background:#C25A2B"></div>
+        <div class="body">
+          <h4 style="color:#C25A2B">Hot Hand</h4>
+          <p>Best average per game night. Miss a few weeks for work or travel and you are still right in the running.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="twoup">
+      <div>
+        <div class="sect-eyebrow" style="text-align:left">Built for real tables</div>
+        <!-- EDIT: section heading -->
+        <h3>It knows how you actually play</h3>
+        <p>Because game night is never as tidy as an app expects it to be.</p>
+        <ul class="ticks">
+          <li>One table or three, it doesn't mind</li>
+          <li>Someone shows up late? Add them mid game night</li>
+          <li>Wall game with no winner? That gets logged too</li>
+          <li>Two tables running at once? It asks before counting a back to back win</li>
+          <li>Share the standings to your group chat in one tap</li>
+          <li>See who is coming before the tiles come out, instead of scrolling back through the group chat</li>
+        </ul>
+      </div>
+      <div>
+        <div class="phoneframe" style="max-width:290px;margin:0 auto">
+         <div class="phonescreen" style="background:#EEF7EC;padding:14px 12px">
+          <div style="border-radius:12px;overflow:hidden;box-shadow:0 5px 16px -9px rgba(30,111,122,.5)">
+          <div style="height:4px;background:#1E6F7A"></div>
+          <div style="padding:18px;background:#FDFCF6">
+            <div style="font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#5E7046;margin-bottom:12px">Season standings</div>
+            <div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(94,112,70,.14)">
+              <span style="font-size:12px;opacity:.45;width:14px">1</span>
+              <span style="flex:1;font-size:13.5px;font-weight:700;color:#1E6F7A">Kate <span style="color:#6B4A38">♛</span></span>
+              <span style="font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;color:#1E6F7A">34</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(94,112,70,.14)">
+              <span style="font-size:12px;opacity:.45;width:14px">2</span>
+              <span style="flex:1;font-size:13.5px;color:#1E6F7A">Meredith</span>
+              <span style="font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:600;color:#1E6F7A">28</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(94,112,70,.14)">
+              <span style="font-size:12px;opacity:.45;width:14px">3</span>
+              <span style="flex:1;font-size:13.5px;color:#1E6F7A">Caroline</span>
+              <span style="font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:600;color:#1E6F7A">25</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:11px 0">
+              <span style="font-size:12px;opacity:.45;width:14px">4</span>
+              <span style="flex:1;font-size:13.5px;color:#1E6F7A">Laura</span>
+              <span style="font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:600;color:#1E6F7A">19</span></div>
+          </div>
+          </div>
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sect-eyebrow">Make it yours</div>
+    <!-- EDIT: section heading -->
+    <h2>Pick your table colors</h2>
+    <p class="sect-lede">Six backgrounds, ten accents, and a handful of presets to start from. Mix your own, and every combination is designed to stay easy to read.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:640px;margin:0 auto">
+      <div style="display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:7px 15px 7px 9px;font-size:13.5px;font-weight:600">
+        <span style="display:inline-flex"><span style="width:13px;height:13px;border-radius:50%;background:#EEF7EC;border:1.5px solid #fff;margin-right:-4px"></span><span style="width:13px;height:13px;border-radius:50%;background:#6FA8AD;border:1.5px solid #fff;margin-right:-4px"></span><span style="width:13px;height:13px;border-radius:50%;background:#6B4A38;border:1.5px solid #fff"></span></span>Bamboo</div>
+      <div style="display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:7px 15px 7px 9px;font-size:13.5px;font-weight:600">
+        <span style="display:inline-flex"><span style="width:13px;height:13px;border-radius:50%;background:#DFD5BE;border:1.5px solid #fff;margin-right:-4px"></span><span style="width:13px;height:13px;border-radius:50%;background:#2F5A82;border:1.5px solid #fff;margin-right:-4px"></span><span style="width:13px;height:13px;border-radius:50%;background:#6B4A38;border:1.5px solid #fff"></span></span>Old Ivory</div>
+      <div style="display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:7px 15px 7px 9px;font-size:13.5px;font-weight:600">
+        <span style="display:inline-flex"><span style="width:13px;height:13px;border-radius:50%;background:#F5F1E8;border:1.5px solid #fff;margin-right:-4px"></span><span style="width:13px;height:13px;border-radius:50%;background:#A32A2E;border:1.5px solid #fff;margin-right:-4px"></span><span style="width:13px;height:13px;border-radius:50%;background:#1A5C33;border:1.5px solid #fff"></span></span>Cranberry &amp; Pine</div>
+      <div style="display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:7px 15px 7px 9px;font-size:13.5px;font-weight:600">
+        <span style="display:inline-flex"><span style="width:13px;height:13px;border-radius:50%;background:#FEEEFB;border:1.5px solid #fff;margin-right:-4px"></span><span style="width:13px;height:13px;border-radius:50%;background:#E068A4;border:1.5px solid #fff;margin-right:-4px"></span><span style="width:13px;height:13px;border-radius:50%;background:#6FA8AD;border:1.5px solid #fff"></span></span>Pink Joker</div>
+      <div style="display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:7px 15px 7px 9px;font-size:13.5px;font-weight:600">
+        <span style="display:inline-flex"><span style="width:13px;height:13px;border-radius:50%;background:#E5DDEC;border:1.5px solid #fff;margin-right:-4px"></span><span style="width:13px;height:13px;border-radius:50%;background:#7A609A;border:1.5px solid #fff;margin-right:-4px"></span><span style="width:13px;height:13px;border-radius:50%;background:#6FA8AD;border:1.5px solid #fff"></span></span>Plum Blossom</div>
+    </div>
+    <div class="phoneframe" style="max-width:280px;margin:34px auto 0">
+      <div class="phonescreen" style="background:#EEF7EC;padding:13px 12px">
+        <div style="border-radius:12px;overflow:hidden;box-shadow:0 5px 16px -9px rgba(30,111,122,.5)">
+          <div style="height:3px;background:#6FA8AD"></div>
+          <div style="background:#FDFCF6;padding:13px">
+            <div style="font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:#5E7046;margin-bottom:3px">Table colors</div>
+            <div style="font-size:10.5px;color:#37372B;opacity:.6;margin-bottom:11px">Tap to try it. Changes apply instantly.</div>
+            <div style="font-size:9.5px;font-weight:700;color:#5E7046;margin-bottom:6px">Table color</div>
+            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:11px"><span style="display:block;height:24px;border-radius:6px;background:#EEF7EC;border:2px solid #6FA8AD;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#F5F1E8;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#DFD5BE;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#E5DDEC;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#FEEEFB;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#DFE3E2;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span></div>
+            <div style="font-size:9.5px;font-weight:700;color:#5E7046;margin-bottom:6px">Main accent</div>
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:11px"><span style="display:block;height:24px;border-radius:6px;background:#6FA8AD;border:2px solid #6FA8AD;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#2F5A82;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#7A609A;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#E068A4;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#A32A2E;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span></div>
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:11px"><span style="display:block;height:24px;border-radius:6px;background:#D99A6C;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#6B4A38;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#C9A227;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#1A5C33;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#8FA86B;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span></div>
+            <div style="font-size:9.5px;font-weight:700;color:#5E7046;margin-bottom:6px">Second accent</div>
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:11px"><span style="display:block;height:24px;border-radius:6px;background:#6FA8AD;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#2F5A82;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#7A609A;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#E068A4;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#A32A2E;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span></div>
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:11px"><span style="display:block;height:24px;border-radius:6px;background:#D99A6C;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#6B4A38;border:2px solid #6FA8AD;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#C9A227;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#1A5C33;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span><span style="display:block;height:24px;border-radius:6px;background:#8FA86B;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="twoup">
+      <div class="card">
+        <div class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#1E6F7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>For the group</h3>
+        <p>Run your weekly game. Track a whole season. Settle who's really best once and for all.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#1E6F7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+        <h3>And for home</h3>
+        <p>Play with the kids on a Tuesday. Different people each week is fine, the standings sort out the bragging rights.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDIT: FAQ. These answers are also emitted as FAQPage schema in the head, so
+     the two must stay identical in meaning. Google requires the content to be
+     visible on the page. -->
+<section class="band">
+  <div class="wrap">
+    <div class="sect-eyebrow">Questions</div>
+    <h2>The things people ask first.</h2>
+    <div class="faq" style="margin-top:26px">
+      <h3>Is this affiliated with the National Mah Jongg League?</h3>
+      <p>No, it is not affiliated with the League in any way. It does support official NMJL scoring
+      though, as one of two modes. Pick official and the values come off this year's card, with
+      points moving from the payers to the winner. Pick casual, which is the default, and your table
+      sets what a mahjong is worth and which bonuses count. You can switch whenever you like.</p>
+
+      <h3>Does it use the NMJL card values?</h3>
+      <p>It can. In official NMJL mode you enter the value printed on your own card for the hand
+      that won, and the app handles the payments, including who pays double. It does not reproduce
+      the card, its hand names or its values, so you still play from the card you bought.</p>
+
+      <h3>Can our group make up its own table rules?</h3>
+      <p>Yes, that is the whole idea. You set what a mahjong is worth and which bonuses count, and
+      every game night is scored that way. Change them whenever your table decides to. If you are
+      still working out what yours should be, there is a guide to
+      <a href="/house-rules.html" style="color:var(--teal);font-weight:600">American mahjong house
+      rules</a> on this site.</p>
+
+      <h3>Do I need everyone to download the app?</h3>
+      <p>No. One person keeps score for the table. Everyone else can be added as a player without
+      an account, and anyone who wants to follow the standings on their own phone can use a free
+      view-only code.</p>
+
+      <h3>Do you have to play American mahjong for money?</h3>
+      <p>No. Plenty of casual groups play for points and bragging rights only. The Mahj Report
+      keeps a running score and a season title, so a night still means something without any money
+      on the table.</p>
+
+      <h3>What is a wall game in American mahjong?</h3>
+      <p>A wall game is a hand where the tiles run out before anyone declares mahjong, so nobody
+      wins it. The Mahj Report logs a wall game as a hand played with no winner, so it counts
+      toward the night without giving anyone points.</p>
+
+      <h3>How is American mahjong different from mahjong solitaire?</h3>
+      <p>They are different games that share a name. Mahjong solitaire is the single-player
+      tile-matching puzzle found in app stores and on free game sites. American mahjong is a
+      four-player tile game played around a table, usually with the National Mah Jongg League card.
+      This app is for the four-player game.</p>
+
+      <h3>Where can I get a printable score sheet in the meantime?</h3>
+      <p>There is a
+      <a href="/scoresheet.html" style="color:var(--teal);font-weight:600">free printable American
+      mahjong score sheet</a> here. One page, six hands, a row for your own house rules, and no
+      email required.</p>
+
+      <h3>Why are there different spellings for mah jongg?</h3>
+      <p>All of them are in use. The National Mah Jongg League and most American clubs write it as
+      two words with two Gs, mah jongg. Newer brands and most players under fifty write mahjong as
+      one word. Mah-jongg, majong and mahjongg all turn up too. They refer to the same family of
+      games.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <div class="sect-eyebrow" style="color:#CBA85B">Coming soon</div>
+    <!-- EDIT: closing headline -->
+    <h2>Mahjong is more fun with something on the line.</h2>
+    <p class="sect-lede">We're putting the finishing touches on it. Leave your email and we'll tell you the moment it's ready.</p>
+    <!-- EDIT: bottom signup form. Shares the same list as the hero form. -->
+    <form class="capture" name="waitlist-bottom" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="waitlist-bottom">
+      <p style="display:none"><label>Leave blank: <input name="bot-field"></label></p>
+      <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+      <button type="submit">Notify me at launch</button>
+    </form>
+    <div class="thanks" id="thanks-bottom" hidden>
+      <strong>You're on the list.</strong>
+      <span>We'll email you the moment it's ready, and not one before.</span>
+    </div>
+    <div class="formerror" id="err-bottom" hidden>
+      <strong>That didn't go through.</strong>
+      <span>Give it another try, or email <a href="mailto:hello@themahjreport.com">hello@themahjreport.com</a> and we'll add you by hand.</span>
+    </div>
+    <p class="microcopy">No spam, ever. A note at launch, plus the occasional house rule worth stealing.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a class="brandmark" href="#top" style="text-decoration:none">
+      <svg width="24" height="30" viewBox="0 0 120 150">
+        <rect x="20.8" y="17.6" width="84" height="106" rx="15" fill="#6E8355"/>
+        <rect x="18" y="14" width="84" height="106" rx="15" fill="#F6EFE1"/>
+        <text x="60" y="101.82" text-anchor="middle" font-family="Playfair Display, serif" font-weight="600" font-size="52" fill="#1E6F7A">M</text>
+        <g transform="translate(60,44.475) rotate(-9)">
+          <path d="M -18.137 10.375 L -18.137 -5.317 L -8.082 3.527 L 0.502 -13.263 L 9.196 3.740 L 19.033 -4.911 L 19.033 10.375 L 16.189 10.375 L 16.189 -1.008 L 7.488 6.645 L -0.502 -8.982 L -8.602 6.858 L -17.084 -0.602 L -17.084 10.375 Z" fill="#1E6F7A"/>
+          <rect x="-18.137" y="10.006" width="37.170" height="1.896" fill="#1E6F7A"/>
+        </g>
+      </svg>
+      <span class="name" style="font-size:16px">The Mahj Report</span>
+    </a>
+    <div class="links">
+      <a href="/house-rules.html">House rules</a>
+      <a href="/scoresheet.html">Free scoresheet</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="mailto:hello@themahjreport.com">Contact</a>
+    </div>
+    <!-- EDIT: footer copyright -->
+    <div class="copyright">© 2026 The Mahj Report</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /**
+   * Hand the address to MailerLite as well, so the score sheet automation fires.
+   *
+   * Netlify stays the record: this runs after that POST has already succeeded,
+   * and a failure here loses nothing because the address is safely filed either
+   * way and can be imported by hand. That is deliberate. The first attempt at
+   * this was a Netlify Function, which never deployed at all, because functions
+   * need a build step and the site is deployed by dragging a folder.
+   *
+   * The endpoint is MailerLite's public embedded-form URL. It carries an account
+   * id and a form id, not a secret, which is why it is safe in browser code. The
+   * group a subscriber lands in is set on the MailerLite form, not here.
+   *
+   * mode: 'no-cors' because that endpoint sends no CORS headers. The request is
+   * still delivered; we simply cannot read the reply. Fire and forget is the
+   * right shape anyway, since nothing on this page should wait on it.
+   */
+  var ML_FORMS = {
+    // Netlify form name -> MailerLite embedded form endpoint
+    'scoresheet': 'https://assets.mailerlite.com/jsonp/2572357/forms/195637638685787554/subscribe',
+    'waitlist-top': 'https://assets.mailerlite.com/jsonp/2572357/forms/195696486832407770/subscribe',
+    'waitlist-bottom': 'https://assets.mailerlite.com/jsonp/2572357/forms/195696486832407770/subscribe'
+  };
+
+  function pushToMailerLite(formName, email){
+    var url = ML_FORMS[formName];
+    if(!url || !email) return;
+    try {
+      fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: new URLSearchParams({
+          'fields[email]': email,
+          'ml-submit': '1',
+          'anticsrf': 'true'
+        }).toString()
+      }).catch(function(err){
+        if(window.console) console.warn('MailerLite push failed, address is still in Netlify:', err);
+      });
+    } catch(err){
+      if(window.console) console.warn('MailerLite push threw, address is still in Netlify:', err);
+    }
+  }
+
+  function wire(form, msgId, errId){
+    if(!form) return;
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = form.querySelector('button');
+      var original = btn ? btn.textContent : '';
+      var box = document.getElementById(errId);
+      if(box) box.hidden = true;
+      if(btn){ btn.textContent = 'Sending...'; btn.disabled = true; }
+      fetch('/', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: new URLSearchParams(new FormData(form)).toString()
+      }).then(function(res){
+        // Netlify answers with 404 when the form is not registered on the site.
+        // fetch() treats a 404 as a resolved promise, so without this check a
+        // failed signup still showed the thank you message and the email was lost.
+        if(!res.ok) throw new Error('Form POST returned ' + res.status);
+        // Only once Netlify has it for certain.
+        pushToMailerLite(form.getAttribute('name'), (new FormData(form)).get('email'));
+        // A real signup, for Analytics. Fires once per successful submission,
+        // never on a failed one, so it stays a true conversion count.
+        if(typeof gtag === 'function'){
+          gtag('event', 'generate_lead', { form_name: form.getAttribute('name') });
+        }
+        form.hidden = true;
+        var msg = document.getElementById(msgId);
+        if(msg){
+          msg.hidden = false;
+          msg.setAttribute('tabindex','-1');
+          msg.focus();
+        }
+      }).catch(function(err){
+        if(window.console) console.error('Waitlist submit failed:', err);
+        if(btn){ btn.textContent = original; btn.disabled = false; }
+        if(box){
+          box.hidden = false;
+          box.setAttribute('tabindex','-1');
+          box.focus();
+        }
+      });
+    });
+  }
+  wire(document.querySelector('form[name="waitlist-top"]'), 'thanks-top', 'err-top');
+  wire(document.querySelector('form[name="waitlist-bottom"]'), 'thanks-bottom', 'err-bottom');
+})();
+</script>
+</body>
+</html>

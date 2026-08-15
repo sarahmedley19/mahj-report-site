@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBY7Y12PFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-CBY7Y12PFP");
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Printable American Mahjong Score Sheet (PDF)</title>
+<meta name="description" content="A free printable American mahjong score sheet, as a PDF. Write in your own house rules, room for six hands and ten players. No email needed.">
+<link rel="canonical" href="https://themahjreport.com/scoresheet.html">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#8A9A6B">
+
+<meta property="og:site_name" content="The Mahj Report">
+<meta property="og:title" content="Free Printable American Mahjong Score Sheet (PDF)">
+<meta property="og:description" content="Write in your own house rules, room for six hands, crown a winner. Free to print, as many as you like.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://themahjreport.com/scoresheet.html">
+<meta property="og:image" content="https://themahjreport.com/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Printable American Mahjong Score Sheet (PDF)">
+<meta name="twitter:description" content="Write in your own house rules, room for six hands, crown a winner.">
+<meta name="twitter:image" content="https://themahjreport.com/social-card.png">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"How do you keep score in casual mahjong?",
+     "acceptedAnswer":{"@type":"Answer","text":"Most casual groups skip the National Mah Jongg League card values and use flat points instead. A common starting point is 2 points for a mahjong and 1 point for each bonus the group agrees on, like winning without jokers or winning concealed. Write the values in at the top of the sheet so everyone plays by the same numbers."}},
+    {"@type":"Question","name":"Is this score sheet free to print?",
+     "acceptedAnswer":{"@type":"Answer","text":"Yes. Download it and print as many copies as you like, for your own game nights or for a group you host."}},
+    {"@type":"Question","name":"How many hands does one sheet hold?",
+     "acceptedAnswer":{"@type":"Answer","text":"Six hands across up to ten players, with a running total column and a line for the night's winner. Six rather than twelve is deliberate: a two hour night runs about three hands, and twelve columns leaves each one too narrow to write in."}},
+    {"@type":"Question","name":"Is this an American mah jongg score card?",
+     "acceptedAnswer":{"@type":"Answer","text":"Yes. It is built for American mah jongg, the four player game usually played with the National Mah Jongg League card. This printable sheet does not reproduce the card or its point values, because it is for groups scoring by their own house rules. The Mahj Report app itself also has a separate official NMJL scoring mode, using the values from your own current card, for groups who want to play it that way instead."}},
+    {"@type":"Question","name":"Can you use it if you do not play for money?",
+     "acceptedAnswer":{"@type":"Answer","text":"Yes, and most groups using it do not. The sheet tracks points rather than payouts, so the only thing at stake is who wins the night."}}
+  ]
+}
+</script>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --sage:#8A9A6B; --sage-deep:#5E7046; --sage-pale:#EEF7EC;
+  --cream:#F6EFE1; --panel:#FEFDF9;
+  --teal:#1E6F7A; --clay:#C25A2B; --bark:#37372B;
+  --muted:#7E8468; --line:rgba(55,55,43,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+#notify{scroll-margin-top:180px;}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--bark);
+     background:var(--panel);-webkit-font-smoothing:antialiased;line-height:1.6;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+a{color:inherit;}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:50;background:rgba(254,253,249,.92);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px;}
+.brandmark{display:flex;align-items:center;gap:11px;text-decoration:none;}
+.brandmark .name{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:19px;color:var(--sage-deep);letter-spacing:-.01em;}
+.navcta{background:var(--teal);color:#fff;text-decoration:none;padding:9px 18px;border-radius:9px;
+        font-weight:600;font-size:14px;box-shadow:0 4px 14px -6px rgba(30,111,122,.6);transition:.15s;}
+.navcta:hover{background:#175d66;}
+.navlinks{display:flex;align-items:center;gap:26px;font-size:14.5px;font-weight:600;}
+.navlinks a{color:var(--bark);text-decoration:none;}
+.navlinks a:hover{color:var(--teal);}
+
+/* ---------- hero ---------- */
+.hero{background:linear-gradient(180deg,var(--sage-pale) 0%,var(--panel) 100%);
+      padding:70px 0 80px;position:relative;overflow:hidden;}
+.hero:after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(70% 45% at 50% 0%, rgba(30,111,122,.08), transparent 70%);}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 340px;gap:56px;align-items:center;}
+.eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:14px;}
+h1{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:clamp(38px,5.2vw,58px);line-height:1.05;
+   color:var(--sage-deep);letter-spacing:-.02em;margin-bottom:18px;}
+h1 em{font-style:italic;color:var(--teal);}
+.lede{font-size:18px;color:#55554a;max-width:30em;margin-bottom:28px;}
+
+/* email capture */
+.capture{display:flex;gap:9px;flex-wrap:wrap;max-width:460px;}
+.getit{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:22px;}
+.dlnote{font-size:13.5px;color:var(--muted);max-width:15em;line-height:1.4;}
+.faqs{max-width:44em;margin:0 auto;}
+.faqs h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:19px;color:var(--sage-deep);margin:24px 0 6px;}
+.faqs p{color:#55554a;font-size:15.5px;}
+.capture input{flex:1;min-width:210px;padding:14px 16px;border:1.5px solid var(--line);
+  border-radius:11px;font-family:'Inter';font-size:15px;background:#fff;color:var(--bark);}
+.capture input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(30,111,122,.12);}
+.capture button{background:var(--clay);color:#fff;border:none;border-radius:11px;padding:14px 24px;
+  font-family:'Inter';font-weight:700;font-size:15px;cursor:pointer;white-space:nowrap;
+  box-shadow:0 6px 18px -8px rgba(194,90,43,.7);transition:.15s;}
+.capture button:hover{filter:brightness(1.07);}
+.microcopy{font-size:13px;color:var(--muted);margin-top:11px;}
+
+/* hero phone */
+.phoneframe{position:relative;background:linear-gradient(158deg,#3d3d36 0%,#26261f 55%,#1b1b16 100%);
+  border-radius:42px;padding:30px 10px 24px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.07) inset,
+             0 30px 64px -26px rgba(55,55,43,.55),
+             0 3px 8px rgba(0,0,0,.22);}
+/* dynamic island */
+.phoneframe:before{content:'';position:absolute;top:11px;left:50%;transform:translateX(-50%);
+  width:64px;height:15px;background:#0e0e0a;border-radius:10px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.05);}
+/* home indicator */
+.phoneframe:after{content:'';position:absolute;bottom:9px;left:50%;transform:translateX(-50%);
+  width:88px;height:4px;background:rgba(255,255,255,.34);border-radius:4px;}
+.phonescreen{border-radius:26px;overflow:hidden;background:var(--sage-pale);
+  box-shadow:0 0 0 1px rgba(0,0,0,.35);}
+
+/* ---------- sections ---------- */
+section{padding:78px 0;}
+.sect-eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);
+  font-weight:700;text-align:center;margin-bottom:12px;}
+h2{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:clamp(28px,3.6vw,38px);line-height:1.15;
+   color:var(--sage-deep);text-align:center;margin-bottom:16px;letter-spacing:-.01em;}
+.sect-lede{text-align:center;font-size:17px;color:#55554a;max-width:34em;margin:0 auto 46px;}
+
+/* problem band */
+.band{background:var(--cream);}
+.quote{font-family:'Playfair Display',Georgia,serif;font-size:clamp(21px,2.7vw,27px);line-height:1.45;
+  text-align:center;color:var(--sage-deep);max-width:20em;margin:0 auto 20px;font-style:italic;}
+.quote-attr{text-align:center;font-size:14px;color:var(--muted);}
+
+/* features */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px 24px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 6px 20px -14px rgba(55,55,43,.35);}
+.card .ic{width:38px;height:38px;border-radius:10px;background:rgba(30,111,122,.1);
+  display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.card h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:19px;color:var(--sage-deep);margin-bottom:7px;}
+.card p{font-size:14.5px;color:#55554a;}
+
+/* two-up */
+.twoup{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;}
+.twoup h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:26px;color:var(--sage-deep);margin-bottom:12px;}
+.twoup p{color:#55554a;margin-bottom:14px;}
+.ticks{list-style:none;}
+.ticks li{position:relative;padding-left:26px;margin-bottom:9px;font-size:15px;color:#55554a;}
+.ticks li:before{content:'';position:absolute;left:0;top:8px;width:8px;height:8px;
+  border-radius:2px;background:var(--clay);}
+
+/* boards */
+.boards{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:760px;margin:0 auto;}
+.board{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  box-shadow:0 6px 20px -14px rgba(55,55,43,.4);}
+.board .top{height:4px;}
+.board .body{padding:22px 24px;}
+.board h4{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:20px;margin-bottom:6px;}
+.board p{font-size:14.5px;color:#55554a;}
+
+/* CTA */
+.cta{background:linear-gradient(165deg,#0F3E45,#0B3038);color:var(--cream);text-align:center;}
+.cta h2{color:var(--cream);}
+.cta .sect-lede{color:rgba(246,239,225,.8);}
+.cta .capture{margin:0 auto;justify-content:center;}
+.cta .capture input{border-color:rgba(246,239,225,.25);background:rgba(255,255,255,.96);}
+.cta .microcopy{color:rgba(246,239,225,.6);text-align:center;}
+
+/* footer */
+footer{background:var(--panel);border-top:1px solid var(--line);padding:38px 0;}
+footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;}
+footer .links{display:flex;gap:22px;font-size:14px;}
+footer a{color:var(--muted);text-decoration:none;}
+footer a:hover{color:var(--teal);}
+.copyright{font-size:13.5px;color:var(--muted);}
+
+.thanks{background:rgba(30,111,122,.1);border:1.5px solid rgba(30,111,122,.35);
+  border-radius:11px;padding:15px 18px;max-width:460px;}
+.thanks strong{display:block;font-family:'Playfair Display',Georgia,serif;font-size:18px;color:var(--teal);margin-bottom:3px;}
+.thanks span{font-size:14px;color:#55554a;}
+.cta .thanks{margin:0 auto;background:rgba(246,239,225,.14);border-color:rgba(246,239,225,.35);}
+.cta .thanks strong{color:#CBA85B;}
+.cta .thanks span{color:rgba(246,239,225,.85);}
+
+.formerror{background:rgba(194,90,43,.1);border:1.5px solid rgba(194,90,43,.4);
+  border-radius:11px;padding:15px 18px;max-width:460px;margin-top:11px;}
+.formerror strong{display:block;font-family:'Playfair Display',Georgia,serif;font-size:17px;color:var(--clay);margin-bottom:3px;}
+.formerror span{font-size:14px;color:#55554a;}
+.formerror a{color:var(--clay);font-weight:600;}
+.cta .formerror{margin:11px auto 0;background:rgba(246,239,225,.12);border-color:rgba(203,168,91,.5);}
+.cta .formerror strong{color:#E8A87C;}
+.cta .formerror span{color:rgba(246,239,225,.85);}
+.cta .formerror a{color:#E8A87C;}
+
+/* scoresheet page */
+.sheetwrap{display:grid;grid-template-columns:1fr 380px;gap:56px;align-items:center;}
+.sheetprev{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;
+  box-shadow:0 18px 44px -22px rgba(55,55,43,.5);}
+.sheetprev img{display:block;width:100%;height:auto;}
+.dl{display:inline-flex;align-items:center;gap:9px;background:var(--clay);color:#fff;
+  text-decoration:none;padding:14px 24px;border-radius:11px;font-weight:700;font-size:15px;
+  box-shadow:0 6px 18px -8px rgba(194,90,43,.7);}
+.dl:hover{filter:brightness(1.07);}
+.faq{max-width:44em;margin:0 auto;}
+.faq h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:19px;color:var(--sage-deep);
+  margin:26px 0 7px;}
+.faq p{color:#55554a;font-size:15.5px;}
+@media (max-width:860px){
+  .sheetwrap{grid-template-columns:1fr;gap:34px;}
+  /* text first on mobile, sheet preview below the form */
+  .sheetprev{order:1;max-width:330px;margin:0 auto;}
+}
+
+@media (max-width:860px){
+  .hero .wrap{grid-template-columns:1fr;gap:44px;}
+  .heroart{order:-1;max-width:290px;margin:0 auto;}
+  .twoup{grid-template-columns:1fr;gap:34px;}
+  .boards{grid-template-columns:1fr;}
+  h1{text-align:center;} .lede{text-align:center;margin-left:auto;margin-right:auto;}
+  .eyebrow{text-align:center;} .capture{margin:0 auto;} .microcopy{text-align:center;}
+}
+
+
+/* nav on small phones: keep the brand on one line and the CTA compact */
+@media (max-width:520px){
+  nav .wrap{padding-top:10px;padding-bottom:10px;gap:10px;}
+  .brandmark{gap:8px;}
+  .brandmark .name{font-size:15px;white-space:nowrap;}
+  .navcta{padding:8px 13px;font-size:13px;white-space:nowrap;}
+  .navlinks{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brandmark" href="/">
+      <svg width="30" height="38" viewBox="0 0 120 150" aria-label="The Mahj Report">
+        <rect x="20.8" y="17.6" width="84" height="106" rx="15" fill="#6E8355"/>
+        <rect x="18" y="14" width="84" height="106" rx="15" fill="#F6EFE1"/>
+        <text x="60" y="101.82" text-anchor="middle" font-family="Playfair Display, serif" font-weight="600" font-size="52" fill="#1E6F7A">M</text>
+        <g transform="translate(60,44.475) rotate(-9)">
+          <path d="M -18.137 10.375 L -18.137 -5.317 L -8.082 3.527 L 0.502 -13.263 L 9.196 3.740 L 19.033 -4.911 L 19.033 10.375 L 16.189 10.375 L 16.189 -1.008 L 7.488 6.645 L -0.502 -8.982 L -8.602 6.858 L -17.084 -0.602 L -17.084 10.375 Z" fill="#1E6F7A"/>
+          <rect x="-18.137" y="10.006" width="37.170" height="1.896" fill="#1E6F7A"/>
+        </g>
+      </svg>
+      <span class="name">The Mahj Report</span>
+    </a>
+    <div class="navlinks">
+      <a href="/house-rules.html">House rules</a>
+      <a href="/scoresheet.html">Free scoresheet</a>
+    </div>
+    <a class="navcta" href="/#notify">Get early access</a>
+  </div>
+</nav>
+
+<div class="hero" id="top">
+  <div class="wrap sheetwrap">
+    <div>
+      <!-- EDIT: eyebrow -->
+      <div class="eyebrow">Free Printable</div>
+      <!-- EDIT: headline -->
+      <h1>American mahjong <em>score sheet.</em></h1>
+      <!-- EDIT: intro paragraph -->
+      <p class="lede">One page, six hands, up to ten players. Write in what each bonus is worth for your table, because your house rules are not our business. Print as many as you like.</p>
+
+      <!-- The download is the primary action and a plain crawlable link, not a
+           hidden div revealed by JavaScript. A search engine cannot see anything
+           behind the form, so a page promising a free printable had no way to
+           prove it had one. The email box below is now optional. -->
+      <p class="getit">
+        <a class="dl" href="/Mahj-Report-Scoresheet.pdf" download>Download the PDF</a>
+        <span class="dlnote">Free, one page, prints on letter paper. No email needed.</span>
+      </p>
+
+      <!-- EDIT: scoresheet download form. Submissions appear in Netlify under Forms as "scoresheet". -->
+      <form class="capture" id="getsheet" name="scoresheet" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="scoresheet">
+        <p style="display:none"><label>Leave blank: <input name="bot-field"></label></p>
+        <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+        <button type="submit">Email it to me</button>
+      </form>
+      <div class="thanks" id="thanks-sheet" hidden>
+        <strong>Sent, and here it is again.</strong>
+        <span style="display:block;margin-bottom:12px">Print a stack and keep them with the tiles.</span>
+        <a class="dl" href="/Mahj-Report-Scoresheet.pdf" download>Download the PDF</a>
+      </div>
+      <div class="formerror" id="err-sheet" hidden>
+        <strong>That didn't go through.</strong>
+        <span>Give it another try, or email <a href="mailto:hello@themahjreport.com">hello@themahjreport.com</a> and we'll send it over.</span>
+      </div>
+      <!-- EDIT: microcopy under the form -->
+      <p class="microcopy">On your phone? Email it to yourself so you can print it later.</p>
+    </div>
+
+    <div class="sheetprev">
+      <img src="/scoresheet-preview.png" width="760" height="984" alt="Preview of The Mahj Report printable mahjong score sheet, showing a house rules row and a six hand scoring grid" loading="eager">
+    </div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sect-eyebrow">What's on it</div>
+    <h2>Built for the way you actually play.</h2>
+    <p class="sect-lede">Not a tournament sheet. No card values, no reference tables, nothing to look up mid-hand.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Your rules, written down</h3>
+        <p>A row at the top for what a mahjong is worth and what each bonus pays. Settle it once, at the start, instead of relitigating it every hand.</p>
+      </div>
+      <div class="card">
+        <h3>Six hands, ten players</h3>
+        <p>Enough room for a long night and a full table, with a running total column down the right side. Most groups get through three or four.</p>
+      </div>
+      <div class="card">
+        <h3>A winner's line</h3>
+        <p>One line at the bottom for tonight's winner, which is the part everyone actually remembers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap faq">
+    <div class="sect-eyebrow">Questions</div>
+    <h2>Scoring, briefly.</h2>
+
+    <h3>How do you keep score in casual mahjong?</h3>
+    <p>Most kitchen table groups skip the National Mah Jongg League card values entirely and use flat points instead. A common starting point is 2 points for a mahjong and 1 point for each bonus the group agrees on. Write your numbers in at the top of the sheet so everyone is playing the same game.</p>
+
+    <h3>What bonuses do people usually use?</h3>
+    <p>Winning without jokers and winning concealed are the two most common. After that it varies: two wins in a row, a singles and pairs hand, winning on a tile you drew yourself, winning on the last tile of the wall. Rare ones are the fun ones. A bonus that fires every third hand stops feeling like an achievement. There is a longer guide to <a href="/house-rules.html" style="color:var(--teal);font-weight:600">American mahjong house rules</a> here, including what to settle before you deal.</p>
+
+    <h3>Is it really free?</h3>
+    <p>Yes. Print as many as you want, for your table or for a group you host. If you would rather stop photocopying and let something else do the adding, that is what we are building.</p>
+
+    <h3>What if we want a season, not just a night?</h3>
+    <p>That is exactly where paper gives up. Keeping score for one evening works fine. Keeping a running season across months, with people missing weeks, is where it falls apart. <a href="/" style="color:var(--teal);font-weight:600">That's what the app is for.</a></p>
+  </div>
+</section>
+
+
+<!-- EDIT: FAQ. Mirrors the FAQPage schema in the head; keep the two in step. -->
+<section class="band">
+  <div class="wrap">
+    <div class="sect-eyebrow">Questions</div>
+    <h2>About this sheet.</h2>
+    <div class="faqs">
+      <h3>How do you keep score in casual mahjong?</h3>
+      <p>Most casual groups skip the National Mah Jongg League card values and use flat points
+      instead. A common starting point is 2 points for a mahjong and 1 point for each bonus the
+      group agrees on, like winning without jokers or winning concealed. Write the values in at the
+      top of the sheet so everyone plays by the same numbers.</p>
+
+      <h3>Is this score sheet free to print?</h3>
+      <p>Yes. Download it and print as many copies as you like, for your own game nights or for a
+      group you host.</p>
+
+      <h3>How many hands does one sheet hold?</h3>
+      <p>Six hands across up to ten players, with a running total column and a line for the night's
+      winner. Six rather than twelve is deliberate: a two hour night runs about three hands, and
+      twelve columns leaves each one too narrow to write in.</p>
+
+      <h3>Is this an American mah jongg score card?</h3>
+      <p>Yes. It is built for American mah jongg, the four player game usually played with the
+      National Mah Jongg League card. This printable sheet does not reproduce the card or its point
+      values, because it is for groups scoring by their own house rules. The Mahj Report app itself
+      also has a separate official NMJL scoring mode, using the values from your own current card,
+      for groups who want to play it that way instead.</p>
+
+      <h3>Can you use it if you do not play for money?</h3>
+      <p>Yes, and most groups using it do not. The sheet tracks points rather than payouts, so the
+      only thing at stake is who wins the night.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <div class="sect-eyebrow" style="color:#CBA85B">Coming soon</div>
+    <h2>Paper works for a night. Not for a season.</h2>
+    <p class="sect-lede">The Mahj Report keeps the running total, crowns a winner every game night, and settles the season title for you.</p>
+    <a class="navcta" href="/" style="display:inline-block;padding:13px 26px;font-size:15px">See what it does</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a class="brandmark" href="/" style="text-decoration:none">
+      <svg width="24" height="30" viewBox="0 0 120 150">
+        <rect x="20.8" y="17.6" width="84" height="106" rx="15" fill="#6E8355"/>
+        <rect x="18" y="14" width="84" height="106" rx="15" fill="#F6EFE1"/>
+        <text x="60" y="101.82" text-anchor="middle" font-family="Playfair Display, serif" font-weight="600" font-size="52" fill="#1E6F7A">M</text>
+        <g transform="translate(60,44.475) rotate(-9)">
+          <path d="M -18.137 10.375 L -18.137 -5.317 L -8.082 3.527 L 0.502 -13.263 L 9.196 3.740 L 19.033 -4.911 L 19.033 10.375 L 16.189 10.375 L 16.189 -1.008 L 7.488 6.645 L -0.502 -8.982 L -8.602 6.858 L -17.084 -0.602 L -17.084 10.375 Z" fill="#1E6F7A"/>
+          <rect x="-18.137" y="10.006" width="37.170" height="1.896" fill="#1E6F7A"/>
+        </g>
+      </svg>
+      <span class="name" style="font-size:16px">The Mahj Report</span>
+    </a>
+    <div class="links">
+      <a href="/house-rules.html">House rules</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="mailto:hello@themahjreport.com">Contact</a>
+    </div>
+    <!-- EDIT: footer copyright -->
+    <div class="copyright">© 2026 The Mahj Report</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /**
+   * Hand the address to MailerLite as well, so the score sheet automation fires.
+   *
+   * Netlify stays the record: this runs after that POST has already succeeded,
+   * and a failure here loses nothing because the address is safely filed either
+   * way and can be imported by hand. That is deliberate. The first attempt at
+   * this was a Netlify Function, which never deployed at all, because functions
+   * need a build step and the site is deployed by dragging a folder.
+   *
+   * The endpoint is MailerLite's public embedded-form URL. It carries an account
+   * id and a form id, not a secret, which is why it is safe in browser code. The
+   * group a subscriber lands in is set on the MailerLite form, not here.
+   *
+   * mode: 'no-cors' because that endpoint sends no CORS headers. The request is
+   * still delivered; we simply cannot read the reply. Fire and forget is the
+   * right shape anyway, since nothing on this page should wait on it.
+   */
+  var ML_FORMS = {
+    // Netlify form name -> MailerLite embedded form endpoint
+    'scoresheet': 'https://assets.mailerlite.com/jsonp/2572357/forms/195637638685787554/subscribe'
+  };
+
+  function pushToMailerLite(formName, email){
+    var url = ML_FORMS[formName];
+    if(!url || !email) return;
+    try {
+      fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: new URLSearchParams({
+          'fields[email]': email,
+          'ml-submit': '1',
+          'anticsrf': 'true'
+        }).toString()
+      }).catch(function(err){
+        if(window.console) console.warn('MailerLite push failed, address is still in Netlify:', err);
+      });
+    } catch(err){
+      if(window.console) console.warn('MailerLite push threw, address is still in Netlify:', err);
+    }
+  }
+
+  function wire(form, msgId, errId){
+    if(!form) return;
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = form.querySelector('button');
+      var original = btn ? btn.textContent : '';
+      var box = document.getElementById(errId);
+      if(box) box.hidden = true;
+      if(btn){ btn.textContent = 'Sending...'; btn.disabled = true; }
+      fetch('/', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: new URLSearchParams(new FormData(form)).toString()
+      }).then(function(res){
+        // Netlify answers with 404 when the form is not registered on the site.
+        // fetch() treats a 404 as a resolved promise, so without this check a
+        // failed signup still showed the thank you message and the email was lost.
+        if(!res.ok) throw new Error('Form POST returned ' + res.status);
+        // Only once Netlify has it for certain.
+        pushToMailerLite(form.getAttribute('name'), (new FormData(form)).get('email'));
+        // A real signup, for Analytics. Fires once per successful submission,
+        // never on a failed one, so it stays a true conversion count.
+        if(typeof gtag === 'function'){
+          gtag('event', 'generate_lead', { form_name: form.getAttribute('name') });
+        }
+        form.hidden = true;
+        var msg = document.getElementById(msgId);
+        if(msg){
+          msg.hidden = false;
+          msg.setAttribute('tabindex','-1');
+          msg.focus();
+        }
+      }).catch(function(err){
+        if(window.console) console.error('Scoresheet submit failed:', err);
+        if(btn){ btn.textContent = original; btn.disabled = false; }
+        if(box){
+          box.hidden = false;
+          box.setAttribute('tabindex','-1');
+          box.focus();
+        }
+      });
+    });
+  }
+  wire(document.querySelector('form[name="scoresheet"]'), 'thanks-sheet', 'err-sheet');
+})();
+</script>
+</body>
+</html>
