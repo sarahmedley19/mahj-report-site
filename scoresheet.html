@@ -183,6 +183,14 @@ footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:1
 footer .links{display:flex;gap:22px;font-size:14px;}
 footer a{color:var(--muted);text-decoration:none;}
 footer a:hover{color:var(--teal);}
+/* Social. Icons rather than words, so the row stays short on a phone and does
+   not compete with the real navigation next to it. aria-label on each link
+   because an icon on its own tells a screen reader nothing, and currentColor
+   on the fill so they inherit the same hover as every other footer link. */
+footer .social{display:flex;align-items:center;gap:15px;}
+footer .social a{display:inline-flex;color:var(--muted);}
+footer .social a:hover{color:var(--teal);}
+footer .social svg{width:20px;height:20px;fill:currentColor;display:block;}
 .copyright{font-size:13.5px;color:var(--muted);}
 
 .thanks{background:rgba(30,111,122,.1);border:1.5px solid rgba(30,111,122,.35);
@@ -409,6 +417,14 @@ footer a:hover{color:var(--teal);}
       <a href="/privacy.html">Privacy</a>
       <a href="/terms.html">Terms</a>
       <a href="mailto:hello@themahjreport.com">Contact</a>
+    </div>
+    <div class="social">
+      <a href="https://www.instagram.com/themahjreport/" aria-label="The Mahj Report on Instagram" rel="me noopener" target="_blank">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM17.8 5.6a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61593333567047" aria-label="The Mahj Report on Facebook" rel="me noopener" target="_blank">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.6 21.5v-8.2h2.8l.42-3.25H13.6V7.98c0-.94.26-1.58 1.62-1.58h1.72V3.49c-.3-.04-1.32-.13-2.5-.13-2.48 0-4.18 1.51-4.18 4.29v2.4H7.44v3.25h2.82v8.2z"/></svg>
+      </a>
     </div>
     <!-- EDIT: footer copyright -->
     <div class="copyright">© 2026 The Mahj Report</div>
