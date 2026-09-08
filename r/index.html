@@ -55,6 +55,9 @@ input[type=text]:focus{outline:none;border-color:var(--teal)}
 .opt.picked{border-color:var(--sage-deep);background:var(--sage-pale)}
 .opt .day{font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:600}
 .opt .time{color:var(--muted);font-size:14px;margin-top:2px}
+/* The reader's own clock, when it disagrees with the event's. Deliberately
+   quieter than the real start time so it reads as a courtesy, not the answer. */
+.opt .yourtime{color:var(--muted);font-size:12.5px;margin-top:4px;opacity:.85}
 .place{margin-top:10px;padding-top:10px;border-top:1px solid rgba(0,0,0,.08)}
 .place .where{font-weight:600;font-size:15px}
 .place .addr{display:inline-block;margin-top:2px;color:var(--sage-deep);font-size:14px;text-decoration:underline;text-underline-offset:2px}
@@ -169,10 +172,71 @@ const rpc = (fn, body) =>
       return out;
     });
 
+// Times belong to the event, not to whoever is reading the page.
+//
+// An option is stored as an absolute instant, and this page used to render it
+// with toLocaleString(undefined, ...), which means "in this device's zone". So
+// a host in Texas who typed 3:00 for a game in Arizona published a page that
+// told her Arizona friends 1:00, and nothing on it admitted the translation.
+//
+// EVENT_ZONE is the zone the host said the game happens in. Every time below
+// is formatted in it and labelled with it. The reader's own clock, when it
+// disagrees, gets a quiet second line instead of the headline.
+//
+// Null means a poll made before the host could say. Those keep the old
+// device-local behaviour and show no label, because guessing a zone for them
+// would be the original bug wearing a badge of confidence.
+let EVENT_ZONE = null;
+
+const zoneOpts = () => (EVENT_ZONE ? { timeZone: EVENT_ZONE } : {});
+
 // A 6pm start is a game night; an 11am start is not. Four o'clock is the line.
-const dayWord = (d) => (d.getHours() >= 16 ? "night" : "day");
-const fmtDay  = (d) => d.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
-const fmtTime = (d) => d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" }).replace(":00", "");
+const dayWord = (d) => (hourInZone(d) >= 16 ? "night" : "day");
+
+function hourInZone(d) {
+  if (!EVENT_ZONE) return d.getHours();
+  try {
+    const h = new Intl.DateTimeFormat("en-US", { timeZone: EVENT_ZONE, hour: "numeric", hour12: false }).format(d);
+    const n = Number(h);
+    return Number.isFinite(n) ? (n === 24 ? 0 : n) : d.getHours();
+  } catch (e) { return d.getHours(); }
+}
+
+const fmtDay  = (d) => d.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric", ...zoneOpts() });
+const fmtBare = (d) => d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit", ...zoneOpts() }).replace(":00", "");
+
+// "MST", "CDT". Tied to the instant, since the same zone is CST in January and
+// CDT in July, and naming the wrong one is the kind of small lie that makes
+// people stop trusting the rest of the page.
+function zoneAbbrev(d) {
+  if (!EVENT_ZONE) return "";
+  try {
+    const parts = new Intl.DateTimeFormat("en-US", { timeZone: EVENT_ZONE, timeZoneName: "short" }).formatToParts(d);
+    const p = parts.find(x => x.type === "timeZoneName");
+    return p ? p.value : "";
+  } catch (e) { return ""; }
+}
+
+const fmtTime = (d) => { const z = zoneAbbrev(d); return z ? `${fmtBare(d)} ${z}` : fmtBare(d); };
+
+// The reader's own clock, only when it actually differs. Somebody in the same
+// zone as the game does not need arithmetic done for them, and "3 PM your
+// time" under "3 PM MST" is noise.
+function yourTimeNote(d) {
+  if (!EVENT_ZONE) return "";
+  let mine = "";
+  try { mine = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) { return ""; }
+  if (!mine || mine === EVENT_ZONE) return "";
+  const theirDay  = d.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+  const theirTime = d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" }).replace(":00", "");
+  if (theirTime === fmtBare(d) && theirDay === fmtDay(d)) return "";
+  return theirDay === fmtDay(d) ? `${theirTime} your time` : `${theirDay}, ${theirTime} your time`;
+}
+
+function yourTimeBlock(d) {
+  const n = yourTimeNote(d);
+  return n ? `<div class="yourtime">${esc(n)}</div>` : "";
+}
 const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
 
 let poll, options = [], responses = [], picks = {};
@@ -257,9 +321,10 @@ function hydrateFromResponse(respId) {
 async function load() {
   if (!pollId) return fail("That link looks incomplete.", "Ask whoever sent it to share it again.");
   try {
-    const polls = await api(`polls?id=eq.${pollId}&select=id,title,status,chosen_option_id,location,address,notes`);
+    const polls = await api(`polls?id=eq.${pollId}&select=id,title,status,chosen_option_id,location,address,notes,time_zone`);
     if (!polls.length) return fail("This poll has gone.", "It may have been deleted by the host.");
     poll = polls[0];
+    EVENT_ZONE = poll.time_zone || null;
     options = await api(`poll_options?poll_id=eq.${pollId}&select=id,starts_at,sort_order&order=sort_order.asc,starts_at.asc`);
     await loadResponses();
     try {
@@ -580,6 +645,7 @@ function renderRsvp() {
     <div class="opt picked" style="margin-top:22px">
       <div class="day">${fmtDay(d)}</div>
       <div class="time">${fmtTime(d)}</div>
+      ${yourTimeBlock(d)}
       ${placeBlock()}
     </div>
 
