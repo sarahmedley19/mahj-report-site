@@ -106,6 +106,14 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-
 .navlinks a{color:var(--bark);text-decoration:none;}
 .navlinks a:hover{color:var(--teal);}
 
+/* ---------- app store cta ---------- */
+.storerow{display:flex;flex-direction:column;align-items:flex-start;gap:11px;margin:4px 0 2px;}
+.storecta{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;
+          padding:15px 28px;border-radius:11px;font-weight:700;font-size:16.5px;letter-spacing:-.005em;
+          box-shadow:0 6px 20px -8px rgba(30,111,122,.65);transition:.15s;}
+.storecta:hover{background:#175d66;transform:translateY(-1px);}
+.storenote{font-size:14px;color:var(--muted);font-weight:600;}
+
 /* ---------- hero ---------- */
 .hero{background:linear-gradient(180deg,var(--sage-pale) 0%,var(--panel) 100%);
       padding:70px 0 80px;position:relative;overflow:hidden;}
@@ -248,13 +256,27 @@ footer a:hover{color:var(--teal);}
   .eyebrow{text-align:center;} .capture{margin:0 auto;} .microcopy{text-align:center;}
 }
 
-/* nav on small phones: keep the brand on one line and the CTA compact */
+/* tighten the nav links before they start crowding the CTA */
+@media (max-width:860px){
+  .navlinks{gap:16px;font-size:13.5px;}
+}
+
+/* nav on small phones: brand and CTA on row one, the links on row two.
+   Previously the links were display:none here, which meant Prize ideas,
+   Host checklist and Shop existed only in the footer on a phone. */
 @media (max-width:520px){
-  nav .wrap{padding-top:10px;padding-bottom:10px;gap:10px;}
+  nav .wrap{padding-top:10px;padding-bottom:9px;gap:10px;flex-wrap:wrap;}
   .brandmark{gap:8px;}
   .brandmark .name{font-size:15px;white-space:nowrap;}
   .navcta{padding:8px 13px;font-size:13px;white-space:nowrap;}
-  .navlinks{display:none;}
+  .navlinks{order:3;width:100%;justify-content:center;flex-wrap:wrap;
+            gap:9px 17px;font-size:13px;margin-top:9px;padding-top:9px;
+            border-top:1px solid var(--line);}
+}
+
+/* very narrow phones: let the links breathe onto three rows rather than clip */
+@media (max-width:360px){
+  .navlinks{gap:8px 13px;font-size:12.5px;}
 }
 </style>
 </head>
@@ -281,7 +303,7 @@ footer a:hover{color:var(--teal);}
       <a href="/mahjong-night-checklist.html">Host checklist</a>
       <a href="/shop.html">Shop</a>
     </div>
-    <a class="navcta" href="#notify">Get early access</a>
+    <a class="navcta" href="https://apps.apple.com/app/id6803967296">Download</a>
   </div>
 </nav>
 
@@ -294,22 +316,12 @@ footer a:hover{color:var(--teal);}
       <h1>Keep score <em>your way.</em></h1>
       <!-- EDIT: intro paragraph under the headline -->
       <p class="lede">A scoring app for casual American mahjong, the kind played at kitchen tables, not tournaments. Set your own house rules, crown a winner every game night, and play for a season title worth bragging about.</p>
-      <!-- EDIT: hero signup form. Submissions appear in your Netlify dashboard under Forms. -->
-      <form class="capture" id="notify" name="waitlist-top" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="waitlist-top">
-        <p style="display:none"><label>Leave blank: <input name="bot-field"></label></p>
-        <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
-        <button type="submit">Notify me at launch</button>
-      </form>
-      <div class="thanks" id="thanks-top" hidden>
-        <strong>You're on the list.</strong>
-        <span>We'll email you the moment it's ready, and not one before.</span>
+      <!-- EDIT: hero call to action. Points straight at the App Store listing. -->
+      <div class="storerow" id="notify">
+        <a class="storecta" href="https://apps.apple.com/app/id6803967296">Download on the App Store</a>
+        <span class="storenote">Free to download. Premium free for 14 days, then $2.99 a month or $23.99 a year.</span>
       </div>
-      <div class="formerror" id="err-top" hidden>
-        <strong>That didn't go through.</strong>
-        <span>Give it another try, or email <a href="mailto:hello@themahjreport.com">hello@themahjreport.com</a> and we'll add you by hand.</span>
-      </div>
-      <p class="microcopy">No spam, ever. A note when the app is ready, plus the occasional house rule worth stealing.</p>
+      <p class="microcopy">Only the host needs the app. Your players RSVP and see their own stats with just a name.</p>
     </div>
 
     <div class="heroart">
@@ -742,26 +754,15 @@ footer a:hover{color:var(--teal);}
 
 <section class="cta">
   <div class="wrap">
-    <div class="sect-eyebrow" style="color:#CBA85B">Coming soon</div>
+    <div class="sect-eyebrow" style="color:#CBA85B">Now on the App Store</div>
     <!-- EDIT: closing headline -->
     <h2>Mahjong is more fun with something on the line.</h2>
-    <p class="sect-lede">We're putting the finishing touches on it. Leave your email and we'll tell you the moment it's ready.</p>
-    <!-- EDIT: bottom signup form. Shares the same list as the hero form. -->
-    <form class="capture" name="waitlist-bottom" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-      <input type="hidden" name="form-name" value="waitlist-bottom">
-      <p style="display:none"><label>Leave blank: <input name="bot-field"></label></p>
-      <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
-      <button type="submit">Notify me at launch</button>
-    </form>
-    <div class="thanks" id="thanks-bottom" hidden>
-      <strong>You're on the list.</strong>
-      <span>We'll email you the moment it's ready, and not one before.</span>
+    <p class="sect-lede">Set your house rules, log the hands as they happen, and let the season standings build themselves.</p>
+    <!-- EDIT: closing call to action. -->
+    <div class="storerow" style="align-items:center">
+      <a class="storecta" href="https://apps.apple.com/app/id6803967296">Download on the App Store</a>
+      <span class="storenote">Free to download. Premium free for 14 days, then $2.99 a month or $23.99 a year.</span>
     </div>
-    <div class="formerror" id="err-bottom" hidden>
-      <strong>That didn't go through.</strong>
-      <span>Give it another try, or email <a href="mailto:hello@themahjreport.com">hello@themahjreport.com</a> and we'll add you by hand.</span>
-    </div>
-    <p class="microcopy">No spam, ever. A note at launch, plus the occasional house rule worth stealing.</p>
   </div>
 </section>
 

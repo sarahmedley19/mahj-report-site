@@ -128,12 +128,24 @@ footer a:hover{color:var(--teal);}
   .boards{grid-template-columns:1fr;}
 }
 
+@media (max-width:860px){
+  .navlinks{gap:16px;font-size:13.5px;}
+}
+
+/* On a phone the links used to be display:none, so Prize ideas, Host checklist
+   and Shop only existed in the footer. Now they wrap onto a second nav row. */
 @media (max-width:520px){
-  nav .wrap{padding-top:10px;padding-bottom:10px;gap:10px;}
+  nav .wrap{padding-top:10px;padding-bottom:9px;gap:10px;flex-wrap:wrap;}
   .brandmark{gap:8px;}
   .brandmark .name{font-size:15px;white-space:nowrap;}
   .navcta{padding:8px 13px;font-size:13px;white-space:nowrap;}
-  .navlinks{display:none;}
+  .navlinks{order:3;width:100%;justify-content:center;flex-wrap:wrap;
+            gap:9px 17px;font-size:13px;margin-top:9px;padding-top:9px;
+            border-top:1px solid var(--line);}
+}
+
+@media (max-width:360px){
+  .navlinks{gap:8px 13px;font-size:12.5px;}
 }
 </style>
 </head>
@@ -160,7 +172,7 @@ footer a:hover{color:var(--teal);}
       <a href="/mahjong-night-checklist.html">Host checklist</a>
       <a href="/shop.html">Shop</a>
     </div>
-    <a class="navcta" href="/#notify">Get early access</a>
+    <a class="navcta" href="https://apps.apple.com/app/id6803967296">Download</a>
   </div>
 </nav>
 
@@ -328,10 +340,10 @@ footer a:hover{color:var(--teal);}
 
 <section class="cta">
   <div class="wrap">
-    <div class="sect-eyebrow" style="color:#CBA85B">Coming soon</div>
+    <div class="sect-eyebrow" style="color:#CBA85B">Now on the App Store</div>
     <h2>Let the app keep score. You just hand out the prizes.</h2>
     <p class="sect-lede">Grand Champion, Hot Hand, and every win of the season, tracked automatically so hosting is the only job left.</p>
-    <a class="navcta" href="/#notify" style="display:inline-block;padding:13px 26px;font-size:15px">See what it does</a>
+    <a class="navcta" href="https://apps.apple.com/app/id6803967296" style="display:inline-block;padding:13px 26px;font-size:15px">Download on the App Store</a>
   </div>
 </section>
 
