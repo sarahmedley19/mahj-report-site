@@ -109,6 +109,19 @@ table.tally tr.leader td{background:var(--sage-pale)}
 .mark.n{color:#C9CBBC}
 
 .foot{text-align:center;margin-top:30px;font-size:13px;color:var(--muted)}
+/* The one ask on this page, and it is deliberately not "download our app".
+   Everybody here is already being served without the app, which is the whole
+   promise. The only person who needs it is the one who also runs a table of
+   her own, so that is who this speaks to, and it sits at the very bottom so
+   it never competes with the RSVP itself. */
+.hostcta{margin-top:26px;padding:18px;border-radius:14px;
+         background:var(--sage-pale);border:1px solid rgba(0,0,0,.07);text-align:center}
+.hostcta .k{font-size:11.5px;letter-spacing:.15em;font-weight:700;color:var(--teal);margin-bottom:9px}
+.hostcta p{font-size:14px;line-height:1.5;color:var(--bark);margin:0 0 14px}
+.hostcta a.b{display:inline-block;background:var(--bark);color:#fff;text-decoration:none;
+             font-weight:700;font-size:14.5px;padding:12px 22px;border-radius:10px}
+.hostcta a.b:hover{background:var(--sage-deep)}
+.hostcta .n{font-size:12.5px;color:var(--muted);margin-top:11px}
 .foot a{color:var(--teal);text-decoration:none;font-weight:600}
 .skel{height:76px;border-radius:13px;background:rgba(55,55,43,.05);margin-top:12px}
 </style>
@@ -134,6 +147,13 @@ table.tally tr.leader td{background:var(--sage-pale)}
   <div id="app">
     <h1>Loading…</h1>
     <div class="skel"></div><div class="skel"></div>
+  </div>
+
+  <div class="hostcta">
+    <div class="k">DO YOU HOST TOO?</div>
+    <p>The poll, this page and the season standings all come from The Mahj Report. If you run a table of your own, you can set one up in about two minutes.</p>
+    <a class="b" href="https://apps.apple.com/app/apple-store/id6803967296?pt=129290874&amp;ct=rsvp-page&amp;mt=8">Get it on the App Store</a>
+    <div class="n">Free to download. Your own players will never need it either.</div>
   </div>
 
   <div class="foot">
