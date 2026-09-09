@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Redeem your code · The Mahj Report</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#EEF7EC">
+<link rel="icon" href="/favicon-48.png" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sage:#8A9A6B; --sage-deep:#5E7046; --sage-pale:#EEF7EC;
+  --cream:#F6EFE1; --panel:#FEFDF9;
+  --teal:#1E6F7A; --clay:#C25A2B; --bark:#37372B;
+  --muted:#7E8468; --line:rgba(55,55,43,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Lato',-apple-system,system-ui,Helvetica,Arial,sans-serif;
+  background:linear-gradient(178deg,var(--sage-pale) 0%,#F4F7EC 46%,var(--cream) 100%);
+  color:var(--bark);min-height:100vh;padding:34px 20px 60px;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:520px;margin:0 auto}
+.brand{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:26px;text-decoration:none}
+.brand svg{width:24px;height:30px;display:block}
+.brand span{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:16px;color:var(--bark)}
+h1{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:31px;line-height:1.16;
+   letter-spacing:-.015em;text-align:center}
+.lede{text-align:center;color:var(--muted);font-size:15px;line-height:1.55;margin-top:12px}
+
+/* The order genuinely matters until 1.0.2 ships: a code redeemed before the
+   account exists has no group to unlock, so the steps are numbered rather
+   than described in a paragraph nobody reads. */
+ol{list-style:none;counter-reset:s;margin-top:28px}
+ol li{counter-increment:s;position:relative;padding-left:44px;margin-bottom:20px}
+ol li::before{
+  content:counter(s);position:absolute;left:0;top:-1px;width:30px;height:30px;
+  border-radius:50%;background:var(--teal);color:#fff;font-weight:900;font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+}
+ol li h2{font-size:16px;font-weight:700;margin-bottom:3px}
+ol li p{font-size:14.5px;line-height:1.55;color:var(--muted)}
+.store{display:inline-block;margin-top:11px;background:var(--bark);color:#fff;text-decoration:none;
+       font-weight:700;font-size:14.5px;padding:11px 20px;border-radius:10px}
+.store:hover{background:var(--sage-deep)}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:6px}
+label{display:block;font-size:11.5px;letter-spacing:.15em;font-weight:700;color:var(--teal);margin-bottom:8px}
+input{width:100%;font-family:'Lato';font-size:19px;font-weight:900;letter-spacing:.07em;
+      text-transform:uppercase;padding:13px 14px;border:1px solid var(--line);border-radius:10px;
+      background:#fff;color:var(--bark)}
+input:focus{outline:none;border-color:var(--teal)}
+button{width:100%;margin-top:11px;background:var(--teal);color:#fff;border:0;border-radius:10px;
+       padding:14px;font-family:'Lato';font-weight:700;font-size:15.5px;cursor:pointer}
+button:hover{background:#18606a}
+button:disabled{opacity:.45;cursor:default}
+.hint{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.5}
+.note{margin-top:26px;padding:15px 16px;border-radius:13px;background:rgba(30,111,122,.08);
+      border:1px solid rgba(30,111,122,.2);font-size:13.5px;line-height:1.55;color:var(--bark)}
+.foot{text-align:center;margin-top:34px;font-size:13px;color:var(--muted)}
+.foot a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="brand" href="/">
+    <svg viewBox="0 0 120 150" aria-hidden="true">
+      <rect x="20.8" y="17.6" width="84" height="106" rx="15" fill="#6E8355"/>
+      <rect x="18" y="14" width="84" height="106" rx="15" fill="#F6EFE1"/>
+      <text x="60" y="101.82" text-anchor="middle" font-family="Playfair Display, serif" font-weight="600" font-size="52" fill="#1E6F7A">M</text>
+      <g transform="translate(60,44.475) rotate(-9)">
+        <path d="M -18.137 10.375 L -18.137 -5.317 L -8.082 3.527 L 0.502 -13.263 L 9.196 3.740 L 19.033 -4.911 L 19.033 10.375 L 16.189 10.375 L 16.189 -1.008 L 7.488 6.645 L -0.502 -8.982 L -8.602 6.858 L -17.084 -0.602 L -17.084 10.375 Z" fill="#1E6F7A"/>
+        <rect x="-18.137" y="10.006" width="37.170" height="1.896" fill="#1E6F7A"/>
+      </g>
+    </svg>
+    <span>The Mahj Report</span>
+  </a>
+
+  <h1>Redeem your free months</h1>
+  <p class="lede">Three steps, and the order matters. Do it this way and it just works.</p>
+
+  <ol>
+    <li>
+      <h2>Get the app</h2>
+      <p>Free to download on iPhone and iPad.</p>
+      <a class="store" href="https://apps.apple.com/app/apple-store/id6803967296?pt=129290874&amp;ct=code-page&amp;mt=8">Download on the App Store</a>
+    </li>
+    <li>
+      <h2>Open it and set up your group</h2>
+      <p>Make your account, name your group, add your players. Takes about two minutes. Your code needs a group to attach itself to, which is why this comes before the next step.</p>
+    </li>
+    <li>
+      <h2>Then redeem your code</h2>
+      <div class="card">
+        <label for="code">Your code</label>
+        <input id="code" type="text" inputmode="latin" autocapitalize="characters"
+               autocomplete="off" spellcheck="false" placeholder="MAHJMISSION">
+        <button id="go" disabled>Redeem it</button>
+        <p class="hint">Opens the App Store to apply your free months. Nothing is charged today.</p>
+      </div>
+    </li>
+  </ol>
+
+  <div class="note">
+    <strong>Already redeemed but the app still says read only?</strong>
+    Open the app, go to Premium, and tap <strong>Restore purchases</strong>. That catches it up.
+  </div>
+
+  <div class="foot">
+    Keeping score on paper works. Keeping a whole season does not.<br>
+    <a href="/">themahjreport.com</a>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var input = document.getElementById('code');
+  var go = document.getElementById('go');
+  if(!input || !go) return;
+
+  // Apple's redeem endpoint takes the code in the URL, so all this page has to
+  // do is build a valid one. Kept client-side on purpose: no form post, no
+  // server, nothing to break, and it works from a printed card with no
+  // per-code page to maintain.
+  var APP_ID = '6803967296';
+  var clean = function(v){ return (v || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); };
+
+  var sync = function(){
+    var c = clean(input.value);
+    if(input.value !== c) input.value = c;
+    go.disabled = c.length < 4;
+  };
+
+  input.addEventListener('input', sync);
+
+  // A code can be handed over in the link itself, e.g. /code?c=MAHJMISSION,
+  // which is handy for texting even though the printed card just says /code.
+  try {
+    var pre = clean(new URLSearchParams(location.search).get('c'));
+    if(pre) input.value = pre;
+  } catch(e){}
+  sync();
+
+  var redeem = function(){
+    var c = clean(input.value);
+    if(c.length < 4) return;
+    location.href = 'https://apps.apple.com/redeem?ctx=offercodes&id=' + APP_ID + '&code=' + encodeURIComponent(c);
+  };
+
+  go.addEventListener('click', redeem);
+  input.addEventListener('keydown', function(e){ if(e.key === 'Enter') redeem(); });
+})();
+</script>
+</body>
+</html>
