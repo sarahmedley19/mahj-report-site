@@ -8,4 +8,6 @@
   <url><loc>https://themahjreport.com/shop.html</loc><lastmod>2026-08-20</lastmod><changefreq>monthly</changefreq></url>
   <url><loc>https://themahjreport.com/privacy.html</loc><lastmod>2026-08-10</lastmod><changefreq>yearly</changefreq></url>
   <url><loc>https://themahjreport.com/terms.html</loc><lastmod>2026-08-10</lastmod><changefreq>yearly</changefreq></url>
+
+  <url><loc>https://themahjreport.com/delete-account.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
