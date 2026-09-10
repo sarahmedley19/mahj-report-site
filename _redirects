@@ -1,2 +1,5 @@
 /p/*  /p/index.html  200
 /r/*  /r/index.html  200
+
+/app    /app/index.html  200
+/app/*  /app/index.html  200
