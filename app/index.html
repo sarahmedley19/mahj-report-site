@@ -1,6 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBY7Y12PFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-CBY7Y12PFP");
+</script>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1354592079796330');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1354592079796330&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
@@ -72,10 +96,15 @@ var isIOS = /iPad|iPhone|iPod/.test(ua) ||
             (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 var isAndroid = /Android/.test(ua);
 
+/* Brief pause before redirecting so the analytics beacons on this page have
+   time to send. Navigating away immediately cancels them, which is why ad
+   clicks landing here were previously invisible. 250ms is about one blink. */
+function go(url) { setTimeout(function () { location.replace(url); }, 250); }
+
 if (isIOS) {
-  location.replace(IOS_URL);
+  go(IOS_URL);
 } else if (isAndroid && ANDROID_LIVE) {
-  location.replace(PLAY_URL);
+  go(PLAY_URL);
 }
 /* Everything else, and Android before launch, stays on this page and chooses. */
 </script>
