@@ -159,9 +159,9 @@ else if (isPrint && isAndroid && ANDROID_LIVE) { document.documentElement.classN
 
   <div class="hero">
     <div class="copy">
-      <p class="eyebrow">Scoring app for American mahjong</p>
+      <p class="eyebrow" id="eyebrow">Scoring app for American mahjong</p>
       <h1 id="headline">The mahjong night keeps its own score.</h1>
-      <p class="lede">Log a hand in about six seconds. The app does the adding, and the season standings build themselves.</p>
+      <p class="lede" id="lede">Log a hand in about six seconds. The app does the adding, and the season standings build themselves.</p>
 
       <a class="cta" id="ios" href="https://apps.apple.com/app/apple-store/id6803967296?pt=129290874&amp;mt=8">
         Get it on the App Store
@@ -173,10 +173,10 @@ else if (isPrint && isAndroid && ANDROID_LIVE) { document.documentElement.classN
     </div>
 
     <div class="shot">
-      <img src="standings.webp" width="560" height="1211" alt="The Season screen: a Grand Champion leaderboard with each player's points and hands logged" fetchpriority="high">
+      <img id="shot" src="standings.webp" width="560" height="1211" alt="The Season screen: a Grand Champion leaderboard with each player's points and hands logged" fetchpriority="high">
     </div>
 
-    <p class="only"><b>Only the person keeping score needs it.</b> Everyone else just plays, and sees their own standings with just a name.</p>
+    <p class="only" id="only"><b>Only the person keeping score needs it.</b> Everyone else just plays and sees their own standings with just a name. Picking the date is in there too: one poll, one link, and the RSVPs come back on their own.</p>
   </div>
 
   <p class="foot">
@@ -198,6 +198,19 @@ var HEADLINES = {
 var adNum = (src.match(/^meta-[ab](\d)$/) || [])[1];
 if (adNum && HEADLINES[adNum]) { document.getElementById('headline').textContent = HEADLINES[adNum]; }
 
+/* Two versions of the page. Ads 1 to 3 sell scorekeeping, so the page shows the
+   standings. Ad 4 sells the date poll, so the page shows the poll and mentions
+   scoring second. Same button, same event, so the two can be compared later. */
+var variant = (adNum === '4' || /^poll/.test(src)) ? 'poll' : 'score';
+if (variant === 'poll') {
+  document.getElementById('eyebrow').textContent = 'Made for American mahjong';
+  document.getElementById('lede').textContent = 'Send one link. Everybody taps the nights they can make, you see it in one place, and the RSVPs come back with just a name. No forty-message group chat.';
+  var img = document.getElementById('shot');
+  img.src = 'poll.webp'; img.height = 1193;
+  img.alt = 'The date poll screen: two proposed nights, Can do, If needed and Can\'t buttons, and a grid of who can make which night';
+  document.getElementById('only').innerHTML = '<b>Only the host needs the app.</b> Your players answer from a link and never download a thing. Then, when the night comes, the same app keeps score at the table.';
+}
+
 var iosBtn = document.getElementById('ios');
 iosBtn.href = IOS_URL;
 document.querySelector('#play a').href = PLAY_URL;
@@ -208,8 +221,8 @@ else if (isAndroid) { document.getElementById('androidNote').style.display = 'bl
    ads: it separates "looked" from "went to get it". Meta gets a custom event
    (AppStoreTap) that can become a custom conversion; GA gets the same. */
 iosBtn.addEventListener('click', function () {
-  try { fbq('trackCustom', 'AppStoreTap', { src: src, headline: adNum || 'default' }); } catch (e) {}
-  try { gtag('event', 'app_store_tap', { src: src, headline: adNum || 'default' }); } catch (e) {}
+  try { fbq('trackCustom', 'AppStoreTap', { src: src, headline: adNum || 'default', variant: variant }); } catch (e) {}
+  try { gtag('event', 'app_store_tap', { src: src, headline: adNum || 'default', variant: variant }); } catch (e) {}
 });
 </script>
 <noscript>
