@@ -29,87 +29,191 @@ src="https://www.facebook.com/tr?id=1354592079796330&ev=PageView&noscript=1"/></
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Get The Mahj Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Inter:wght@400;500;600;700&display=swap">
 <style>
   :root{
     --bark:#37372B; --cream:#F6EFE1; --panel:#FEFDF9; --line:rgba(55,55,43,.12);
     --muted:#7E8468; --sage:#8A9A6B; --sage-deep:#5E7046; --sage-pale:#EEF7EC; --teal:#1E6F7A;
   }
   *{box-sizing:border-box}
+  html,body{margin:0;background:var(--cream);color:var(--bark)}
   body{
-    margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
-    padding:24px; background:var(--cream); color:var(--bark);
-    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    min-height:100vh; font-family:'Inter',system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.55;
   }
-  .card{
-    background:var(--panel); border:1px solid var(--line); border-radius:14px;
-    padding:32px 28px; max-width:400px; width:100%; text-align:center;
+  /* Print and QR visitors are redirected straight to the store. Keep the page
+     invisible for them so there is no flash before the redirect. */
+  html.go .page{visibility:hidden}
+
+  .page{
+    max-width:1040px; margin:0 auto; padding:22px 20px 40px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px; margin-bottom:28px;
+    font-family:'Playfair Display',Georgia,serif; font-weight:600; font-size:19px;
+    color:var(--sage-deep); letter-spacing:-.01em; text-decoration:none;
+  }
+  .hero{display:grid; gap:30px; align-items:center; grid-template-areas:"copy" "shot" "only"}
+  .copy{grid-area:copy; max-width:520px}
+  .shot{grid-area:shot}
+  .only{grid-area:only}
+  .eyebrow{
+    font-size:11.5px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--teal); font-weight:700; margin:0 0 14px;
   }
   h1{
     font-family:'Playfair Display',Georgia,serif; font-weight:600;
-    font-size:26px; line-height:1.25; margin:0 0 6px;
+    font-size:clamp(31px,7.6vw,46px); line-height:1.08; letter-spacing:-.012em;
+    margin:0 0 16px; text-wrap:balance;
   }
-  h1 em{font-style:italic; color:var(--sage-deep)}
-  p{font-size:14.5px; line-height:1.55; color:var(--muted); margin:0 0 22px}
-  a.btn{
-    display:block; text-decoration:none; border-radius:9px; padding:13px 18px;
-    font-size:15px; font-weight:600; margin-bottom:10px;
+  .lede{font-size:17px; color:#55554a; margin:0 0 24px; max-width:26em}
+  .cta{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    background:var(--sage-deep); color:#fff; text-decoration:none;
+    padding:16px 26px; border-radius:11px; font-weight:700; font-size:17px;
+    letter-spacing:-.005em; width:100%; max-width:380px;
+    box-shadow:0 8px 22px -10px rgba(94,112,70,.7); transition:transform .12s, background .12s;
   }
-  a.ios{background:var(--sage-deep); color:#fff}
-  a.play{background:var(--sage-pale); color:var(--sage-deep); border:1px solid var(--sage)}
-  .note{font-size:12.5px; color:var(--muted); margin:14px 0 0}
-  .rule{height:1px; background:var(--line); margin:22px 0 0}
-  .foot{font-size:12px; color:var(--muted); margin:14px 0 0}
-  .foot a{color:var(--teal)}
+  .cta:hover{background:#526339}
+  .cta:active{transform:translateY(1px)}
+  .cta:focus-visible{outline:3px solid var(--teal); outline-offset:3px}
+  .price{font-size:14.5px; color:var(--muted); margin:14px 0 0; max-width:380px}
+  .price b{color:var(--bark); font-weight:600}
+  .play{
+    display:none; margin-top:12px; font-size:14px; color:var(--sage-deep); font-weight:600;
+  }
+  .play a{color:var(--sage-deep)}
+  .android{display:none; font-size:13.5px; color:var(--muted); margin:14px 0 0; max-width:380px}
+  .only{
+    margin:0; padding-top:18px; border-top:1px solid var(--line);
+    font-size:14.5px; color:var(--muted); max-width:380px;
+  }
+  .only b{color:var(--bark); font-weight:600}
+
+  .shot{
+    position:relative; justify-self:center; width:min(300px,78vw);
+    max-height:520px; overflow:hidden; border-radius:26px 26px 0 0;
+  }
+  .shot img{
+    display:block; width:100%; height:auto; border-radius:26px;
+    box-shadow:0 30px 60px -30px rgba(55,55,43,.45), 0 0 0 1px var(--line);
+  }
+  .shot::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:120px;
+    background:linear-gradient(to bottom, rgba(246,239,225,0), var(--cream));
+  }
+  .foot{
+    margin:40px 0 0; font-size:12.5px; color:var(--muted); display:flex; flex-wrap:wrap; gap:6px 18px;
+  }
+  .foot a{color:var(--muted)}
+
+  @media (min-width:760px){
+    .page{padding:30px 32px 56px}
+    .hero{grid-template-columns:1.1fr .9fr; grid-template-areas:"copy shot" "only shot"; gap:12px 40px; align-items:start}
+    .copy{align-self:end}
+    .only{margin-top:20px}
+    .shot{width:320px; max-height:640px; grid-row:1 / span 2; align-self:center}
+    .cta{width:auto}
+  }
+  @media (prefers-reduced-motion:reduce){ .cta{transition:none} }
 </style>
 </head>
 <body>
-  <div class="card">
-    <h1>The Mahjong Night<br><em>keeps its own score</em></h1>
-    <p>The Mahj Report tracks every hand and tallies the whole season, so nobody at the table has to add anything up.</p>
-    <a class="btn ios" id="ios" href="#">Download on the App Store</a>
-    <a class="btn play" id="play" href="#">Get it on Google Play</a>
-    <p class="note" id="androidNote">The Android version is arriving within days. The App Store version is live now.</p>
-    <div class="rule"></div>
-    <p class="foot">Free to download. <a href="https://themahjreport.com">themahjreport.com</a></p>
-  </div>
-
 <script>
-/* Flip this to true the moment the Play listing goes live.
-   Nothing printed ever has to change: the paper points here, this page decides. */
+/* Decide before anything paints.
+
+   Printed things (the Etsy host packet, the Mahj for a Mission table card, any QR
+   code) send people here with a print source, or with no source at all. Those
+   people already chose to get the app, so they go straight to the store.
+
+   Ads, emails and social links send a source like meta-a1 or waitlist-email.
+   Those people saw a fifteen-second video and tapped. They get this page. */
 var ANDROID_LIVE = false;
 
-/* Campaign source. Printed things can carry their own, e.g. /app?src=etsy-host-packet
-   Default matches the Etsy host packet, which is the first printed thing to use this. */
-var src = (new URLSearchParams(location.search).get('src') || 'etsy-host-packet')
-            .replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 40) || 'etsy-host-packet';
+var rawSrc = new URLSearchParams(location.search).get('src');
+var src = (rawSrc || 'etsy-host-packet').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 40) || 'etsy-host-packet';
+
+var PRINT = /^(etsy-|mahj-for-a-mission|mission-card|print-|qr-|flyer-|card-)/;
+var isPrint = !rawSrc || PRINT.test(src);
 
 var IOS_URL  = 'https://apps.apple.com/app/apple-store/id6803967296?pt=129290874&ct=' + src + '&mt=8';
 var PLAY_URL = 'https://play.google.com/store/apps/details?id=com.mahjreport.app&referrer='
-             + encodeURIComponent('utm_source=print&utm_medium=qr&utm_campaign=' + src);
-
-document.getElementById('ios').href = IOS_URL;
-document.getElementById('play').href = PLAY_URL;
-if (ANDROID_LIVE) { document.getElementById('androidNote').style.display = 'none'; }
+             + encodeURIComponent('utm_source=' + (isPrint ? 'print' : 'web') + '&utm_medium=link&utm_campaign=' + src);
 
 var ua = navigator.userAgent || '';
 var isIOS = /iPad|iPhone|iPod/.test(ua) ||
             (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 var isAndroid = /Android/.test(ua);
 
-/* Brief pause before redirecting so the analytics beacons on this page have
-   time to send. Navigating away immediately cancels them, which is why ad
-   clicks landing here were previously invisible. 250ms is about one blink. */
+/* Brief pause before redirecting so the analytics beacons have time to send. */
 function go(url) { setTimeout(function () { location.replace(url); }, 250); }
 
-if (isIOS) {
-  go(IOS_URL);
-} else if (isAndroid && ANDROID_LIVE) {
-  go(PLAY_URL);
-}
-/* Everything else, and Android before launch, stays on this page and chooses. */
+if (isPrint && isIOS) { document.documentElement.className = 'go'; go(IOS_URL); }
+else if (isPrint && isAndroid && ANDROID_LIVE) { document.documentElement.className = 'go'; go(PLAY_URL); }
+</script>
+
+<div class="page">
+  <a class="brand" href="https://themahjreport.com">The Mahj Report</a>
+
+  <div class="hero">
+    <div class="copy">
+      <p class="eyebrow">Scoring app for American mahjong</p>
+      <h1 id="headline">The mahjong night keeps its own score.</h1>
+      <p class="lede">Log a hand in about six seconds. The app does the adding, and the season standings build themselves.</p>
+
+      <a class="cta" id="ios" href="https://apps.apple.com/app/apple-store/id6803967296?pt=129290874&amp;mt=8">
+        Get it on the App Store
+      </a>
+      <p class="price"><b>Free to download.</b> Free for 14 days. $2.99 a month after that, cancel any time.</p>
+      <p class="play" id="play"><a href="https://play.google.com/store/apps/details?id=com.mahjreport.app">Android? Get it on Google Play.</a></p>
+      <p class="android" id="androidNote">On Android? The app arrives on Google Play soon. The iPhone version is live now.</p>
+
+    </div>
+
+    <div class="shot">
+      <img src="standings.webp" width="560" height="1211" alt="The Season screen: a Grand Champion leaderboard with each player's points and hands logged" fetchpriority="high">
+    </div>
+
+    <p class="only"><b>Only the person keeping score needs it.</b> Everyone else just plays, and sees their own standings with just a name.</p>
+  </div>
+
+  <p class="foot">
+    <span>The Mahj Report, Hot Springs, Arkansas</span>
+    <a href="https://themahjreport.com">themahjreport.com</a>
+    <a href="https://themahjreport.com/privacy.html">Privacy</a>
+  </p>
+</div>
+
+<script>
+/* The headline matches the ad that brought the person here, so the page
+   picks up the thought the video started. Sources: meta-a1..a4, meta-b1..b4. */
+var HEADLINES = {
+  '1': 'Never lose track of who is winning again.',
+  '2': 'Score the way your table actually plays.',
+  '3': 'Anybody can keep score. The app does the adding.',
+  '4': 'One poll. One link. The whole table on the same night.'
+};
+var adNum = (src.match(/^meta-[ab](\d)$/) || [])[1];
+if (adNum && HEADLINES[adNum]) { document.getElementById('headline').textContent = HEADLINES[adNum]; }
+
+var iosBtn = document.getElementById('ios');
+iosBtn.href = IOS_URL;
+document.querySelector('#play a').href = PLAY_URL;
+if (ANDROID_LIVE) { document.getElementById('play').style.display = 'block'; }
+else if (isAndroid) { document.getElementById('androidNote').style.display = 'block'; }
+
+/* Count the taps on the store button. This is the number that matters for the
+   ads: it separates "looked" from "went to get it". Meta gets a custom event
+   (AppStoreTap) that can become a custom conversion; GA gets the same. */
+iosBtn.addEventListener('click', function () {
+  try { fbq('trackCustom', 'AppStoreTap', { src: src, headline: adNum || 'default' }); } catch (e) {}
+  try { gtag('event', 'app_store_tap', { src: src, headline: adNum || 'default' }); } catch (e) {}
+});
 </script>
 <noscript>
-  <p style="text-align:center">
+  <p style="text-align:center;font-family:sans-serif">
     <a href="https://apps.apple.com/app/apple-store/id6803967296?pt=129290874&amp;ct=etsy-host-packet&amp;mt=8">iPhone: App Store</a>
     &nbsp;&middot;&nbsp;
     <a href="https://play.google.com/store/apps/details?id=com.mahjreport.app">Android: Google Play</a>
