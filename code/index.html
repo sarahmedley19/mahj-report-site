@@ -123,7 +123,7 @@ button:disabled{opacity:.45;cursor:default}
       <div class="card">
         <label for="code">Your code</label>
         <input id="code" type="text" inputmode="latin" autocapitalize="characters"
-               autocomplete="off" spellcheck="false" placeholder="MAHJMISSION">
+               autocomplete="off" spellcheck="false" placeholder="YOUR CODE">
         <button id="go" disabled>Redeem it</button>
         <p class="hint">Opens the App Store to apply your free months. Nothing is charged today.</p>
       </div>
@@ -163,10 +163,13 @@ button:disabled{opacity:.45;cursor:default}
 
   input.addEventListener('input', sync);
 
-  // A code can be handed over in the link itself, e.g. /code?c=MAHJMISSION,
-  // which is handy for texting even though the printed card just says /code.
+  // A code can be handed over in the link itself, e.g. /code?c=MAHJCLUB, which
+  // is what a QR on a printed card should use so nobody has to type anything.
+  // Both spellings are accepted, ?c= and ?code=, because whoever builds the QR
+  // months from now will guess one of them and should not have to guess right.
   try {
-    var pre = clean(new URLSearchParams(location.search).get('c'));
+    var q = new URLSearchParams(location.search);
+    var pre = clean(q.get('c') || q.get('code'));
     if(pre) input.value = pre;
   } catch(e){}
   sync();

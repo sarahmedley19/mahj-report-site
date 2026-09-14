@@ -219,10 +219,30 @@ else if (isAndroid) { document.getElementById('androidNote').style.display = 'bl
 
 /* Count the taps on the store button. This is the number that matters for the
    ads: it separates "looked" from "went to get it". Meta gets a custom event
-   (AppStoreTap) that can become a custom conversion; GA gets the same. */
-iosBtn.addEventListener('click', function () {
-  try { fbq('trackCustom', 'AppStoreTap', { src: src, headline: adNum || 'default', variant: variant }); } catch (e) {}
-  try { gtag('event', 'app_store_tap', { src: src, headline: adNum || 'default', variant: variant }); } catch (e) {}
+   (AppStoreTap) that can become a custom conversion; GA gets the same.
+
+   The delay is the whole point. Firing the event and letting the link navigate
+   in the same tick tears the page down before the pixel's request leaves, and
+   the event is simply lost. Between 11 and 13 September that cost us all but
+   two of them: Meta recorded 2 AppStoreTap events while Apple recorded 61
+   people arriving at the product page from this button on 13 September alone.
+   So hold the navigation for a beat, exactly the way go() already does for
+   print traffic higher up this file. */
+iosBtn.addEventListener('click', function (e) {
+  var payload = { src: src, headline: adNum || 'default', variant: variant };
+  try { fbq('trackCustom', 'AppStoreTap', payload); } catch (err) {}
+  try { gtag('event', 'app_store_tap', payload); } catch (err) {}
+
+  /* A modified click (new tab, new window, middle button) leaves this page
+     alive, so the beacons send on their own. Do not interfere. */
+  if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey ||
+      (typeof e.button === 'number' && e.button !== 0)) return;
+
+  e.preventDefault();
+  var url = iosBtn.href;
+  var gone = false;
+  var leave = function () { if (gone) return; gone = true; location.href = url; };
+  setTimeout(leave, 250);
 });
 </script>
 <noscript>
