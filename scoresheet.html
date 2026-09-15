@@ -257,8 +257,11 @@ footer .social svg{width:20px;height:20px;fill:currentColor;display:block;}
 
 
 /* nav on small phones: keep the brand on one line and the CTA compact */
-@media (max-width:860px){
-  .navlinks{gap:16px;font-size:13.5px;}
+@media (max-width:1040px){
+  .navlinks{gap:15px;font-size:13.5px;}
+}
+@media (max-width:900px){
+  .navlinks{gap:11px;font-size:13px;}
 }
 
 /* On a phone the links used to be display:none, so Prize ideas, Host checklist
@@ -295,8 +298,9 @@ footer .social svg{width:20px;height:20px;fill:currentColor;display:block;}
       <span class="name">The Mahj Report</span>
     </a>
     <div class="navlinks">
+      <a href="/host-kit.html">Free host kit</a>
       <a href="/house-rules.html">House rules</a>
-      <a href="/scoresheet.html">Free scoresheet</a>
+      <a href="/scoresheet.html">Score sheet</a>
       <a href="/mahjong-night-prizes.html">Prize ideas</a>
       <a href="/mahjong-night-checklist.html">Host checklist</a>
       <a href="/shop.html">Shop</a>
@@ -349,6 +353,19 @@ footer .social svg{width:20px;height:20px;fill:currentColor;display:block;}
     </div>
   </div>
 </div>
+
+<!-- EDIT: the paid packet. Placed here because this is the moment somebody has
+     just taken the free sheet, which is the only moment the upsell is relevant.
+     Inline styles on purpose so it cannot collide with the page's own classes. -->
+<section style="background:#FEFDF9;border-top:1px solid rgba(55,55,43,.12);border-bottom:1px solid rgba(55,55,43,.12);padding:46px 20px;">
+  <div style="max-width:720px;margin:0 auto;text-align:center;">
+    <div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#1E6F7A;font-weight:700;margin-bottom:12px;">The full kit</div>
+    <h2 style="font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:clamp(25px,4.4vw,33px);line-height:1.15;margin:0 0 14px;color:#37372B;">The sheet covers one night.<br>The Host Kit covers the season.</h2>
+    <p style="font-size:16.5px;color:#55554a;line-height:1.6;margin:0 auto 22px;max-width:30em;">Eight pages, also free: a House Rules worksheet that settles the arguments before they start, a season standings sheet for twelve players across eight nights, a ten minute way to teach a new player, and mahjong night bingo.</p>
+    <a href="/host-kit.html" style="display:inline-flex;align-items:center;gap:9px;background:#5E7046;color:#fff;text-decoration:none;padding:14px 26px;border-radius:11px;font-weight:700;font-size:16px;box-shadow:0 8px 22px -10px rgba(94,112,70,.7);">Get the free Host Kit &rarr;</a>
+    <p style="font-size:13.5px;color:#7E8468;margin:14px 0 0;">Instant download. No email needed.</p>
+  </div>
+</section>
 
 <section class="band">
   <div class="wrap">
