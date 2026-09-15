@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+._*
+
+# Editor and OS cruft
+Thumbs.db
+*.swp
+
+# Backups. These were committed by accident on 15 September and served
+# publicly from themahjreport.com until they were removed. Keep them out.
+*.bak
+*.bak.*
+*.orig
+*~
+
+# Files staged for the trash. Claude cannot delete through the device
+# bridge, so anything to be removed is moved here and emptied by hand.
+_to_delete/
+
+# Local environment
+.env
+.env.*
+!.env.example
