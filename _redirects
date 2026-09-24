@@ -3,3 +3,9 @@
 
 /app    /app/index.html  200
 /app/*  /app/index.html  200
+
+/kit    /kit/index.html  200
+/kit/*  /kit/index.html  200
+
+/j    /j/index.html  200
+/j/*  /j/index.html  200

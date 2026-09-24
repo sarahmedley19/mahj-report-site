@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBY7Y12PFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-CBY7Y12PFP");
+</script>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1354592079796330');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1354592079796330&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Join your group · The Mahj Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --bark:#37372B; --cream:#F6EFE1; --panel:#FEFDF9; --line:rgba(55,55,43,.12);
+    --muted:#7E8468; --sage-deep:#5E7046; --sage-pale:#EEF7EC; --teal:#1E6F7A;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--cream);color:var(--bark)}
+  body{min-height:100vh;font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55}
+  .page{max-width:460px;margin:0 auto;padding:26px 20px 44px}
+  .brand{display:block;text-align:center;margin-bottom:34px;font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:18px;color:var(--sage-deep);text-decoration:none}
+  .eyebrow{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);font-weight:700;margin:0 0 12px;text-align:center}
+  h1{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:clamp(30px,8vw,40px);line-height:1.1;letter-spacing:-.012em;margin:0 0 12px;text-align:center;text-wrap:balance}
+  .lede{font-size:16.5px;color:#55554a;margin:0 auto 26px;text-align:center;max-width:24em}
+  .code{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 16px 14px;text-align:center;margin:0 0 22px}
+  .code .k{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .code .v{font-size:30px;font-weight:700;letter-spacing:.14em;margin:6px 0 4px;font-variant-numeric:tabular-nums}
+  .copy{background:none;border:0;color:var(--teal);font:inherit;font-weight:600;font-size:14px;cursor:pointer;padding:6px 10px}
+  .btn{display:flex;align-items:center;justify-content:center;width:100%;padding:16px 22px;border-radius:12px;font-weight:700;font-size:17px;text-decoration:none;border:0;cursor:pointer;font-family:inherit}
+  .btn:focus-visible,.copy:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+  .primary{background:var(--sage-deep);color:#fff;box-shadow:0 8px 22px -10px rgba(94,112,70,.7)}
+  .primary:hover{background:#526339}
+  .secondary{background:transparent;color:var(--sage-deep);border:1.5px solid rgba(94,112,70,.45);margin-top:12px}
+  .note{font-size:14px;color:var(--muted);text-align:center;margin:16px auto 0;max-width:24em}
+  .android{display:none}
+  .gone h1{font-size:28px}
+  .foot{margin:44px 0 0;font-size:12.5px;color:var(--muted);text-align:center}
+  .foot a{color:var(--muted)}
+</style>
+<body>
+<div class="page" id="page">
+  <a class="brand" href="https://themahjreport.com">The Mahj Report</a>
+  <p class="eyebrow" id="eyebrow">You're invited</p>
+  <h1 id="title">Join your mahjong group</h1>
+  <p class="lede" id="lede">Follow the standings from your own phone.</p>
+
+  <div class="code" id="codeBox">
+    <div class="k">Your group code</div>
+    <div class="v" id="code">&nbsp;</div>
+    <button class="copy" id="copy" type="button">Copy code</button>
+  </div>
+
+  <a class="btn primary" id="get" href="https://apps.apple.com/app/apple-store/id6803967296?pt=129290874&amp;ct=group-invite&amp;mt=8">Get the free app</a>
+  <a class="btn secondary" id="open" href="mahjreport://join">I already have the app</a>
+  <p class="note" id="note">New to the app? Make a free account, then paste the code. We copy it for you when you tap the button.</p>
+  <p class="note android" id="android">On Android? The app arrives on Google Play soon. Save this link and the code for then.</p>
+
+  <p class="foot"><a href="https://themahjreport.com">themahjreport.com</a></p>
+</div>
+<script>
+const SUPA_URL = "https://tliaggafaxqknspaiznf.supabase.co";
+const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRsaWFnZ2FmYXhxa25zcGFpem5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwMDk2NTQsImV4cCI6MjEwMjU4NTY1NH0.oc_9--owFauavvM_psg5e7Tlhs9RLH0ZpAOpQZ1bGQM";
+var H = { apikey: SUPA_KEY, Authorization: "Bearer " + SUPA_KEY, "Content-Type": "application/json" };
+
+/* The code comes from the path (/j/MWVQ-ZR9W) or ?code=. Normalise to XXXX-XXXX. */
+function readCode() {
+  var raw = (location.pathname.split('/j/')[1] || new URLSearchParams(location.search).get('code') || '');
+  var c = decodeURIComponent(raw).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
+  return c.length === 8 ? c.slice(0, 4) + '-' + c.slice(4) : '';
+}
+var CODE = readCode();
+var $ = function (id) { return document.getElementById(id); };
+var ua = navigator.userAgent || '';
+var isAndroid = /Android/.test(ua);
+
+function showGone(msg) {
+  document.getElementById('page').className = 'page gone';
+  $('eyebrow').textContent = 'Invite link';
+  $('title').textContent = msg;
+  $('lede').textContent = 'Ask your host to send you a fresh link.';
+  $('codeBox').style.display = 'none';
+  $('open').style.display = 'none';
+  $('note').style.display = 'none';
+  $('get').textContent = 'See the app';
+  $('get').href = 'https://themahjreport.com/app?src=group-invite';
+}
+
+if (!CODE) {
+  showGone("This link is missing its code.");
+} else {
+  $('code').textContent = CODE;
+  $('open').href = 'mahjreport://join?code=' + encodeURIComponent(CODE);
+  if (isAndroid) { $('android').style.display = 'block'; }
+
+  fetch(SUPA_URL + '/rest/v1/rpc/peek_group_invite', { method: 'POST', headers: H, body: JSON.stringify({ p_code: CODE }) })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (data) {
+      var row = Array.isArray(data) ? data[0] : data;
+      if (!row) { showGone("We couldn't find that invite."); return; }
+      if (!row.is_valid) { showGone('This invite has expired.'); return; }
+      $('title').textContent = 'Join ' + row.group_name;
+      var host = row.invited_by_name && row.invited_by_name !== 'the host' ? row.invited_by_name : null;
+      if (row.invite_role === 'cohost' || row.invite_role === 'admin') {
+        $('lede').textContent = (host || 'Your host') + ' wants you to help run the group.';
+      } else {
+        $('lede').textContent = (host ? host + ' invited you. ' : '') + 'Follow the standings from your own phone.';
+      }
+    })
+    .catch(function () { /* Offline or blocked: the code still works, so leave the generic copy. */ });
+}
+
+function copyCode() {
+  if (!CODE) return Promise.resolve(false);
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(CODE).then(function () { return true; }, function () { return false; });
+    }
+  } catch (e) {}
+  return Promise.resolve(false);
+}
+
+$('copy').addEventListener('click', function () {
+  copyCode().then(function (ok) { $('copy').textContent = ok ? 'Copied' : 'Press and hold the code to copy'; });
+});
+
+/* Copy first, then go. Apple drops anything attached to a link across an
+   install, so the clipboard is how the code survives to the join screen. */
+$('get').addEventListener('click', function (e) {
+  if (!CODE || e.metaKey || e.ctrlKey || e.shiftKey) return;
+  e.preventDefault();
+  var url = $('get').href;
+  try { fbq('trackCustom', 'AppStoreTap', { src: 'group-invite' }); } catch (err) {}
+  try { gtag('event', 'app_store_tap', { src: 'group-invite' }); } catch (err) {}
+  copyCode().then(function () { setTimeout(function () { location.href = url; }, 250); });
+});
+</script>
+</body>
+</html>
