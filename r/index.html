@@ -139,6 +139,14 @@ table.tally tr.leader td{background:var(--sage-pale)}
 .hostcta a.b:hover{background:var(--sage-deep)}
 .hostcta .n{font-size:12.5px;color:var(--muted);margin-top:11px}
 .foot a{color:var(--teal);text-decoration:none;font-weight:600}
+/* The other upcoming nights of a standing night, so people can answer ahead. */
+.series a{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 2px;
+          border-top:1px solid var(--line);text-decoration:none;color:var(--bark)}
+.series a:first-of-type{border-top:0}
+.series .sday{font-weight:600;font-size:15px}
+.series .stime{color:var(--muted);font-size:13px}
+.series .go{font-size:13.5px;font-weight:700;color:var(--teal);white-space:nowrap}
+.series .go.done{color:var(--sage-deep)}
 .skel{height:76px;border-radius:13px;background:rgba(55,55,43,.05);margin-top:12px}
 </style>
 </head>
@@ -276,6 +284,9 @@ function yourTimeBlock(d) {
 const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
 
 let poll, options = [], responses = [], picks = {};
+// Other upcoming nights of the same standing night: [{poll_id, night_at}].
+let series = [];
+const lastPlayerKey = "mahj_poll_player";
 // RSVP half: the same link becomes the invitation once the host picks a night.
 let rsvpPick = null, typedName = null;
 // Roster names, so an answer can be tied to an actual player instead of being
@@ -357,7 +368,7 @@ function hydrateFromResponse(respId) {
 async function load() {
   if (!pollId) return fail("That link looks incomplete.", "Ask whoever sent it to share it again.");
   try {
-    const polls = await api(`polls?id=eq.${pollId}&select=id,title,status,chosen_option_id,location,address,notes,time_zone`);
+    const polls = await api(`polls?id=eq.${pollId}&select=id,title,status,chosen_option_id,location,address,notes,time_zone,is_recurring`);
     if (!polls.length) return fail("This poll has gone.", "It may have been deleted by the host.");
     poll = polls[0];
     EVENT_ZONE = poll.time_zone || null;
@@ -368,6 +379,14 @@ async function load() {
       roster = Array.isArray(r) ? r : [];
     } catch (e) {
       roster = []; // falls back to typing a name
+    }
+    if (poll.is_recurring) {
+      try {
+        const s = await rpc("poll_series", { p_poll_id: pollId });
+        series = Array.isArray(s) ? s : [];
+      } catch (e) {
+        series = []; // the page works exactly as before without it
+      }
     }
   } catch (e) {
     return fail("Couldn't load the poll.", "Check your connection and pull down to refresh.");
@@ -383,6 +402,15 @@ async function load() {
     // "logged on this device" list lets the person pick which to edit, or
     // log a new one.
     clearForm();
+    // First visit to this night, but this phone has answered another night as
+    // a roster player before: start with that name tapped, so answering the
+    // next Monday is two taps. Only when nothing is saved here, so a phone
+    // logging several people never guesses.
+    if (savedResponses.length === 0) {
+      let last = null;
+      try { last = localStorage.getItem(lastPlayerKey); } catch (e) {}
+      if (last && roster.some(p => p.player_id === last)) playerId = last;
+    }
   }
   render();
 }
@@ -576,6 +604,30 @@ function tallyTable(highlightLeader) {
     <p class="note" style="margin-top:10px;text-align:left">✓ can do &nbsp;·&nbsp; ~ if needed</p>`;
 }
 
+// The rest of the standing night, soonest first. Each links to its own page,
+// which already knows everything about answering. "Answered" means this phone
+// has sent something for that night.
+function seriesCard() {
+  const cutoff = Date.now() - 10 * 3600 * 1000;
+  const others = series.filter(s => s.poll_id !== pollId && new Date(s.night_at).getTime() > cutoff);
+  if (!others.length) return "";
+  const rows = others.map(s => {
+    const d = new Date(s.night_at);
+    let answered = false;
+    try { answered = JSON.parse(localStorage.getItem("mahj_poll_saved_" + s.poll_id) || "[]").length > 0; } catch (e) {}
+    return `<a href="/r/${encodeURIComponent(s.poll_id)}">
+      <span><span class="sday">${esc(fmtDay(d))}</span><br><span class="stime">${esc(fmtTime(d))}</span></span>
+      <span class="go${answered ? " done" : ""}">${answered ? "Answered ✓" : "Answer ›"}</span>
+    </a>`;
+  }).join("");
+  return `
+    <div class="card series">
+      <label class="fieldlab">COMING UP NEXT</label>
+      <p style="font-size:13.5px;color:var(--muted);margin:0 0 4px">Already know? Answer ahead.</p>
+      ${rows}
+    </div>`;
+}
+
 function renderResults(closed) {
   app.innerHTML = `
     <h1>${closed ? "This poll has closed" : "Thanks, you're in"}</h1>
@@ -740,7 +792,8 @@ function renderRsvp() {
       }</button>
       <p class="note">You can reopen this link any time to change your answer, or log another person's from this device.</p>
     `}
-    <div id="err"></div>`;
+    <div id="err"></div>
+    ${seriesCard()}`;
 
   rerender = renderRsvp;
   wireWho();
@@ -829,6 +882,7 @@ async function submitRsvp() {
     const mine = responses.find(r => r.respondent_name === nm);
     if (playerId) {
       try { await rpc("poll_set_player", { p_poll_id: pollId, p_token: body, p_player_id: playerId }); } catch (e) {}
+      try { localStorage.setItem(lastPlayerKey, playerId); } catch (e) {}
     }
     const savedId = mine ? mine.id : (activeEntry ? activeEntry.id : "");
     savedResponses = addOrUpdateSaved(savedId, body, nm);
@@ -920,6 +974,7 @@ async function submit() {
     const mine = responses.find(r => r.respondent_name === nm);
     if (playerId) {
       try { await rpc("poll_set_player", { p_poll_id: pollId, p_token: body, p_player_id: playerId }); } catch (e) {}
+      try { localStorage.setItem(lastPlayerKey, playerId); } catch (e) {}
     }
     const savedId = mine ? mine.id : (activeEntry ? activeEntry.id : "");
     savedResponses = addOrUpdateSaved(savedId, body, nm);
