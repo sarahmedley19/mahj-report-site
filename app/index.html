@@ -130,12 +130,12 @@ src="https://www.facebook.com/tr?id=1354592079796330&ev=PageView&noscript=1"/></
 
    Ads, emails and social links send a source like meta-a1 or waitlist-email.
    Those people saw a fifteen-second video and tapped. They get this page. */
-var ANDROID_LIVE = false;
+var ANDROID_LIVE = true;
 
 var rawSrc = new URLSearchParams(location.search).get('src');
 var src = (rawSrc || 'etsy-host-packet').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 40) || 'etsy-host-packet';
 
-var PRINT = /^(etsy-|mahj-for-a-mission|mission-card|print-|qr-|flyer-|card-)/;
+var PRINT = /^(etsy-|mahj-for-a-mission|mission-card|print-|qr-|flyer-|card-|group-invite)/;
 var isPrint = !rawSrc || PRINT.test(src);
 
 var IOS_URL  = 'https://apps.apple.com/app/apple-store/id6803967296?pt=129290874&ct=' + src + '&mt=8';

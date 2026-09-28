@@ -1022,5 +1022,19 @@ async function submit() {
 load();
 </script>
 <script src="/store-tap.js" defer></script>
+<script>
+/* Android visitors: every App Store button becomes a Google Play button,
+   keeping the same campaign tag so installs still show where they came from. */
+(function () {
+  if (!/Android/.test(navigator.userAgent || '')) return;
+  var PLAY = 'https://play.google.com/store/apps/details?id=com.mahjreport.app&referrer=';
+  document.querySelectorAll('a[href*="apps.apple.com"]').forEach(function (a) {
+    var m = /[?&]ct=([^&]+)/.exec(a.getAttribute('href') || '');
+    a.href = PLAY + encodeURIComponent('utm_source=web&utm_medium=link&utm_campaign=' + (m ? m[1] : 'web'));
+    a.textContent = a.textContent.replace(/Download on the App Store|Get it on the App Store/, 'Get it on Google Play');
+  });
+  document.querySelectorAll('.android-alt').forEach(function (el) { el.style.display = 'none'; });
+})();
+</script>
 </body>
 </html>
