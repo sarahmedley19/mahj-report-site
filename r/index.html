@@ -495,8 +495,43 @@ function wireSavedChooser() {
   const add = document.querySelector("[data-newresp]");
   if (add) add.onclick = () => {
     clearForm();
+    typedName = "";
     rerender();
   };
+}
+
+/**
+ * A typed name ("Someone else") that matches a roster player or an answer
+ * already on this poll is almost always the same person. 11 Oct 2026: Emily
+ * answered, tapped "Log another response", the name box refilled "Emily" from
+ * last time, and the poll showed two Emilys. Returns false to stop the submit.
+ *
+ * Same name and this phone holds that answer: update it instead of adding one.
+ * Same name as a roster player with no answer yet: link it to that player.
+ * Same name answered from another phone: ask before adding a second one.
+ */
+function reconcileTypedName(nm) {
+  if (!otherMode || activeSavedId) return true;
+  const key = (nm || "").trim().toLowerCase();
+  if (!key) return true;
+  const rosterMatch = roster.find(p => (p.player_name || "").trim().toLowerCase() === key);
+  const existing = rosterMatch
+    ? responses.find(r => r.player_id === rosterMatch.player_id) ||
+      responses.find(r => (r.respondent_name || "").trim().toLowerCase() === key)
+    : responses.find(r => (r.respondent_name || "").trim().toLowerCase() === key);
+  const mine = existing && savedResponses.find(s => s.id === existing.id);
+  if (mine) {
+    activeSavedId = mine.id;
+    if (rosterMatch) { playerId = rosterMatch.player_id; otherMode = false; }
+    return true;
+  }
+  if (existing) {
+    const shown = rosterMatch ? rosterMatch.player_name : nm;
+    if (!window.confirm(`${shown} has already answered. Tap OK only if you're a different ${shown}. Tap Cancel to go back.`)) return false;
+    return true;
+  }
+  if (rosterMatch) { playerId = rosterMatch.player_id; otherMode = false; }
+  return true;
 }
 
 /** Whoever this response belongs to: a tapped roster name, or typed text. */
@@ -640,7 +675,7 @@ function renderResults(closed) {
   const again = document.getElementById("again");
   if (again) again.onclick = render;
   const logAnother = document.getElementById("logAnother");
-  if (logAnother) logAnother.onclick = () => { clearForm(); render(); };
+  if (logAnother) logAnother.onclick = () => { clearForm(); typedName = ""; render(); };
 }
 
 // Which saved response (if any) is currently loaded into the form.
@@ -821,7 +856,7 @@ function renderRsvp() {
     submitRsvp();
   };
   const logAnother = document.getElementById("logAnother");
-  if (logAnother) logAnother.onclick = () => { clearForm(); renderRsvp(); };
+  if (logAnother) logAnother.onclick = () => { clearForm(); typedName = ""; renderRsvp(); };
 }
 
 async function submitRsvp() {
@@ -844,6 +879,7 @@ async function submitRsvp() {
     err.innerHTML = `<div class="err">Pick one so the host knows where you stand.</div>`;
     return;
   }
+  if (!reconcileTypedName(nm)) return;
 
   // The submitting button is #send in the normal flow and #confirmMine on the
   // already-answered card, and only one of them is ever on the page. This used
@@ -939,6 +975,7 @@ async function submit() {
     if (el && el.style.display !== "none") el.focus();
     return;
   }
+  if (!reconcileTypedName(nm)) return;
   // The submitting button is #send in the normal flow and #confirmMine on the
   // already-answered card, and only one of them is ever on the page. This used
   // to assume #send, so confirming threw a TypeError before the try block and
