@@ -123,7 +123,10 @@ if (!CODE) {
       if (!row.is_valid) { showGone('This invite has expired.'); return; }
       $('title').textContent = 'Join ' + row.group_name;
       var host = row.invited_by_name && row.invited_by_name !== 'the host' ? row.invited_by_name : null;
-      if (row.invite_role === 'cohost' || row.invite_role === 'admin') {
+      if (row.invite_role === 'scorekeeper') {
+        $('title').textContent = 'Keep score tonight';
+        $('lede').textContent = (host || 'Your host') + ' asked you to keep score for your table at ' + row.group_name + ' tonight. Free for you, and it only lasts for tonight.';
+      } else if (row.invite_role === 'cohost' || row.invite_role === 'admin') {
         $('lede').textContent = (host || 'Your host') + ' wants you to help run the group.';
       } else {
         $('lede').textContent = (host ? host + ' invited you. ' : '') + 'Follow the standings from your own phone.';
