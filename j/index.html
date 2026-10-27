@@ -124,6 +124,10 @@ if (!CODE) {
       $('title').textContent = 'Join ' + row.group_name;
       var host = row.invited_by_name && row.invited_by_name !== 'the host' ? row.invited_by_name : null;
       if (row.invite_role === 'scorekeeper') {
+        // Table scorekeepers keep score right in the browser now (27 Oct):
+        // no download, no account. The scorer page still offers the app.
+        location.replace('/score/' + CODE);
+        return;
         $('title').textContent = 'Keep score tonight';
         $('lede').textContent = (host || 'Your host') + ' asked you to keep score for your table at ' + row.group_name + ' tonight. Free for you, and it only lasts for tonight.';
       } else if (row.invite_role === 'cohost' || row.invite_role === 'admin') {

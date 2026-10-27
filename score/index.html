@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F6EFE1">
+<title>Keep Score · The Mahj Report</title>
+<link rel="icon" href="/favicon-48.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500;600;700;800&display=swap">
+<!-- Google tag -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBY7Y12PFP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-CBY7Y12PFP");</script>
+<style>
+  :root{
+    --bark:#37372B; --ink:#2C2C22; --cream:#F6EFE1; --panel:#FEFDF9; --line:rgba(55,55,43,.13);
+    --muted:#6F7560; --sage:#5E7046; --sage-dark:#4C5C38; --sage-pale:#EEF3E6; --teal:#1E6F7A;
+    --teal-pale:#E3F0F1; --clay:#B4532F; --clay-pale:#F8E8E1; --gold:#B88A1C;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;background:var(--cream);color:var(--bark)}
+  body{min-height:100vh;font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;font-size:17px;line-height:1.45}
+  button,input{font:inherit;color:inherit}
+  .wrap{max-width:520px;margin:0 auto;padding:18px 16px calc(40px + env(safe-area-inset-bottom))}
+  .brand{display:block;text-align:center;font-family:'Playfair Display',Georgia,serif;font-size:17px;color:var(--sage);text-decoration:none;margin:2px 0 18px}
+  h1{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:clamp(28px,7.5vw,36px);line-height:1.12;margin:0 0 10px;text-align:center;text-wrap:balance}
+  h2{font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin:26px 0 10px;font-weight:800}
+  .lede{text-align:center;color:#55554a;margin:0 auto 22px;max-width:26em;font-size:17px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:58px;padding:14px 20px;border-radius:14px;border:0;font-weight:800;font-size:18px;cursor:pointer;text-decoration:none}
+  .btn:disabled{opacity:.5;cursor:default}
+  .btn:focus-visible,.chip:focus-visible,.pbtn:focus-visible,.row:focus-visible,.link:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+  .primary{background:var(--sage);color:#fff;box-shadow:0 10px 24px -12px rgba(76,92,56,.8)}
+  .primary:active{background:var(--sage-dark)}
+  .ghost{background:transparent;border:1.5px solid rgba(94,112,70,.45);color:var(--sage-dark)}
+  .danger{background:transparent;border:1.5px solid rgba(180,83,47,.55);color:var(--clay)}
+  .link{background:none;border:0;color:var(--teal);font-weight:700;cursor:pointer;padding:10px;font-size:16px;text-decoration:none;display:inline-block}
+  .center{text-align:center}
+  .muted{color:var(--muted)}
+  .small{font-size:14.5px}
+  .gap{height:12px}
+  label.field{display:block;font-weight:700;font-size:14px;letter-spacing:.04em;color:var(--muted);margin:0 0 6px}
+  input.text{width:100%;min-height:56px;border:1.5px solid var(--line);border-radius:12px;background:#fff;padding:12px 14px;font-size:19px}
+  input.text:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-pale)}
+  .err{background:var(--clay-pale);color:var(--clay);border-radius:12px;padding:12px 14px;margin:12px 0;font-weight:600;font-size:15.5px}
+  .ok{background:var(--sage-pale);color:var(--sage-dark);border-radius:12px;padding:12px 14px;margin:12px 0;font-weight:600;font-size:15.5px}
+  /* roster */
+  .list{display:flex;flex-direction:column;gap:8px}
+  .row{display:flex;align-items:center;gap:12px;width:100%;min-height:58px;padding:10px 14px;border-radius:14px;border:1.5px solid var(--line);background:#fff;cursor:pointer;text-align:left;font-size:18px;font-weight:600}
+  .row .box{flex:none;width:28px;height:28px;border-radius:8px;border:2px solid #B9BCA8;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900}
+  .row.on{border-color:var(--sage);background:var(--sage-pale)}
+  .row.on .box{background:var(--sage);border-color:var(--sage)}
+  .row .nm{flex:1}
+  .addrow{display:flex;gap:8px;margin-top:10px}
+  .addrow .btn{width:auto;min-width:96px;min-height:56px;font-size:17px}
+  .sticky{position:sticky;bottom:0;padding:12px 0 calc(8px + env(safe-area-inset-bottom));background:linear-gradient(rgba(246,239,225,0),var(--cream) 30%)}
+  /* scoring */
+  .top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+  .top .t{font-family:'Playfair Display',Georgia,serif;font-size:22px;line-height:1.15}
+  .top .g{font-size:13.5px;color:var(--muted)}
+  .tabs{display:flex;background:#EAE3D2;border-radius:12px;padding:4px;gap:4px;margin:0 0 14px}
+  .tabs button{flex:1;min-height:46px;border:0;border-radius:9px;background:transparent;font-weight:800;font-size:16px;color:var(--muted);cursor:pointer}
+  .tabs button.on{background:var(--panel);color:var(--bark);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+  .players{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .pbtn{min-height:76px;border-radius:16px;border:2px solid var(--line);background:#fff;cursor:pointer;padding:10px 12px;text-align:left;display:flex;flex-direction:column;justify-content:center}
+  .pbtn .n{font-weight:800;font-size:19px;line-height:1.2;overflow-wrap:anywhere}
+  .pbtn .p{font-size:14.5px;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:2px}
+  .pbtn.on{border-color:var(--sage);background:var(--sage-pale);box-shadow:inset 0 0 0 1px var(--sage)}
+  .pbtn.disc{border-color:var(--clay);background:var(--clay-pale)}
+  .step{font-weight:800;font-size:18px;margin:20px 0 10px}
+  .step span{color:var(--muted);font-weight:600;font-size:15px}
+  .valrow{display:flex;gap:10px;align-items:stretch}
+  input.text::placeholder{color:#A3A694;font-size:17px;font-weight:500}
+  .valrow input{flex:1;text-align:center;font-size:28px !important;font-weight:800;font-variant-numeric:tabular-nums}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .chip{min-height:46px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font-weight:700;font-size:16px;cursor:pointer}
+  .chip.on{background:var(--teal);border-color:var(--teal);color:#fff}
+  .toggle{display:flex;align-items:center;gap:12px;width:100%;min-height:60px;padding:10px 14px;border-radius:14px;border:1.5px solid var(--line);background:#fff;cursor:pointer;text-align:left;margin-top:8px}
+  .toggle .box{flex:none;width:28px;height:28px;border-radius:8px;border:2px solid #B9BCA8;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900}
+  .toggle.on{border-color:var(--teal);background:var(--teal-pale)}
+  .toggle.on .box{background:var(--teal);border-color:var(--teal)}
+  .toggle .l{font-weight:700;font-size:17px}
+  .toggle .s{font-size:14px;color:var(--muted)}
+  .total{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 0 10px;padding:14px 16px;border-radius:16px;background:var(--panel);border:1px solid var(--line)}
+  .total .w{font-weight:700;font-size:16px;color:var(--muted)}
+  .total .v{font-weight:900;font-size:30px;color:var(--sage-dark);font-variant-numeric:tabular-nums}
+  .hands{display:flex;flex-direction:column;gap:6px}
+  .hand{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:12px;background:var(--panel);border:1px solid var(--line);font-size:15.5px}
+  .hand b{font-variant-numeric:tabular-nums}
+  .board{display:flex;flex-direction:column;gap:6px}
+  .brow{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:8px;padding:12px 14px;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:17px}
+  .brow .rk{font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
+  .brow .pt{font-weight:900;font-variant-numeric:tabular-nums}
+  .brow.me{border-color:var(--sage);background:var(--sage-pale)}
+  .brow .sub{display:block;font-size:13px;color:var(--muted);font-weight:500}
+  /* sheet */
+  .veil{position:fixed;inset:0;background:rgba(30,30,22,.45);display:flex;align-items:flex-end;justify-content:center;z-index:20}
+  .sheet{width:100%;max-width:520px;background:var(--cream);border-radius:22px 22px 0 0;padding:22px 16px calc(22px + env(safe-area-inset-bottom));max-height:92vh;overflow:auto}
+  .sheet h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:26px;margin:0 0 8px;text-align:center;text-wrap:balance}
+  .big{font-size:44px;font-weight:900;text-align:center;color:var(--sage-dark);font-variant-numeric:tabular-nums;margin:4px 0}
+  .show{background:var(--teal-pale);color:#164f57;border-radius:14px;padding:12px 14px;margin:12px 0 16px;font-weight:600;text-align:center}
+  .saving{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom));background:var(--bark);color:#fff;padding:10px 16px;border-radius:999px;font-weight:700;font-size:14.5px;z-index:30}
+  .hidden{display:none !important}
+  .spinner{width:34px;height:34px;border-radius:50%;border:4px solid rgba(94,112,70,.2);border-top-color:var(--sage);animation:spin 0.8s linear infinite;margin:40px auto}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.spinner{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"><a class="brand" href="https://themahjreport.com">The Mahj Report</a><div class="spinner" role="status" aria-label="Loading"></div></div>
+<div id="layer"></div>
+<div class="saving hidden" id="pending" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/score/scoring.js"></script>
+<script>
+/* The Mahj Report web scorekeeper (27 Oct 2026, after the Mahj for a Mission event).
+ *
+ * A table scorekeeper scans the event QR and keeps score right here, in the
+ * browser: no download, no account, no setup. Under the hood it is a guest
+ * (Supabase anonymous) sign-in that joins the group as a scorekeeper through
+ * the same invite code, so every hand lands in the same tables the app uses
+ * and shows up on the host's ALL TABLES scoreboard.
+ */
+var SUPA_URL = "https://tliaggafaxqknspaiznf.supabase.co";
+var SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRsaWFnZ2FmYXhxa25zcGFpem5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwMDk2NTQsImV4cCI6MjEwMjU4NTY1NH0.oc_9--owFauavvM_psg5e7Tlhs9RLH0ZpAOpQZ1bGQM";
+var S = window.MahjScoring;
+var sb = window.supabase.createClient(SUPA_URL, SUPA_KEY, {
+  auth: { persistSession: true, autoRefreshToken: true, storageKey: "mr-score-auth" }
+});
+
+/* ---------- small helpers ---------- */
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+function readCode() {
+  var raw = location.pathname.split("/score/")[1] || new URLSearchParams(location.search).get("code") || "";
+  var c = decodeURIComponent(raw).toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8);
+  return c.length === 8 ? c.slice(0, 4) + "-" + c.slice(4) : "";
+}
+var CODE = readCode();
+var KEY = "mr-score-" + CODE, QKEY = "mr-score-q-" + CODE;
+function load(k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
+function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function stamp() { return Date.now() + "-" + Math.floor(Math.random() * 1000000); }
+function byName(a, b) { return a.name.localeCompare(b.name, undefined, { sensitivity: "base" }); }
+function pts(n) { n = Math.round(n * 100) / 100; return (n > 0 ? "+" : "") + n; }
+function plural(n, w) { return n + " " + w + (n === 1 ? "" : "s"); }
+
+var st = load(KEY, null) || { code: CODE };   // persisted session for this code
+var roster = [];                                // [{id, name, local}]
+var rules = S.parseRules(null);
+var entries = [];                               // rows for this table's game night
+var view = "score";                             // score | board
+var form = { winner: "", base: "", selfPick: false, jokerless: false, disc: "", chips: {}, bonuses: {} };
+var saving = false;
+var uid = null;
+
+function persist() { save(KEY, st); }
+function track(event, detail) {
+  try { gtag("event", "web_score_" + event, { detail: detail || "" }); } catch (e) {}
+  try {
+    sb.from("app_events").insert({ device_id: "web-" + (st.device || (st.device = stamp())), user_id: uid, event: ("web_" + event).slice(0, 48),
+      screen: "web_score", detail: detail ? String(detail).slice(0, 120) : null, platform: "web", app_version: "score-1" }).then(function () {});
+  } catch (e) {}
+}
+
+/* ---------- rendering shell ---------- */
+function render(html) {
+  $("app").innerHTML = '<a class="brand" href="https://themahjreport.com">The Mahj Report</a>' + html;
+  window.scrollTo(0, 0);
+}
+function sheet(html) { $("layer").innerHTML = '<div class="veil" id="veil"><div class="sheet" role="dialog" aria-modal="true">' + html + "</div></div>"; }
+function closeSheet() { $("layer").innerHTML = ""; }
+function problem(title, msg, btn) {
+  render('<h1>' + esc(title) + '</h1><p class="lede">' + esc(msg) + '</p>' +
+    (btn ? '<a class="btn ghost" href="' + btn.href + '">' + esc(btn.label) + '</a>' : ""));
+}
+
+/* ---------- offline-safe writes ---------- */
+function queue() { return load(QKEY, []); }
+function setQueue(q) { save(QKEY, q); showPending(); }
+function showPending() {
+  var n = queue().length;
+  var el = $("pending");
+  if (!n) { el.classList.add("hidden"); return; }
+  el.textContent = "Saving " + plural(n, "score") + "... keep this page open";
+  el.classList.remove("hidden");
+}
+function rowPayload(r) {
+  var p = roster.find(function (x) { return x.id === r.playerId; }) || { local: String(r.playerId).indexOf("local-") === 0, name: r.name || "Player" };
+  if (p.local) {
+    return { table: "local_score_entries", body: {
+      group_id: st.groupId, season_id: st.seasonId, game_night_id: st.nightId, local_player_id: r.playerId,
+      player_name: p.name, score: r.score, is_winner: r.is_winner, selected_bonuses: r.bonuses || [],
+      client_event_id: r.cid, created_by: uid, is_wall_game: !!r.wall, is_attendance_only: !!r.attend } };
+  }
+  return { table: "score_entries", body: {
+    game_night_id: st.nightId, user_id: r.playerId, score: r.score, is_winner: r.is_winner,
+    selected_bonuses: r.bonuses || [], client_event_id: r.cid, is_wall_game: !!r.wall, is_attendance_only: !!r.attend } };
+}
+async function writeRows(rows) {
+  var q = queue();
+  for (var i = 0; i < rows.length; i++) {
+    var w = rowPayload(rows[i]);
+    var ok = false;
+    try {
+      var res = await sb.from(w.table).insert(w.body);
+      ok = !res.error || res.error.code === "23505";   // already saved
+    } catch (e) { ok = false; }
+    if (!ok) q.push(w);
+  }
+  setQueue(q);
+}
+async function flush() {
+  var q = queue();
+  if (!q.length) return;
+  var left = [];
+  for (var i = 0; i < q.length; i++) {
+    try {
+      var res = await sb.from(q[i].table).insert(q[i].body);
+      if (res.error && res.error.code !== "23505") left.push(q[i]);
+    } catch (e) { left.push(q[i]); }
+  }
+  setQueue(left);
+}
+setInterval(flush, 8000);
+window.addEventListener("online", flush);
+
+/* ---------- data ---------- */
+async function ensureGuest(name) {
+  var s = (await sb.auth.getSession()).data.session;
+  if (!s) {
+    var res = await sb.auth.signInAnonymously({ options: { data: { display_name: name } } });
+    if (res.error) throw new Error("We couldn't start your scorecard. Check your connection and try again.");
+    s = res.data.session;
+  } else if (name) {
+    try { await sb.from("profiles").update({ display_name: name }).eq("id", s.user.id); } catch (e) {}
+  }
+  uid = s.user.id;
+  return s;
+}
+async function loadGroup() {
+  var g = await sb.from("groups").select("name").eq("id", st.groupId).maybeSingle();
+  if (g.data) st.groupName = g.data.name;
+  var hr = await sb.from("house_rules").select("rules").eq("group_id", st.groupId).order("version", { ascending: false }).limit(1);
+  rules = S.parseRules(hr.data && hr.data[0] ? hr.data[0].rules : null);
+  await loadRoster();
+}
+async function loadRoster() {
+  var out = [];
+  var lp = await sb.from("local_players").select("id,name,claimed_by").eq("group_id", st.groupId).is("deleted_at", null);
+  var claimed = {};
+  (lp.data || []).forEach(function (p) { out.push({ id: p.id, name: p.name, local: true }); if (p.claimed_by) claimed[p.claimed_by] = 1; });
+  var gm = await sb.from("group_members").select("user_id, role, profiles(id,email,display_name)").eq("group_id", st.groupId);
+  (gm.data || []).forEach(function (m) {
+    var p = m.profiles;
+    if (!p || claimed[p.id]) return;
+    // Guest scorekeepers (no email) aren't players unless they add themselves by name.
+    if (!p.email && m.role === "scorekeeper") return;
+    var nm = (p.display_name || "").trim() || (p.email ? p.email.split("@")[0] : "");
+    if (!nm) return;
+    out.push({ id: p.id, name: nm.charAt(0).toUpperCase() + nm.slice(1), local: false });
+  });
+  // The host's own table can add guests by name too; keep anyone already seated even if renamed.
+  roster = out.sort(byName);
+}
+async function loadEntries() {
+  if (!st.nightId) { entries = []; return; }
+  var a = await sb.from("local_score_entries").select("local_player_id,player_name,score,is_winner,is_wall_game,is_attendance_only,selected_bonuses,client_event_id,created_at").eq("game_night_id", st.nightId);
+  var b = await sb.from("score_entries").select("user_id,score,is_winner,is_wall_game,is_attendance_only,selected_bonuses,client_event_id,created_at").eq("game_night_id", st.nightId);
+  var rows = [];
+  (a.data || []).forEach(function (r) { rows.push({ playerId: r.local_player_id, name: r.player_name, score: Number(r.score) || 0, is_winner: r.is_winner, wall: r.is_wall_game, attend: r.is_attendance_only, bonuses: r.selected_bonuses, cid: r.client_event_id, at: r.created_at }); });
+  (b.data || []).forEach(function (r) { rows.push({ playerId: r.user_id, score: Number(r.score) || 0, is_winner: r.is_winner, wall: r.is_wall_game, attend: r.is_attendance_only, bonuses: r.selected_bonuses, cid: r.client_event_id, at: r.created_at }); });
+  // Anything still waiting to save counts too, so totals never jump backwards.
+  queue().forEach(function (w) {
+    var x = w.body;
+    if (x.game_night_id !== st.nightId) return;
+    if (rows.some(function (r) { return r.cid === x.client_event_id; })) return;
+    rows.push({ playerId: x.local_player_id || x.user_id, score: x.score, is_winner: x.is_winner, wall: x.is_wall_game, attend: x.is_attendance_only, bonuses: x.selected_bonuses, cid: x.client_event_id, at: new Date().toISOString() });
+  });
+  entries = rows.sort(function (x, y) { return String(x.at).localeCompare(String(y.at)); });
+}
+function nameOf(id) { var p = roster.find(function (x) { return x.id === id; }); return p ? p.name : "Player"; }
+function handKey(cid) { return String(cid || "").replace(/-(w|p\d+|pen)$/, ""); }
+
+/* ---------- screens ---------- */
+async function start() {
+  if (!CODE) { problem("This link is missing its code", "Scan the QR code on your table again, or ask the host for the link.", null); return; }
+  showPending();
+  var s = (await sb.auth.getSession()).data.session;
+  if (s) uid = s.user.id;
+  // Already keeping score from this phone? Pick up where you left off.
+  if (st.nightId && s) {
+    try {
+      var n = await sb.from("game_nights").select("status").eq("id", st.nightId).maybeSingle();
+      if (n.data && n.data.status === "active") {
+        await loadGroup(); await loadEntries();
+        if (!st.seated || st.seated.length < 2) return pickPlayers();
+        return scoring();
+      }
+      if (n.data && n.data.status === "completed") { await loadGroup(); await loadEntries(); return done(); }
+    } catch (e) {}
+  }
+  var peek;
+  try {
+    var r = await fetch(SUPA_URL + "/rest/v1/rpc/peek_group_invite", { method: "POST",
+      headers: { apikey: SUPA_KEY, Authorization: "Bearer " + SUPA_KEY, "Content-Type": "application/json" },
+      body: JSON.stringify({ p_code: CODE }) });
+    var d = await r.json();
+    peek = Array.isArray(d) ? d[0] : d;
+  } catch (e) {
+    problem("We can't reach the scoreboard", "Check your phone's Wi-Fi or cell signal, then reload this page.", { href: location.href, label: "Try again" });
+    return;
+  }
+  if (!peek) { problem("We couldn't find this table link", "Scan the QR code on your table again, or ask the host for the link.", null); return; }
+  if (peek.invite_role !== "scorekeeper") { location.replace("/j/" + CODE); return; }
+  if (!peek.is_valid) {
+    problem("This scorekeeper link is full or the event has ended", "Ask the host to open Add table scorekeepers in the app. That makes room on the same code.", null);
+    track("invalid", CODE); return;
+  }
+  st.groupName = peek.group_name;
+  welcome();
+}
+
+function welcome() {
+  track("welcome");
+  render(
+    '<h1>Keep score for your table</h1>' +
+    '<p class="lede">at <strong>' + esc(st.groupName || "tonight's event") + '</strong>. Right here in your browser. Nothing to download, no account.</p>' +
+    '<div class="card"><label class="field" for="nm">YOUR FIRST NAME</label>' +
+    '<input class="text" id="nm" autocomplete="given-name" autocapitalize="words" enterkeyhint="go" maxlength="40" placeholder="Type your first name" value="' + esc(st.myName || "") + '">' +
+    '<p class="small muted" style="margin:8px 2px 0">So the host knows whose table this is.</p></div>' +
+    '<div id="werr"></div><div class="gap"></div>' +
+    '<button class="btn primary" id="go">Start keeping score</button>' +
+    '<p class="center small muted" style="margin-top:18px">Have The Mahj Report app? <a class="link" href="mahjreport://join?code=' + encodeURIComponent(CODE) + '">Open it in the app instead</a></p>'
+  );
+  var go = async function () {
+    var name = $("nm").value.trim();
+    if (!name) { $("werr").innerHTML = '<div class="err">Type your first name to start.</div>'; $("nm").focus(); return; }
+    $("go").disabled = true; $("go").textContent = "Getting your table ready...";
+    try {
+      st.myName = name;
+      await ensureGuest(name);
+      var red = await sb.rpc("redeem_group_invite", { p_code: CODE });
+      if (red.error) {
+        var m = red.error.message || "";
+        throw new Error(/scorekeeper|already been used/i.test(m)
+          ? "Every table already has a scorekeeper on this link. Ask the host to open Add table scorekeepers in the app. That makes room on the same code."
+          : /expired|cancelled/i.test(m) ? "This event's scorekeeping has ended. Ask the host for a fresh link." : m);
+      }
+      st.groupId = red.data;
+      var se = await sb.from("seasons").select("id").eq("group_id", st.groupId).eq("status", "active").limit(1);
+      if (!se.data || !se.data.length) se = await sb.from("seasons").select("id").eq("group_id", st.groupId).order("created_at", { ascending: false }).limit(1);
+      if (!se.data || !se.data.length) throw new Error("This group doesn't have a season yet. Ask the host to open the app once.");
+      st.seasonId = se.data[0].id;
+      st.tableName = name.split(/\s+/)[0] + "'s table";
+      var gn = await sb.from("game_nights").insert({ group_id: st.groupId, season_id: st.seasonId, status: "active", name: st.tableName }).select("id").single();
+      if (gn.error) throw new Error("We couldn't start your table. " + gn.error.message);
+      st.nightId = gn.data.id;
+      st.seated = [];
+      persist();
+      track("started", st.groupId);
+      await loadGroup();
+      entries = [];
+      pickPlayers();
+    } catch (e) {
+      $("werr").innerHTML = '<div class="err">' + esc(e.message || "Something went wrong. Try again.") + "</div>";
+      $("go").disabled = false; $("go").textContent = "Start keeping score";
+    }
+  };
+  $("go").onclick = go;
+  $("nm").addEventListener("keydown", function (e) { if (e.key === "Enter") go(); });
+}
+
+function pickPlayers() {
+  var chosen = (st.seated || []).slice();
+  var filter = "";
+  function draw() {
+    var list = roster.filter(function (p) { return !filter || p.name.toLowerCase().indexOf(filter) >= 0; });
+    // Seated players first so a big roster never hides them.
+    list.sort(function (a, b) { return (chosen.indexOf(b.id) >= 0) - (chosen.indexOf(a.id) >= 0) || byName(a, b); });
+    $("plist").innerHTML = list.length ? list.map(function (p) {
+      var on = chosen.indexOf(p.id) >= 0;
+      return '<button class="row' + (on ? " on" : "") + '" data-id="' + esc(p.id) + '" aria-pressed="' + on + '"><span class="box">' + (on ? "&#10003;" : "") + '</span><span class="nm">' + esc(p.name) + "</span></button>";
+    }).join("") : '<p class="muted small center">No one by that name yet. Add them below.</p>';
+    $("count").textContent = chosen.length ? plural(chosen.length, "player") + " picked" : "Pick the players at your table";
+    $("cont").disabled = chosen.length < 2;
+    $("cont").textContent = chosen.length < 2 ? "Pick at least 2 players" : "Start playing (" + chosen.length + ")";
+    Array.prototype.forEach.call(document.querySelectorAll("#plist .row"), function (b) {
+      b.onclick = function () {
+        var id = b.getAttribute("data-id"), i = chosen.indexOf(id);
+        if (i >= 0) chosen.splice(i, 1);
+        else {
+          if (chosen.length >= 4) { $("perr").innerHTML = '<div class="err">A table seats 4. Tap someone to take them off first.</div>'; return; }
+          chosen.push(id);
+        }
+        $("perr").innerHTML = "";
+        draw();
+      };
+    });
+  }
+  render(
+    '<h1>Who\'s at your table?</h1>' +
+    '<p class="lede">Tap each person playing. Not on the list? Add their name at the bottom.</p>' +
+    (roster.length > 10 ? '<input class="text" id="find" type="search" placeholder="Search names" autocomplete="off" style="margin-bottom:10px">' : "") +
+    '<div class="list" id="plist"></div>' +
+    '<div class="card" style="margin-top:14px"><label class="field" for="newnm">ADD A PLAYER</label>' +
+    '<div class="addrow"><input class="text" id="newnm" autocapitalize="words" maxlength="40" placeholder="First name"><button class="btn ghost" id="add">Add</button></div></div>' +
+    '<div id="perr"></div>' +
+    '<div class="sticky"><p class="center small muted" id="count" style="margin:0 0 8px"></p><button class="btn primary" id="cont"></button></div>'
+  );
+  if ($("find")) $("find").oninput = function () { filter = this.value.trim().toLowerCase(); draw(); };
+  var add = async function () {
+    var nm = $("newnm").value.trim();
+    if (!nm) { $("newnm").focus(); return; }
+    var same = roster.find(function (p) { return p.name.toLowerCase() === nm.toLowerCase(); });
+    if (same) {
+      if (chosen.indexOf(same.id) < 0 && chosen.length < 4) chosen.push(same.id);
+      $("newnm").value = ""; draw(); return;
+    }
+    if (chosen.length >= 4) { $("perr").innerHTML = '<div class="err">A table seats 4. Tap someone to take them off first.</div>'; return; }
+    $("add").disabled = true;
+    var id = "local-" + Date.now();
+    var res = await sb.from("local_players").insert({ id: id, group_id: st.groupId, name: nm, sort_order: Math.floor(Date.now() / 1000) });
+    $("add").disabled = false;
+    if (res.error) { $("perr").innerHTML = '<div class="err">Couldn\'t add ' + esc(nm) + ". Check your connection and try again.</div>"; return; }
+    roster.push({ id: id, name: nm, local: true });
+    roster.sort(byName);
+    chosen.push(id);
+    $("newnm").value = "";
+    track("player_added");
+    draw();
+  };
+  $("add").onclick = add;
+  $("newnm").addEventListener("keydown", function (e) { if (e.key === "Enter") add(); });
+  $("cont").onclick = function () {
+    st.seated = chosen.slice(); persist();
+    track("seated", String(chosen.length));
+    resetForm(); scoring();
+  };
+  draw();
+}
+
+function resetForm() { form = { winner: "", base: "", selfPick: false, jokerless: false, disc: "", chips: {}, bonuses: {} }; }
+
+function tableTotals() {
+  var t = {};
+  (st.seated || []).forEach(function (id) { t[id] = 0; });
+  entries.forEach(function (e) { if (!e.attend) t[e.playerId] = (t[e.playerId] || 0) + e.score; });
+  return t;
+}
+function handList() {
+  // Group rows back into hands, newest first.
+  var groups = {}, order = [];
+  entries.forEach(function (e) {
+    if (e.attend) return;
+    var k = e.wall ? "wall:" + handKey(e.cid).replace(/-p\d+$/, "") : handKey(e.cid);
+    if (!groups[k]) { groups[k] = []; order.push(k); }
+    groups[k].push(e);
+  });
+  return order.reverse().map(function (k) {
+    var rows = groups[k], w = rows.find(function (r) { return r.is_winner; });
+    var wall = rows.every(function (r) { return r.wall; });
+    return { key: k, cids: rows.map(function (r) { return r.cid; }),
+      label: wall ? "Wall game" : (w ? nameOf(w.playerId) + "'s mahjong" : "Hand"),
+      pts: wall ? (rows[0] && rows[0].score ? rows[0].score + " each" : "no score") : (w ? pts(w.score) : "") };
+  });
+}
+
+function scoring() {
+  view = "score";
+  var nmjl = rules.scoring_mode === "nmjl";
+  var asks = S.nmjlAsks(rules);
+  var totals = tableTotals();
+  var seated = (st.seated || []).map(function (id) { return { id: id, name: nameOf(id) }; }).sort(byName);
+  var hl = handList();
+
+  var html =
+    '<div class="top"><div><div class="t">' + esc(st.tableName || "Your table") + '</div><div class="g">' + esc(st.groupName || "") + '</div></div>' +
+    '<button class="link" id="chg">Change players</button></div>' +
+    '<div class="tabs" role="tablist"><button class="on" role="tab" aria-selected="true">My table</button><button id="toBoard" role="tab" aria-selected="false">All tables</button></div>' +
+    '<div class="step">1. Who went mahjong?</div><div class="players" id="win">' +
+    seated.map(function (p) {
+      return '<button class="pbtn' + (form.winner === p.id ? " on" : "") + '" data-id="' + esc(p.id) + '"><span class="n">' + esc(p.name) + '</span><span class="p">' + pts(totals[p.id] || 0) + " tonight</span></button>";
+    }).join("") + "</div>";
+
+  if (nmjl) {
+    html += '<div class="step">2. Card value <span>(the number printed for that hand)</span></div>' +
+      '<div class="valrow"><input class="text" id="val" inputmode="numeric" pattern="[0-9]*" maxlength="3" placeholder="Type or tap below" value="' + esc(form.base) + '"></div>' +
+      '<div class="chips" id="quick">' + [25, 30, 35, 40, 45, 50, 75].map(function (v) {
+        return '<button class="chip' + (String(form.base) === String(v) ? " on" : "") + '" data-v="' + v + '">' + v + "</button>";
+      }).join("") + "</div>";
+    if (asks.selfPick || asks.jokerless || S.nmjlCustomBonuses(rules).length) html += '<div class="step">3. Anything else? <span>(tick if it happened)</span></div>';
+    if (asks.selfPick) html += toggle("sp", form.selfPick, "Self-picked", "The winning tile came off the wall");
+    if (asks.jokerless) html += toggle("jk", form.jokerless, "Jokerless", "No jokers in the winning hand" + (rules.nmjl_custom_enabled ? ". Not for Singles &amp; Pairs" : ""));
+    S.nmjlCustomBonuses(rules).forEach(function (b) { html += toggle("c:" + b.key, !!form.chips[b.key], esc(b.label), "+" + b.value + " points"); });
+    if (asks.discarder && !form.selfPick && form.winner) {
+      html += '<div class="step">Who threw the winning tile?</div><div class="players" id="disc">' +
+        seated.filter(function (p) { return p.id !== form.winner; }).map(function (p) {
+          return '<button class="pbtn' + (form.disc === p.id ? " disc" : "") + '" data-id="' + esc(p.id) + '"><span class="n">' + esc(p.name) + "</span></button>";
+        }).join("") + "</div>";
+    }
+  } else {
+    var list = S.casualBonusList(rules);
+    if (list.length) {
+      html += '<div class="step">2. Bonuses <span>(tick any that apply)</span></div>';
+      list.forEach(function (b) { html += toggle("b:" + b.key, !!form.bonuses[b.key], esc(b.key === "Self-drawn" ? "Self-picked" : b.key), "+" + b.value + (b.value === 1 ? " point" : " points")); });
+    }
+    if (rules.discard_penalty_enabled && form.winner) {
+      html += '<div class="step">Who threw the winning tile?</div><div class="players" id="disc">' +
+        '<button class="pbtn' + (form.disc === "SELF" ? " on" : "") + '" data-id="SELF"><span class="n">Self-picked</span></button>' +
+        seated.filter(function (p) { return p.id !== form.winner; }).map(function (p) {
+          return '<button class="pbtn' + (form.disc === p.id ? " disc" : "") + '" data-id="' + esc(p.id) + '"><span class="n">' + esc(p.name) + "</span></button>";
+        }).join("") + "</div>";
+    }
+  }
+
+  var preview = previewHand();
+  html += '<div class="total" aria-live="polite"><span class="w">' + (form.winner ? esc(nameOf(form.winner)) + " gets" : "Tap the winner above") + '</span><span class="v">' + (preview ? pts(preview.collected) : "-") + "</span></div>" +
+    '<button class="btn primary" id="log"' + (preview ? "" : " disabled") + '>Log Mahjong</button>' +
+    '<div class="gap"></div><button class="btn ghost" id="wall">Wall game (nobody won)</button>';
+
+  html += "<h2>Tonight at this table</h2>" + (hl.length ? '<div class="hands">' + hl.slice(0, 12).map(function (h, i) {
+    return '<div class="hand"><span>' + esc(h.label) + '</span><span><b>' + esc(h.pts) + "</b>" + (i === 0 ? ' <button class="link" id="undoLast" style="padding:0 0 0 10px;font-size:15px">Undo</button>' : "") + "</span></div>";
+  }).join("") + "</div>" : '<p class="muted small">No hands yet. Tap the winner above when someone goes mahjong.</p>');
+
+  html += '<div style="margin-top:34px"><button class="btn danger" id="end">End the Whole Night</button>' +
+    '<p class="center small muted" style="margin:8px 0 0">Only when your table is done playing tonight. Between games, just log the next mahjong.</p></div>';
+  render(html);
+  wireScoring(seated);
+}
+function toggle(id, on, label, sub) {
+  return '<button class="toggle' + (on ? " on" : "") + '" data-t="' + esc(id) + '" aria-pressed="' + on + '"><span class="box">' + (on ? "&#10003;" : "") + '</span><span><span class="l">' + label + '</span><br><span class="s">' + sub + "</span></span></button>";
+}
+function previewHand() {
+  if (!form.winner) return null;
+  var opp = (st.seated || []).filter(function (id) { return id !== form.winner; });
+  if (rules.scoring_mode === "nmjl") {
+    var base = parseInt(form.base, 10);
+    if (!isFinite(base) || base <= 0) return null;
+    return S.nmjlHand(rules, { base: base, winnerId: form.winner, opponents: opp, selfPick: form.selfPick, jokerless: form.jokerless, discarderId: form.disc, chips: form.chips });
+  }
+  var winners = entries.filter(function (e) { return e.is_winner && !e.wall && !e.attend; });
+  var last = winners[winners.length - 1];
+  return S.casualHand(rules, { winnerId: form.winner, bonuses: Object.keys(form.bonuses).filter(function (k) { return form.bonuses[k]; }),
+    discarderId: form.disc, firstOk: winners.length === 0, consecOk: !!last && last.playerId === form.winner, nameOf: nameOf });
+}
+function wireScoring(seated) {
+  $("chg").onclick = function () { pickPlayers(); };
+  $("toBoard").onclick = board;
+  Array.prototype.forEach.call(document.querySelectorAll("#win .pbtn"), function (b) {
+    b.onclick = function () { var id = b.getAttribute("data-id"); form.winner = form.winner === id ? "" : id; if (form.disc === form.winner) form.disc = ""; keepScroll(scoring); };
+  });
+  if ($("val")) {
+    $("val").oninput = function () { form.base = this.value.replace(/\D/g, ""); var p = previewHand(); document.querySelector(".total .v").textContent = p ? pts(p.collected) : "-"; $("log").disabled = !p;
+      Array.prototype.forEach.call(document.querySelectorAll("#quick .chip"), function (c) { c.classList.toggle("on", c.getAttribute("data-v") === form.base); }); };
+    Array.prototype.forEach.call(document.querySelectorAll("#quick .chip"), function (c) { c.onclick = function () { form.base = c.getAttribute("data-v"); keepScroll(scoring); }; });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".toggle"), function (t) {
+    t.onclick = function () {
+      var k = t.getAttribute("data-t");
+      if (k === "sp") { form.selfPick = !form.selfPick; if (form.selfPick) form.disc = ""; }
+      else if (k === "jk") form.jokerless = !form.jokerless;
+      else if (k.indexOf("c:") === 0) { var c = k.slice(2); form.chips[c] = !form.chips[c]; if (form.chips[c] && (c === "Last Tile" || c === "Heavenly Hand")) form.chips[c === "Last Tile" ? "Heavenly Hand" : "Last Tile"] = false; }
+      else if (k.indexOf("b:") === 0) { var b = k.slice(2); form.bonuses[b] = !form.bonuses[b]; if (form.bonuses[b] && (b === "Last Tile" || b === "Heavenly Hand")) form.bonuses[b === "Last Tile" ? "Heavenly Hand" : "Last Tile"] = false; }
+      keepScroll(scoring);
+    };
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("#disc .pbtn"), function (b) {
+    b.onclick = function () { var id = b.getAttribute("data-id"); form.disc = form.disc === id ? "" : id; keepScroll(scoring); };
+  });
+  $("log").onclick = logHand;
+  $("wall").onclick = wallGame;
+  if ($("undoLast")) $("undoLast").onclick = function () { var h = handList()[0]; if (h) confirmUndo(h); };
+  $("end").onclick = endNight;
+}
+function keepScroll(fn) { var y = window.scrollY; fn(); window.scrollTo(0, y); }
+
+async function logHand() {
+  if (saving) return;                       // one hand per tap (the double log at the Mission event)
+  var p = previewHand();
+  if (!p) return;
+  var nmjl = rules.scoring_mode === "nmjl";
+  var asks = S.nmjlAsks(rules);
+  if (nmjl && asks.discarder && !form.selfPick && !form.disc) {
+    sheet('<h3>Who threw the winning tile?</h3><p class="center">Tap them under "Who threw the winning tile?", or tick Self-picked.</p><button class="btn primary" id="okk">OK</button>');
+    $("okk").onclick = closeSheet; return;
+  }
+  if (!nmjl && rules.discard_penalty_enabled && !form.disc) {
+    sheet('<h3>Who threw the winning tile?</h3><p class="center">Tap them, or tap Self-picked if it came off the wall.</p><button class="btn primary" id="okk">OK</button>');
+    $("okk").onclick = closeSheet; return;
+  }
+  saving = true; $("log").disabled = true; $("log").textContent = "Saving...";
+  var s = stamp();
+  var rows = p.rows.map(function (r) {
+    return { playerId: r.playerId, score: r.score, is_winner: r.is_winner, bonuses: r.bonuses,
+      cid: (p.prefix === "nmjl-" ? "nmjl-" + s : "client-" + s.replace("-", "")) + r.suffix, at: new Date().toISOString() };
+  });
+  await writeRows(rows);
+  entries = entries.concat(rows);
+  var winner = nameOf(form.winner), got = p.collected;
+  track("hand", nmjl ? "nmjl" : "casual");
+  resetForm();
+  saving = false;
+  scoring();
+  sheet('<h3>' + esc(winner) + "'s mahjong is logged</h3>" + '<div class="big">' + pts(got) + "</div>" +
+    '<div class="show">Show your table so everyone sees it\'s right.</div>' +
+    '<button class="btn primary" id="seen">Everyone saw it</button><div class="gap"></div><button class="btn ghost" id="undo">Not right? Undo</button>');
+  $("seen").onclick = closeSheet;
+  var wid = rows[0].playerId;
+  $("undo").onclick = async function () { closeSheet(); form.winner = wid; await removeHand(rows.map(function (r) { return r.cid; })); };
+}
+async function removeHand(cids) {
+  setQueue(queue().filter(function (w) { return cids.indexOf(w.body.client_event_id) < 0; }));
+  try { await sb.from("local_score_entries").delete().in("client_event_id", cids); } catch (e) {}
+  try { await sb.from("score_entries").delete().in("client_event_id", cids); } catch (e) {}
+  entries = entries.filter(function (e) { return cids.indexOf(e.cid) < 0; });
+  track("undo");
+  scoring();
+}
+function confirmUndo(h) {
+  sheet('<h3>Undo ' + esc(h.label.toLowerCase().indexOf("wall") === 0 ? "the wall game" : h.label) + '?</h3><p class="center">It comes off everyone\'s score at this table.</p>' +
+    '<button class="btn danger" id="yes">Yes, undo it</button><div class="gap"></div><button class="btn ghost" id="no">Keep it</button>');
+  $("no").onclick = closeSheet;
+  $("yes").onclick = async function () { closeSheet(); await removeHand(h.cids); };
+}
+
+function wallGame() {
+  if (saving) return;
+  var wp = S.wallPoints(rules);
+  var seated = (st.seated || []).map(function (id) { return { id: id, name: nameOf(id) }; }).sort(byName);
+  var dead = {};
+  function draw() {
+    sheet('<h3>Wall game</h3><p class="center">' + (wp ? "Everyone gets " + wp + " points. Tap anyone whose hand was dead." : "Nobody won this one. Log it so the night's count is right.") + "</p>" +
+      (wp ? '<div class="list" style="margin:12px 0 16px">' + seated.map(function (p) {
+        var isDead = !!dead[p.id];
+        return '<button class="row' + (isDead ? "" : " on") + '" data-id="' + esc(p.id) + '"><span class="box">' + (isDead ? "" : "&#10003;") + '</span><span class="nm"' + (isDead ? ' style="text-decoration:line-through;color:#8a8a7a"' : "") + ">" + esc(p.name) + '</span><b>' + (isDead ? "Dead hand" : "+" + wp) + "</b></button>";
+      }).join("") + "</div>" : "") +
+      '<button class="btn primary" id="wlog">Log wall game</button><div class="gap"></div><button class="btn ghost" id="wno">Cancel</button>');
+    Array.prototype.forEach.call(document.querySelectorAll(".sheet .row"), function (b) { b.onclick = function () { var id = b.getAttribute("data-id"); dead[id] = !dead[id]; draw(); }; });
+    $("wno").onclick = closeSheet;
+    $("wlog").onclick = async function () {
+      if (saving) return;
+      saving = true; $("wlog").disabled = true;
+      var s = stamp(), rows;
+      if (wp) {
+        rows = seated.filter(function (p) { return !dead[p.id]; }).map(function (p, i) {
+          return { playerId: p.id, score: wp, is_winner: false, wall: true, bonuses: [{ name: "Wall game", points: wp }], cid: "wall-" + s + "-p" + i, at: new Date().toISOString() };
+        });
+      } else {
+        rows = [{ playerId: uid, score: 0, is_winner: false, wall: true, bonuses: [], cid: "client-" + s.replace("-", ""), at: new Date().toISOString() }];
+      }
+      if (rows.length) await writeRows(rows);
+      entries = entries.concat(rows);
+      track("wall", String(rows.length));
+      saving = false; closeSheet(); resetForm(); scoring();
+    };
+  }
+  draw();
+}
+
+async function board() {
+  view = "board";
+  render(
+    '<div class="top"><div><div class="t">All tables tonight</div><div class="g">' + esc(st.groupName || "") + '</div></div></div>' +
+    '<div class="tabs" role="tablist"><button id="toScore" role="tab" aria-selected="false">My table</button><button class="on" role="tab" aria-selected="true">All tables</button></div>' +
+    '<div id="bd"><div class="spinner" role="status" aria-label="Loading"></div></div>' +
+    '<p class="center small muted" style="margin-top:14px">Updates every 20 seconds.</p>'
+  );
+  $("toScore").onclick = scoring;
+  await drawBoard();
+}
+async function drawBoard() {
+  if (view !== "board" && view !== "done") return;
+  var res = await sb.rpc("tonight_scoreboard", { p_group_id: st.groupId });
+  var el = $("bd");
+  if (!el) return;
+  if (res.error) { el.innerHTML = '<div class="err">The scoreboard didn\'t load. It will try again in a moment.</div>'; return; }
+  var rows = res.data || [];
+  var mine = {}; (st.seated || []).forEach(function (id) { mine["l:" + id] = 1; mine["u:" + id] = 1; });
+  el.innerHTML = rows.length ? '<div class="board">' + rows.map(function (r, i) {
+    return '<div class="brow' + (mine[r.player_key] ? " me" : "") + '"><span class="rk">' + (i + 1) + '</span><span>' + esc(r.player_name) +
+      '<span class="sub">' + plural(r.wins, "mahjong") + (r.tables > 1 ? " · " + r.tables + " tables" : "") + '</span></span><span class="pt">' + pts(Number(r.points)) + "</span></div>";
+  }).join("") + "</div>" : '<p class="muted center">No scores yet tonight.</p>';
+}
+setInterval(drawBoard, 20000);
+
+function endNight() {
+  sheet('<h3>End the whole night?</h3><p class="center">This is for when your table is done playing, not between games. You can\'t log more hands after this.</p>' +
+    '<button class="btn danger" id="yes">Yes, end the night</button><div class="gap"></div><button class="btn ghost" id="no">Keep playing</button>');
+  $("no").onclick = closeSheet;
+  $("yes").onclick = async function () {
+    $("yes").disabled = true; $("yes").textContent = "Finishing up...";
+    var s = stamp();
+    var att = (st.seated || []).map(function (id, i) {
+      return { playerId: id, score: rules.attendance_enabled ? rules.attendance_value : 0, is_winner: false, attend: true, bonuses: [], cid: "attend-" + s + "-" + i };
+    });
+    await writeRows(att);
+    await flush();
+    if (queue().length) {
+      $("yes").disabled = false; $("yes").textContent = "Yes, end the night";
+      $("layer").querySelector(".sheet").insertAdjacentHTML("beforeend", '<div class="err">Some scores are still saving. Check your signal and try again.</div>');
+      return;
+    }
+    var r = await sb.rpc("end_night", { p_game_night_id: st.nightId });
+    if (r.error) {
+      $("yes").disabled = false; $("yes").textContent = "Yes, end the night";
+      $("layer").querySelector(".sheet").insertAdjacentHTML("beforeend", '<div class="err">That didn\'t go through. Try again in a moment.</div>');
+      return;
+    }
+    st.ended = true; persist();
+    track("ended", String(entries.length));
+    closeSheet();
+    await loadEntries();
+    done();
+  };
+}
+
+function done() {
+  view = "done";
+  var totals = tableTotals();
+  var seated = (st.seated || []).map(function (id) { return { id: id, name: nameOf(id), p: totals[id] || 0 }; })
+    .sort(function (a, b) { return b.p - a.p || byName(a, b); });
+  render(
+    '<h1>Thanks for keeping score!</h1><p class="lede">' + esc(st.tableName || "Your table") + " is all done.</p>" +
+    '<div class="board">' + seated.map(function (p, i) {
+      return '<div class="brow"><span class="rk">' + (i + 1) + "</span><span>" + esc(p.name) + '</span><span class="pt">' + pts(p.p) + "</span></div>";
+    }).join("") + "</div>" +
+    '<h2>All tables tonight</h2><div id="bd"><div class="spinner" role="status" aria-label="Loading"></div></div>' +
+    '<div class="card" style="margin-top:26px"><p style="margin:0 0 4px;font-weight:800;font-size:19px">Want your scores?</p>' +
+    '<p class="small muted" style="margin:0 0 12px">Add your email and we\'ll send tonight\'s results, plus how to keep score for your own group.</p>' +
+    '<input class="text" id="em" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com">' +
+    '<div id="emsg"></div><div class="gap"></div><button class="btn primary" id="emgo">Send me my scores</button></div>' +
+    '<p class="center" style="margin-top:22px"><a class="link" href="https://themahjreport.com/app?src=web-scorer">Run your own group? Get the free app</a></p>'
+  );
+  drawBoard();
+  $("emgo").onclick = async function () {
+    var em = $("em").value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { $("emsg").innerHTML = '<div class="err">That email doesn\'t look right. Check it and try again.</div>'; return; }
+    $("emgo").disabled = true;
+    var r = await sb.from("web_scorekeeper_leads").insert({ user_id: uid, group_id: st.groupId, game_night_id: st.nightId, email: em, name: st.myName || null });
+    if (r.error) { $("emgo").disabled = false; $("emsg").innerHTML = '<div class="err">That didn\'t save. Try again in a moment.</div>'; return; }
+    track("email");
+    $("emsg").innerHTML = '<div class="ok">Got it. Watch your inbox.</div>';
+    $("emgo").textContent = "Sent";
+  };
+}
+
+start().catch(function () {
+  problem("Something went wrong", "Reload this page to try again. Your scores are saved.", { href: location.href, label: "Reload" });
+});
+</script>
+</body>
+</html>

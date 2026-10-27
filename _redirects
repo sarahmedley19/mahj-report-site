@@ -10,5 +10,9 @@
 /j    /j/index.html  200
 /j/*  /j/index.html  200
 
+/score/scoring.js  /score/scoring.js  200
+/score    /score/index.html  200
+/score/*  /score/index.html  200
+
 /giveaway    /giveaway/index.html  200
 /charleston    /charleston/index.html  200
