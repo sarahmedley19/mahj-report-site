@@ -426,7 +426,7 @@ function whoCard() {
     <div class="card">
       <label class="fieldlab" for="nm">WHO ARE YOU?</label>
       ${roster.length ? `<div class="who">
-        ${roster.map(p => `<button class="who-btn" data-pid="${esc(p.player_id)}" aria-pressed="${playerId === p.player_id}">${esc(p.player_name)}</button>`).join("")}
+        ${roster.slice().sort((a, b) => String(a.player_name || "").localeCompare(String(b.player_name || ""), undefined, { sensitivity: "base" })).map(p => `<button class="who-btn" data-pid="${esc(p.player_id)}" aria-pressed="${playerId === p.player_id}">${esc(p.player_name)}</button>`).join("")}
         <button class="who-btn other" data-other="1" aria-pressed="${otherMode}">Someone else</button>
       </div>` : ""}
       <input type="text" id="nm" placeholder="e.g. Kelsey" value="${esc(saved)}" autocomplete="name" enterkeyhint="done"
@@ -609,6 +609,12 @@ function refreshOpts() {
   });
 }
 
+// Names A to Z, ignoring case, for every list of people on this page.
+function responsesAZ() {
+  return responses.slice().sort((a, b) =>
+    String(a.respondent_name || "").trim().localeCompare(String(b.respondent_name || "").trim(), undefined, { sensitivity: "base" }));
+}
+
 function tallyTable(highlightLeader) {
   const counts = options.map(o => {
     let yes = 0, maybe = 0;
@@ -624,7 +630,7 @@ function tallyTable(highlightLeader) {
     <table class="tally">
       <thead><tr><th>Who</th>${options.map(o => `<th>${fmtDay(new Date(o.starts_at)).split(",")[0].slice(0,3)}<br>${new Date(o.starts_at).getDate()}</th>`).join("")}</tr></thead>
       <tbody>
-        ${responses.map(r => `<tr><td>${esc(r.respondent_name)}</td>${options.map(o => {
+        ${responsesAZ().map(r => `<tr><td>${esc(r.respondent_name)}</td>${options.map(o => {
           const a = (r.poll_answers || []).find(x => x.option_id === o.id);
           if (a && a.choice === "yes")       return `<td><span class="mark y">✓</span></td>`;
           if (a && a.choice === "if_needed") return `<td><span class="mark m">~</span></td>`;
@@ -749,9 +755,11 @@ function renderRsvp() {
   const seeded = mine && mine.rsvp_status;
 
   const d = new Date(chosen.starts_at);
-  const going  = responses.filter(r => r.rsvp_status === "in");
-  const maybes = responses.filter(r => r.rsvp_status === "maybe");
-  const outs   = responses.filter(r => r.rsvp_status === "out");
+  // A to Z within each list (1 Nov 2026, Sarah).
+  const az = responsesAZ();
+  const going  = az.filter(r => r.rsvp_status === "in");
+  const maybes = az.filter(r => r.rsvp_status === "maybe");
+  const outs   = az.filter(r => r.rsvp_status === "out");
   const lists  = rsvpLine("In", going) + rsvpLine("Maybe", maybes) + rsvpLine("Can't make it", outs);
 
   // Has the person whose name is currently tapped already answered?
