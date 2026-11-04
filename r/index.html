@@ -368,7 +368,10 @@ function hydrateFromResponse(respId) {
 async function load() {
   if (!pollId) return fail("That link looks incomplete.", "Ask whoever sent it to share it again.");
   try {
-    const polls = await api(`polls?id=eq.${pollId}&select=id,title,status,chosen_option_id,location,address,notes,time_zone,is_recurring`);
+    // table_count (the host's seat cap) is newer than this page; fall back
+    // to the old columns if the database doesn't have it yet.
+    let polls = await api(`polls?id=eq.${pollId}&select=id,title,status,chosen_option_id,location,address,notes,time_zone,is_recurring,table_count`);
+    if (!Array.isArray(polls)) polls = await api(`polls?id=eq.${pollId}&select=id,title,status,chosen_option_id,location,address,notes,time_zone,is_recurring`);
     if (!polls.length) return fail("This poll has gone.", "It may have been deleted by the host.");
     poll = polls[0];
     EVENT_ZONE = poll.time_zone || null;
@@ -416,7 +419,9 @@ async function load() {
 }
 
 async function loadResponses() {
-  responses = await api(`poll_responses?poll_id=eq.${pollId}&select=id,respondent_name,rsvp_status,rsvp_confirmed_at,rsvp_note,player_id,poll_answers(option_id,choice)&order=created_at.asc`);
+  let r = await api(`poll_responses?poll_id=eq.${pollId}&select=id,respondent_name,rsvp_status,rsvp_confirmed_at,rsvp_note,player_id,in_at,created_at,poll_answers(option_id,choice)&order=created_at.asc`);
+  if (!Array.isArray(r)) r = await api(`poll_responses?poll_id=eq.${pollId}&select=id,respondent_name,rsvp_status,rsvp_confirmed_at,rsvp_note,player_id,poll_answers(option_id,choice)&order=created_at.asc`);
+  responses = r;
 }
 
 function whoCard() {
@@ -732,6 +737,43 @@ function currentNote() {
   return el ? el.value.trim() : "";
 }
 
+// Seat cap (Ashley, Nov 2026). The host picks a number of tables; each table
+// seats 4. The first people to say I'm in get the seats, in the order they
+// said it, and everyone after that is on the waitlist. Nobody is ever moved
+// by the server: when someone drops out or the host adds a table, the list
+// simply re-divides, so the waitlist moves up on its own.
+function seatCap() {
+  const t = poll && Number(poll.table_count);
+  return t > 0 ? t * 4 : null;
+}
+function seatSplit() {
+  const cap = seatCap();
+  const ins = responses.filter(r => r.rsvp_status === "in").slice().sort((a, b) =>
+    String(a.in_at || a.created_at || "").localeCompare(String(b.in_at || b.created_at || "")));
+  if (!cap) return { cap: null, seated: ins, waitlist: [] };
+  return { cap, seated: ins.slice(0, cap), waitlist: ins.slice(cap) };
+}
+function waitlistPlace(resp) {
+  if (!resp || resp.rsvp_status !== "in") return 0;
+  const i = seatSplit().waitlist.findIndex(r => r.id === resp.id);
+  return i < 0 ? 0 : i + 1;
+}
+function seatsBlock() {
+  const { cap, seated, waitlist } = seatSplit();
+  if (!cap) return "";
+  const left = Math.max(0, cap - seated.length);
+  const tables = cap / 4;
+  const line = left > 0
+    ? `<strong>${left} of ${cap} seats left</strong> (${tables} table${tables === 1 ? "" : "s"})`
+    : `<strong>All ${cap} seats are taken.</strong> ${waitlist.length ? `${waitlist.length} on the waitlist. ` : ""}Say I'm in to join the waitlist.`;
+  return `<p class="note" style="text-align:left;margin:14px 2px 0;font-size:14.5px">${line}</p>`;
+}
+function waitlistLine(list) {
+  if (!list.length) return "";
+  const names = list.map((r, i) => `${i + 1}. ${esc(r.respondent_name)}`).join(", ");
+  return `<p style="margin:0 0 8px;font-size:14.5px"><strong>Waitlist</strong>: ${names}</p>`;
+}
+
 function rsvpLine(label, list) {
   if (!list.length) return "";
   const names = list.map(r => esc(r.respondent_name)).join(", ");
@@ -757,10 +799,14 @@ function renderRsvp() {
   const d = new Date(chosen.starts_at);
   // A to Z within each list (1 Nov 2026, Sarah).
   const az = responsesAZ();
-  const going  = az.filter(r => r.rsvp_status === "in");
+  const split  = seatSplit();
+  const seatedIds = new Set(split.seated.map(r => r.id));
+  const going  = az.filter(r => r.rsvp_status === "in" && seatedIds.has(r.id));
   const maybes = az.filter(r => r.rsvp_status === "maybe");
   const outs   = az.filter(r => r.rsvp_status === "out");
-  const lists  = rsvpLine("In", going) + rsvpLine("Maybe", maybes) + rsvpLine("Can't make it", outs);
+  // The waitlist stays in line order, not A to Z: the order is the point.
+  const lists  = rsvpLine("In", going) + waitlistLine(split.waitlist) + rsvpLine("Maybe", maybes) + rsvpLine("Can't make it", outs);
+  const full   = !!split.cap && split.seated.length >= split.cap;
 
   // Has the person whose name is currently tapped already answered?
   const already = existingRsvpFor(playerId);
@@ -779,6 +825,7 @@ function renderRsvp() {
       ${yourTimeBlock(d)}
       ${placeBlock()}
     </div>
+    ${seatsBlock()}
 
     ${noteBlock()}
 
@@ -802,9 +849,9 @@ function renderRsvp() {
 
     ${already && !changing ? `
       <div class="card settled">
-        <p class="settled-line">${already.rsvp_confirmed_at
+        ${waitlistPlace(already) ? `<p class="settled-line">You're <strong>#${waitlistPlace(already)} on the waitlist</strong>. You'll move in if a seat opens.</p>` : `<p class="settled-line">${already.rsvp_confirmed_at
           ? `<strong>Confirmed.</strong> You're down as <strong>${esc(RSVP_WORDS[already.rsvp_status])}</strong>.`
-          : `You're down as <strong>${esc(RSVP_WORDS[already.rsvp_status])}</strong>.`}</p>
+          : `You're down as <strong>${esc(RSVP_WORDS[already.rsvp_status])}</strong>.`}</p>`}
         ${already.rsvp_note ? `<p class="settled-sub">Your note: ${esc(already.rsvp_note)}</p>` : ""}
         ${already.rsvp_confirmed_at ? `
           <p class="settled-sub">Nothing else to do. Change it any time if your plans move.</p>
@@ -819,7 +866,7 @@ function renderRsvp() {
     ` : `
       <div class="card">
         <div class="choices" style="margin-top:2px">
-          <button class="yes"   data-rsvp="in"    aria-pressed="${rsvpPick === "in"}">I'm in</button>
+          <button class="yes"   data-rsvp="in"    aria-pressed="${rsvpPick === "in"}">${full && !(already && seatedIds.has(already.id)) ? "Join the waitlist" : "I'm in"}</button>
           <button class="maybe" data-rsvp="maybe" aria-pressed="${rsvpPick === "maybe"}">Maybe</button>
           <button class="no"    data-rsvp="out"   aria-pressed="${rsvpPick === "out"}">Can't make it</button>
         </div>
