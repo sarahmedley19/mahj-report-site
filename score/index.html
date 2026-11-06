@@ -266,6 +266,25 @@ async function loadRoster() {
   });
   // The host's own table can add guests by name too; keep anyone already seated even if renamed.
   roster = out.sort(byName);
+  await loadRsvpIn();
+}
+// Who said I'm in for tonight's night, so the picker can list them first
+// (Sarah, 6 Nov 2026). Best effort: any failure just means plain A to Z.
+var rsvpIn = {};
+async function loadRsvpIn() {
+  rsvpIn = {};
+  try {
+    var ps = await sb.from("polls").select("id,chosen_option_id,options:poll_options!poll_id(id,starts_at)")
+      .eq("group_id", st.groupId).eq("status", "closed").order("created_at", { ascending: false }).limit(10);
+    var now = Date.now(), pick = null;
+    (ps.data || []).forEach(function (p) {
+      var o = (p.options || []).find(function (x) { return x.id === p.chosen_option_id; });
+      if (o && Math.abs(new Date(o.starts_at).getTime() - now) < 12 * 3600 * 1000 && !pick) pick = p.id;
+    });
+    if (!pick) return;
+    var rs = await sb.from("poll_responses").select("player_id,rsvp_status").eq("poll_id", pick);
+    (rs.data || []).forEach(function (r) { if (r.rsvp_status === "in" && r.player_id) rsvpIn[r.player_id] = 1; });
+  } catch (e) {}
 }
 async function loadEntries() {
   if (!st.nightId) { entries = []; return; }
@@ -380,11 +399,15 @@ function pickPlayers() {
   var filter = "";
   function draw() {
     var list = roster.filter(function (p) { return !filter || p.name.toLowerCase().indexOf(filter) >= 0; });
-    // Seated players first so a big roster never hides them.
-    list.sort(function (a, b) { return (chosen.indexOf(b.id) >= 0) - (chosen.indexOf(a.id) >= 0) || byName(a, b); });
-    $("plist").innerHTML = list.length ? list.map(function (p) {
+    // People who RSVPed yes tonight first, A to Z, then everyone else A to Z.
+    // Tapping a name doesn't move it, so the list never jumps under a finger.
+    list.sort(function (a, b) { return (rsvpIn[b.id] ? 1 : 0) - (rsvpIn[a.id] ? 1 : 0) || byName(a, b); });
+    var firstRest = list.findIndex(function (p) { return !rsvpIn[p.id]; });
+    $("plist").innerHTML = list.length ? list.map(function (p, i) {
       var on = chosen.indexOf(p.id) >= 0;
-      return '<button class="row' + (on ? " on" : "") + '" data-id="' + esc(p.id) + '" aria-pressed="' + on + '"><span class="box">' + (on ? "&#10003;" : "") + '</span><span class="nm">' + esc(p.name) + "</span></button>";
+      var head = i === 0 && rsvpIn[p.id] ? '<p class="small muted" style="margin:2px 2px 6px;font-weight:700">RSVPED YES TONIGHT</p>'
+        : i === firstRest && firstRest > 0 ? '<p class="small muted" style="margin:12px 2px 6px;font-weight:700">EVERYONE ELSE</p>' : "";
+      return head + '<button class="row' + (on ? " on" : "") + '" data-id="' + esc(p.id) + '" aria-pressed="' + on + '"><span class="box">' + (on ? "&#10003;" : "") + '</span><span class="nm">' + esc(p.name) + "</span></button>";
     }).join("") : '<p class="muted small center">No one by that name yet. Add them below.</p>';
     $("count").textContent = chosen.length ? plural(chosen.length, "player") + " picked" : "Pick the players at your table";
     $("cont").disabled = chosen.length < 2;
@@ -405,7 +428,7 @@ function pickPlayers() {
   render(
     '<h1>Who\'s at your table?</h1>' +
     '<p class="lede">Tap each person playing. Not on the list? Add their name at the bottom.</p>' +
-    (roster.length > 10 ? '<input class="text" id="find" type="search" placeholder="Search names" autocomplete="off" style="margin-bottom:10px">' : "") +
+    (roster.length > 6 ? '<input class="text" id="find" type="search" placeholder="Type a name to find it" autocomplete="off" autocapitalize="off" style="margin-bottom:10px">' : "") +
     '<div class="list" id="plist"></div>' +
     '<div class="card" style="margin-top:14px"><label class="field" for="newnm">ADD A PLAYER</label>' +
     '<div class="addrow"><input class="text" id="newnm" autocapitalize="words" maxlength="40" placeholder="First name"><button class="btn ghost" id="add">Add</button></div></div>' +
