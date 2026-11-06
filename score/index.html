@@ -439,6 +439,10 @@ function pickPlayers() {
   $("cont").onclick = function () {
     st.seated = chosen.slice(); persist();
     track("seated", String(chosen.length));
+    // Attendance is saved as soon as the table is seated, not only when it
+    // ends, so the night counts for everyone here even if the host closes it
+    // and this page is never opened again (Sarah, 5 Nov 2026).
+    writeRows(attendanceRows());
     resetForm(); scoring();
   };
   draw();
@@ -527,8 +531,8 @@ function scoring() {
     return '<div class="hand"><span>' + esc(h.label) + '</span><span><b>' + esc(h.pts) + "</b>" + (i === 0 ? ' <button class="link" id="undoLast" style="padding:0 0 0 10px;font-size:15px">Undo</button>' : "") + "</span></div>";
   }).join("") + "</div>" : '<p class="muted small">No hands yet. Tap the winner above when someone goes mahjong.</p>');
 
-  html += '<div style="margin-top:34px"><button class="btn danger" id="end">End the Whole Night</button>' +
-    '<p class="center small muted" style="margin:8px 0 0">Only when your table is done playing tonight. Between games, just log the next mahjong.</p></div>';
+  html += '<div style="margin-top:34px"><button class="btn danger" id="end">Done at This Table</button>' +
+    '<p class="center small muted" style="margin:8px 0 0">Only when your table is finished tonight. Between games, just log the next mahjong. When the host ends the night, your table finishes on its own.</p></div>';
   render(html);
   wireScoring(seated);
 }
@@ -688,31 +692,68 @@ async function drawBoard() {
 }
 setInterval(drawBoard, 20000);
 
+// One attendance row per seated player, with an id that never changes, so
+// writing it again (at seating, again at the end) can't double count.
+function attendanceRows() {
+  return (st.seated || []).map(function (id) {
+    return { playerId: id, score: rules.attendance_enabled ? rules.attendance_value : 0, is_winner: false, attend: true, bonuses: [], cid: "attend-" + st.nightId + "-" + id };
+  });
+}
+
+// Close this table: attendance, anything still saving, then the night itself.
+// Returns an error message, or "" when it went through.
+async function finishTable(how) {
+  await writeRows(attendanceRows());
+  await flush();
+  if (queue().length) return "Some scores are still saving. Check your signal and try again.";
+  var r = await sb.rpc("end_night", { p_game_night_id: st.nightId });
+  if (r.error) return "That didn't go through. Try again in a moment.";
+  st.ended = true; persist();
+  track(how === "host" ? "ended_by_host" : "ended", String(entries.length));
+  return "";
+}
+
+// Once the host ends the night in the app, this table is finished too. Check
+// every 20 seconds while scoring: if the host's own session for tonight is
+// done, close this table (saving its scores) and show the thank you screen,
+// so a scorekeeper never thinks there's something left for her to do.
+var endedByHost = false;
+async function checkHostEnded() {
+  if ((view !== "score" && view !== "board") || !st.nightId || st.ended) return;
+  try {
+    var mine = await sb.from("game_nights").select("status,created_at").eq("id", st.nightId).maybeSingle();
+    var over = mine.data && mine.data.status === "completed";
+    if (!over && mine.data) {
+      // Only the host's session from this same evening (started within a few
+      // hours of this table), never an earlier one from the afternoon.
+      var since = new Date(new Date(mine.data.created_at).getTime() - 4 * 3600 * 1000).toISOString();
+      var host = await sb.from("game_nights").select("status,created_at").eq("group_id", st.groupId).is("name", null)
+        .gt("created_at", since).order("created_at", { ascending: false }).limit(1);
+      if (host.data && host.data.length && host.data[0].status === "completed") {
+        if (await finishTable("host")) return;
+        over = true;
+      }
+    } else {
+      st.ended = true; persist();
+    }
+    if (over) { endedByHost = true; closeSheet(); await loadEntries(); done(); }
+  } catch (e) {}
+}
+setInterval(checkHostEnded, 20000);
+document.addEventListener("visibilitychange", function () { if (!document.hidden) checkHostEnded(); });
+
 function endNight() {
-  sheet('<h3>End the whole night?</h3><p class="center">This is for when your table is done playing, not between games. You can\'t log more hands after this.</p>' +
-    '<button class="btn danger" id="yes">Yes, end the night</button><div class="gap"></div><button class="btn ghost" id="no">Keep playing</button>');
+  sheet('<h3>Done at your table?</h3><p class="center">This is for when your table is finished for the night, not between games. You can\'t log more hands after this. If the host ends the night first, your table finishes on its own.</p>' +
+    '<button class="btn danger" id="yes">Yes, we\'re done</button><div class="gap"></div><button class="btn ghost" id="no">Keep playing</button>');
   $("no").onclick = closeSheet;
   $("yes").onclick = async function () {
     $("yes").disabled = true; $("yes").textContent = "Finishing up...";
-    var s = stamp();
-    var att = (st.seated || []).map(function (id, i) {
-      return { playerId: id, score: rules.attendance_enabled ? rules.attendance_value : 0, is_winner: false, attend: true, bonuses: [], cid: "attend-" + s + "-" + i };
-    });
-    await writeRows(att);
-    await flush();
-    if (queue().length) {
-      $("yes").disabled = false; $("yes").textContent = "Yes, end the night";
-      $("layer").querySelector(".sheet").insertAdjacentHTML("beforeend", '<div class="err">Some scores are still saving. Check your signal and try again.</div>');
+    var err = await finishTable("self");
+    if (err) {
+      $("yes").disabled = false; $("yes").textContent = "Yes, we're done";
+      $("layer").querySelector(".sheet").insertAdjacentHTML("beforeend", '<div class="err">' + esc(err) + "</div>");
       return;
     }
-    var r = await sb.rpc("end_night", { p_game_night_id: st.nightId });
-    if (r.error) {
-      $("yes").disabled = false; $("yes").textContent = "Yes, end the night";
-      $("layer").querySelector(".sheet").insertAdjacentHTML("beforeend", '<div class="err">That didn\'t go through. Try again in a moment.</div>');
-      return;
-    }
-    st.ended = true; persist();
-    track("ended", String(entries.length));
     closeSheet();
     await loadEntries();
     done();
@@ -725,7 +766,7 @@ function done() {
   var seated = (st.seated || []).map(function (id) { return { id: id, name: nameOf(id), p: totals[id] || 0 }; })
     .sort(function (a, b) { return b.p - a.p || byName(a, b); });
   render(
-    '<h1>Thanks for keeping score!</h1><p class="lede">' + esc(st.tableName || "Your table") + " is all done.</p>" +
+    '<h1>Thanks for keeping score!</h1><p class="lede">' + (endedByHost ? "The host ended the night, so you're all set. Every score from " + esc(st.tableName || "your table") + " is saved." : esc(st.tableName || "Your table") + " is all done.") + "</p>" +
     '<div class="board">' + seated.map(function (p, i) {
       return '<div class="brow"><span class="rk">' + (i + 1) + "</span><span>" + esc(p.name) + '</span><span class="pt">' + pts(p.p) + "</span></div>";
     }).join("") + "</div>" +
